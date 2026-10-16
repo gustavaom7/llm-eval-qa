@@ -69,3 +69,26 @@ def bot(config, budgets, mode, started, recorders):
 @pytest.fixture(scope="session")
 def answers(bot, golden):
     return run_bot(bot, golden)
+
+
+@pytest.fixture(scope="session")
+def judge_scores_by_metric(config, budgets, mode, started, recorders, golden, answers):
+    from evals.judge import RecordedJudge, build_metrics, judge_scores
+    from support_bot.llm import OllamaLLM
+    from support_bot.recorder import Recorder
+
+    llm = OllamaLLM(
+        config["judge_model"],
+        host=config["ollama_host"],
+        options=config["judge_options"],
+        timeout=config["request_timeout_s"],
+    )
+    recorder = Recorder(
+        llm,
+        config["cassette_dir"],
+        mode=mode,
+        time_budget_s=budgets["run_time_budget_minutes"] * 60,
+        started=started,
+    )
+    recorders[f"{config['judge_model']} (judge)"] = recorder
+    return judge_scores(golden, answers, build_metrics(RecordedJudge(recorder)))

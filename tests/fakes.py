@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from support_bot.llm import Completion
 
 
@@ -12,15 +14,18 @@ class FakeLLM:
         default: str = "fake answer",
         model: str = "fake-model",
         options: dict | None = None,
+        responder: Callable[[str, str, dict | None], str] | None = None,
     ):
         self.responses = responses or {}
         self.default = default
         self.model = model
         self.options = options if options is not None else {"temperature": 0}
+        self.responder = responder
         self.calls: list[tuple[str, str, dict | None]] = []
 
     def complete(self, system: str, user: str, schema: dict | None = None) -> Completion:
         self.calls.append((system, user, schema))
-        return Completion(
-            text=self.responses.get(user, self.default), input_tokens=10, output_tokens=5, latency_ms=7
+        text = (
+            self.responder(system, user, schema) if self.responder else self.responses.get(user, self.default)
         )
+        return Completion(text=text, input_tokens=10, output_tokens=5, latency_ms=7)
