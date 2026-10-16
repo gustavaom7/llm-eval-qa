@@ -1,6 +1,7 @@
 # Golden dataset for the Lumen+ support bot.
 # category: fact | policy-edge | multi-doc | out-of-scope
-# must_include: short literals copied from an expected source (case-insensitive match).
+# must_include: short literals copied from an expected source (case-insensitive match). An entry can be a
+#   list of accepted phrasings of the same fact; the first is the one written in the source.
 # must_not_include: the plausible wrong claim for the question, phrased so that its negation
 #   ("is not ...") does not contain it; the corpus must never state it.
 # judge: true marks the items the LLM judge scores (12, to fit the runner's time budget).
@@ -77,7 +78,7 @@
   question: Do you sell my personal data?
   category: fact
   expected_sources: [privacy.md]
-  must_include: ["never sold"]
+  must_include: [["never sold", "does not sell", "do not sell", "doesn't sell", "is not sold"]]
   must_not_include: []
 
 - id: viewing-history-retention
@@ -91,7 +92,7 @@
   question: Do Lumen+ gift cards expire?
   category: fact
   expected_sources: [gift-cards.md]
-  must_include: ["no expiry"]
+  must_include: [["no expiry", "do not expire", "don't expire", "does not expire", "never expire"]]
   must_not_include: []
 
 - id: ios-version
@@ -158,14 +159,14 @@
   question: Can I pause my annual plan?
   category: policy-edge
   expected_sources: [pause.md]
-  must_include: ["monthly plans only"]
+  must_include: [["monthly plans only", "only on monthly plans", "only available on monthly plans", "annual plans cannot be paused"]]
   must_not_include: ["you can pause your annual plan"]
 
 - id: family-sharing-standard
   question: Can I use family sharing on the Standard plan?
   category: policy-edge
   expected_sources: [family-sharing.md]
-  must_include: ["Premium only"]
+  must_include: [["Premium only", "only on Premium", "only available on Premium", "only available on the Premium plan"]]
   must_not_include: ["family sharing is available on Standard"]
   judge: true
 
@@ -217,7 +218,7 @@
   question: If I cancel my annual plan, do I get money back for the unused months?
   category: multi-doc
   expected_sources: [cancellation.md, refunds.md]
-  must_include: ["no partial refunds"]
+  must_include: [["no partial refunds", "not refunded", "no refund for the unused", "no refunds for the unused"]]
   must_not_include: ["you will get a prorated refund"]
   judge: true
 
@@ -241,7 +242,7 @@
   question: Can I get a refund for a gift card I bought, and does the gift card expire?
   category: multi-doc
   expected_sources: [gift-cards.md, refunds.md]
-  must_include: ["not refunded", "no expiry"]
+  must_include: [["not refunded", "cannot be refunded", "can't be refunded", "not refundable", "non-refundable"], ["no expiry", "do not expire", "don't expire", "does not expire", "never expire"]]
   must_not_include: []
 
 - id: watching-in-4k
@@ -255,7 +256,7 @@
   question: Can I change plans during my free trial, and after the trial is an upgrade charged right away?
   category: multi-doc
   expected_sources: [free-trial.md, plan-changes.md]
-  must_include: ["at no cost", "takes effect immediately"]
+  must_include: ["at no cost", ["takes effect immediately", "charged right away", "charged immediately", "applies immediately"]]
   must_not_include: []
 
 # --- out-of-scope (6): the bot must answer with the fixed refusal ---

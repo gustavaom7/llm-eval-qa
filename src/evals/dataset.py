@@ -22,13 +22,22 @@ class GoldenItem:
     question: str
     category: str
     expected_sources: list[str]
-    must_include: list[str]
+    must_include: list[str | list[str]]  # a phrase, or a list of accepted phrasings
     must_not_include: list[str]
     judge: bool = False
 
     @property
     def in_scope(self) -> bool:
         return self.category != "out-of-scope"
+
+    @property
+    def facts(self) -> list[list[str]]:
+        """Each required fact as its accepted phrasings; the first is the one written in the source."""
+        return [[f] if isinstance(f, str) else list(f) for f in self.must_include]
+
+    @property
+    def canonical_facts(self) -> list[str]:
+        return [phrasings[0] for phrasings in self.facts]
 
 
 def _check(raw: dict, index: int) -> GoldenItem:
@@ -44,6 +53,10 @@ def _check(raw: dict, index: int) -> GoldenItem:
         raise DatasetError(f"{label}: empty question")
     if item.category not in CATEGORIES:
         raise DatasetError(f"{label}: category must be one of {', '.join(CATEGORIES)}, got {item.category!r}")
+    for fact in item.must_include:
+        phrasings = [fact] if isinstance(fact, str) else fact
+        if not isinstance(phrasings, list) or not phrasings or not all(isinstance(p, str) for p in phrasings):
+            raise DatasetError(f"{label}: each must_include entry is a phrase or a list of accepted phrases")
     if item.in_scope:
         if not item.expected_sources:
             raise DatasetError(f"{label}: an in-scope item needs expected_sources")
@@ -76,7 +89,7 @@ def check_against_corpus(items: list[GoldenItem], corpus_dir: Path) -> None:
         unknown = [s for s in item.expected_sources if s not in docs]
         if unknown:
             raise DatasetError(f"{item.id}: unknown source {', '.join(unknown)}")
-        for fact in item.must_include:
+        for fact in item.canonical_facts:
             if not any(fact.lower() in docs[s] for s in item.expected_sources):
                 raise DatasetError(f"{item.id}: '{fact}' not found in {', '.join(item.expected_sources)}")
         for claim in item.must_not_include:

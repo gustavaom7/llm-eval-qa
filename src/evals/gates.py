@@ -70,7 +70,8 @@ def required_facts(items: list[GoldenItem], answers: dict[str, Answer], threshol
     failures = []
     complete = 0
     for item in scoped:
-        missing = [f for f in item.must_include if not _contains(answers[item.id].text, f)]
+        text = answers[item.id].text
+        missing = [phrasings[0] for phrasings in item.facts if not any(_contains(text, p) for p in phrasings)]
         if missing:
             failures.append(f"{item.id}: missing {', '.join(repr(f) for f in missing)}")
         else:

@@ -127,3 +127,10 @@ def test_required_facts_treat_dash_variants_alike():
 def test_required_facts_treat_hyphenated_and_spaced_forms_alike():
     r = required_facts([item("a", include=("7-day",))], {"a": answer("The free trial is 7 days long.")}, 0.85)
     assert r.passed
+
+
+def test_required_facts_accept_any_listed_phrasing():
+    it = item("a", include=(["no expiry", "do not expire"],))
+    assert required_facts([it], {"a": answer("Gift cards do not expire.")}, 0.85).passed
+    r = required_facts([it], {"a": answer("Gift cards expire after a year.")}, 0.85)
+    assert r.failures == ["a: missing 'no expiry'"]
