@@ -1,0 +1,7 @@
+{
+  "input_tokens": 305,
+  "latency_ms": 13251,
+  "model": "qwen2.5:7b",
+  "output_tokens": 62,
+  "text": "{\n  \"reason\": \"The response accurately states that unused months are not refunded, aligning with the expected output. However, it does not explicitly mention 'no partial refunds,' which is a key detail in the expected output. The Sources line is also missing.\",\n  \"score\": 7\n}"
+}

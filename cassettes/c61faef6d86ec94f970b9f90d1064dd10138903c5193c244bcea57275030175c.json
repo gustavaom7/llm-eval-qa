@@ -1,0 +1,7 @@
+{
+  "input_tokens": 412,
+  "latency_ms": 24902,
+  "model": "qwen2.5:7b",
+  "output_tokens": 142,
+  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"yes\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement is specific to the total hours watched and does not address the 14-day refund window mentioned in the question.\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"This statement is general and does not address the specific conditions for refunds mentioned in the question.\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"This statement provides information on how to request a refund but does not address the specific conditions for refunds mentioned in the question.\"\n    }\n  ]\n}"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 288,
+  "latency_ms": 5114,
+  "model": "qwen2.5:7b",
+  "output_tokens": 24,
+  "text": "{\n  \"statements\": [\n    \"Unused months are not refunded when you cancel your annual plan.\"\n  ]\n}"
+}

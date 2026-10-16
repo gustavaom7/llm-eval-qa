@@ -1,0 +1,7 @@
+{
+  "input_tokens": 464,
+  "latency_ms": 15446,
+  "model": "qwen2.5:7b",
+  "output_tokens": 55,
+  "text": "If a payment fails, the failed payment is retried 3 times over 7 days. You keep access while we retry. If all 3 retries fail, the membership is put on hold until you update your payment method in Account > Membership. Sources: billing.md"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 500,
+  "latency_ms": 16720,
+  "model": "qwen2.5:7b",
+  "output_tokens": 70,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context does not mention the method of requesting a refund, only that support agents cannot make exceptions.\"\n}\n]}"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 425,
+  "latency_ms": 17671,
+  "model": "qwen2.5:7b",
+  "output_tokens": 82,
+  "text": "If you only want to stop paying, cancel or pause instead: deleting removes your profiles and watch history for good. Deleting your account cancels your membership immediately and cannot be undone, and it will remove your profiles and watch history. Your viewing history is kept for 24 months, then deleted, and billing records are kept as long as tax law requires. Sources: data-deletion.md, privacy.md"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 346,
+  "latency_ms": 14031,
+  "model": "qwen2.5:7b",
+  "output_tokens": 67,
+  "text": "{\n  \"truths\": [\n    \"Deleting an account removes profiles and watch history permanently.\",\n    \"Deleting an account cancels membership immediately and cannot be undone.\",\n    \"Viewing history is kept for 24 months before being deleted.\",\n    \"Billing records are kept as long as required by tax law.\"\n  ]\n}"
+}

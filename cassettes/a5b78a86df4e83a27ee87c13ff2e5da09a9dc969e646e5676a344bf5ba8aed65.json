@@ -1,0 +1,7 @@
+{
+  "input_tokens": 427,
+  "latency_ms": 8660,
+  "model": "qwen2.5:7b",
+  "output_tokens": 19,
+  "text": "Pausing your annual plan is not available. Sources: pause.md, plan-changes.md"
+}

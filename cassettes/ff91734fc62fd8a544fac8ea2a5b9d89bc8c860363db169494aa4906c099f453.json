@@ -1,0 +1,7 @@
+{
+  "input_tokens": 342,
+  "latency_ms": 17076,
+  "model": "qwen2.5:7b",
+  "output_tokens": 91,
+  "text": "{\n  \"statements\": [\n    \"If you only want to stop paying, cancel or pause instead.\",\n    \"Deleting removes your profiles and watch history for good.\",\n    \"Deleting your account cancels your membership immediately and cannot be undone, and it will remove your profiles and watch history.\",\n    \"Your viewing history is kept for 24 months, then deleted.\",\n    \"Billing records are kept as long as tax law requires.\"\n  ]\n}"
+}

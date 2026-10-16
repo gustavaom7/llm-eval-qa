@@ -1,0 +1,7 @@
+{
+  "input_tokens": 402,
+  "latency_ms": 9312,
+  "model": "qwen2.5:7b",
+  "output_tokens": 31,
+  "text": "You can download a copy of your data in Account > Privacy > Download your data. The file is ready within 7 days. Sources: privacy.md"
+}

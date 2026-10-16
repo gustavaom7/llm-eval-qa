@@ -1,0 +1,7 @@
+{
+  "input_tokens": 298,
+  "latency_ms": 11317,
+  "model": "qwen2.5:7b",
+  "output_tokens": 54,
+  "text": "{\n  \"reason\": \"The response accurately states the required internet speed of 15 Mbps, aligning with the expected output. However, it does not explicitly state the question being answered, which is a minor omission.\",\n  \"score\": 9\n}"
+}

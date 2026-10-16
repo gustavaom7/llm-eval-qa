@@ -1,0 +1,7 @@
+{
+  "input_tokens": 530,
+  "latency_ms": 19070,
+  "model": "qwen2.5:7b",
+  "output_tokens": 76,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context does not mention how the membership can be resumed after retries fail. It only states that the membership is put on hold.\"\n}\n]\n}"
+}

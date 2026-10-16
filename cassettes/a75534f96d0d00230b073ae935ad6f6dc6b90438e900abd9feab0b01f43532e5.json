@@ -1,0 +1,7 @@
+{
+  "input_tokens": 294,
+  "latency_ms": 15090,
+  "model": "qwen2.5:7b",
+  "output_tokens": 77,
+  "text": "{\n  \"reason\": \"The response correctly states that family sharing is not available on the Standard plan and provides the correct alternative plan (Premium), aligning with the expected output. However, it does not fully match the brevity of the expected output, which only states 'Premium only'. The inclusion of the Sources line is appropriate.\",\n  \"score\": 8\n}"
+}

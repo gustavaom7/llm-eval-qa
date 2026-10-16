@@ -1,0 +1,7 @@
+{
+  "input_tokens": 429,
+  "latency_ms": 10421,
+  "model": "qwen2.5:7b",
+  "output_tokens": 31,
+  "text": "You can pause your membership, but only once every 12 months, and for up to 3 months at a time. Sources: pause.md"
+}

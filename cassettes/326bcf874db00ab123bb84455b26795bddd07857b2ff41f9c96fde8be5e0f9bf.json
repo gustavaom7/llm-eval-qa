@@ -1,0 +1,7 @@
+{
+  "input_tokens": 396,
+  "latency_ms": 15252,
+  "model": "qwen2.5:7b",
+  "output_tokens": 86,
+  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"no\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement specifies a condition (less than 2 hours watched) that is not mentioned in the input.\"\n    },\n    {\n      \"verdict\": \"no\"\n    },\n    {\n      \"verdict\": \"yes\"\n    }\n  ]\n}"
+}
