@@ -1,0 +1,7 @@
+{
+  "input_tokens": 377,
+  "latency_ms": 32286,
+  "model": "qwen2.5:7b",
+  "output_tokens": 147,
+  "text": "{\n  \"truths\": [\n    \"Annual billing is available for every plan.\",\n    \"With annual billing, 2 months are provided free of charge.\",\n    \"You pay for 10 months and get to watch for 12 months with annual billing.\",\n    \"Annual plans renew automatically each year unless canceled.\",\n    \"Unused days after canceling are not refunded.\",\n    \"Partial months are not refunded after canceling.\",\n    \"Annual plans after the first 14 days are not refunded.\",\n    \"Gift card purchases are not refunded.\",\n    \"Upgrades on an annual plan are prorated for the remaining months.\",\n    \"Downgrades on an annual plan apply at the next annual renewal.\"\n  ]\n}"
+}

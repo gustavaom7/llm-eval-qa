@@ -1,0 +1,7 @@
+{
+  "input_tokens": 357,
+  "latency_ms": 7807,
+  "model": "qwen2.5:3b",
+  "output_tokens": 46,
+  "text": "A downgrade takes effect at the next billing date. Until then you keep the features of your current plan. No refund or credit is given for the remaining days of the higher plan. Sources: plan-changes.md, downloads.md"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 362,
+  "latency_ms": 7678,
+  "model": "qwen2.5:3b",
+  "output_tokens": 42,
+  "text": "Turn on 2-step verification in Account > Security. After enabling, Lumen+ will ask for a code sent by email or text message when you sign in with your password. Sources: account-security.md"
+}

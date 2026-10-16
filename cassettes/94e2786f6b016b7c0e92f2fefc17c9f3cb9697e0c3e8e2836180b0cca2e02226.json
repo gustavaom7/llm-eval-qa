@@ -1,0 +1,7 @@
+{
+  "input_tokens": 335,
+  "latency_ms": 7078,
+  "model": "qwen2.5:3b",
+  "output_tokens": 45,
+  "text": "You do not have to worry about your personal data being sold. Support agents and the help center never share one customer's personal data with another customer, for any reason. Sources: privacy.md, kids-and-minors.md"
+}

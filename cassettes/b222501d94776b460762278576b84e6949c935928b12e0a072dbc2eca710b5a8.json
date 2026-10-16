@@ -1,0 +1,7 @@
+{
+  "input_tokens": 375,
+  "latency_ms": 9404,
+  "model": "qwen2.5:3b",
+  "output_tokens": 63,
+  "text": "Family sharing is available on Premium only and you can share with up to 4 profiles in one household. However, you can only share with 5 people in your household, and Lumen+ may ask for verification that the devices belong to the household. Sources: family-sharing.md, plans-and-prices.md"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 361,
+  "latency_ms": 6177,
+  "model": "qwen2.5:3b",
+  "output_tokens": 19,
+  "text": "You need iOS 16+ for the Lumen+ app. Sources: devices.md"
+}

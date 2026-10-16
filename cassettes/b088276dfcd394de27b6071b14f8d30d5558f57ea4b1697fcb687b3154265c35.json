@@ -1,0 +1,7 @@
+{
+  "input_tokens": 359,
+  "latency_ms": 6681,
+  "model": "qwen2.5:3b",
+  "output_tokens": 28,
+  "text": "You need an internet speed of at least 15 Mbps to stream in 4K. Sources: streaming-quality.md, cancellation.md"
+}

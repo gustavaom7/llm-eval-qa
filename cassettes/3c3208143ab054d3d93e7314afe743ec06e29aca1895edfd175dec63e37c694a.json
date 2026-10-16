@@ -1,0 +1,7 @@
+{
+  "input_tokens": 542,
+  "latency_ms": 27655,
+  "model": "qwen2.5:7b",
+  "output_tokens": 80,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that access is kept while failed payments are being retried, but the claim suggests that access is only resumed after updating the payment method.\"\n}\n]}"
+}

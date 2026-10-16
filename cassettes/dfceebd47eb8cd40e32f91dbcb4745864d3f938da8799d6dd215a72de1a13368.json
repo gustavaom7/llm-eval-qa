@@ -1,0 +1,7 @@
+{
+  "input_tokens": 368,
+  "latency_ms": 12078,
+  "model": "qwen2.5:7b",
+  "output_tokens": 55,
+  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"no\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"These statements do not provide information about the Standard plan or family sharing.\"\n    }\n  ]\n}"
+}

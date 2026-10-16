@@ -1,0 +1,7 @@
+{
+  "input_tokens": 301,
+  "latency_ms": 33140,
+  "model": "qwen2.5:7b",
+  "output_tokens": 80,
+  "text": "{\n  \"reason\": \"The response includes the cost of the Basic plan, which is correct, but it provides additional details not present in the expected output, such as the number of screens and resolution. It also includes a Sources line, which is not penalized. However, it does not align perfectly with the expected output by omitting extra details.\",\n  \"score\": 7\n}"
+}

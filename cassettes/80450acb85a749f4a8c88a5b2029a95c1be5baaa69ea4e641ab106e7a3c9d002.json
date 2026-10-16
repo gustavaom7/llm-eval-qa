@@ -1,0 +1,7 @@
+{
+  "input_tokens": 396,
+  "latency_ms": 9485,
+  "model": "qwen2.5:3b",
+  "output_tokens": 54,
+  "text": "During your free trial, you can change your plan at no cost. After the trial, if you upgrade, the price difference for the rest of the current billing period is prorated and charged right away. Sources: free-trial.md, plan-changes.md"
+}

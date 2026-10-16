@@ -1,0 +1,7 @@
+{
+  "input_tokens": 383,
+  "latency_ms": 7947,
+  "model": "qwen2.5:3b",
+  "output_tokens": 37,
+  "text": "For 4K streaming, you need the Premium plan, which requires an internet speed of at least 15 Mbps. Sources: streaming-quality.md, plans-and-prices.md"
+}

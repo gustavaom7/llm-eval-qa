@@ -1,0 +1,7 @@
+{
+  "input_tokens": 375,
+  "latency_ms": 24187,
+  "model": "qwen2.5:7b",
+  "output_tokens": 119,
+  "text": "{\n  \"truths\": [\n    \"Refunds can be requested within 14 days of the first payment.\",\n    \"Refunds are only available if less than 2 hours of content have been watched since the payment.\",\n    \"Refunds apply once per account.\",\n    \"Refunds take between 5 and 10 business days to appear.\",\n    \"Downloads expire after 30 days or 48 hours after starting to watch, whichever comes first.\",\n    \"Downloads can be renewed by connecting to the internet if the title is still in the catalog.\"\n  ]\n}"
+}

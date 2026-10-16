@@ -1,0 +1,7 @@
+{
+  "input_tokens": 361,
+  "latency_ms": 7229,
+  "model": "qwen2.5:3b",
+  "output_tokens": 36,
+  "text": "Cancellation — How to cancel There is no cancellation fee. However, deleting your account immediately cancels your membership and cannot be undone. Sources: cancellation.md, data-deletion.md"
+}

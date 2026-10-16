@@ -1,0 +1,7 @@
+{
+  "input_tokens": 349,
+  "latency_ms": 18769,
+  "model": "qwen2.5:7b",
+  "output_tokens": 73,
+  "text": "{\n  \"truths\": [\n    \"The free trial is available once per account and payment method.\",\n    \"New members can try Lumen+ with a 7-day free trial.\",\n    \"You can change your plan during the trial at no cost.\",\n    \"The plan selected on day 7 is the one you are charged for.\"\n  ]\n}"
+}

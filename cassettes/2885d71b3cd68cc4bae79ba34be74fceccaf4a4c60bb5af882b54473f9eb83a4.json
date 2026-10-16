@@ -1,0 +1,7 @@
+{
+  "input_tokens": 353,
+  "latency_ms": 6839,
+  "model": "qwen2.5:3b",
+  "output_tokens": 33,
+  "text": "You can pause your membership for up to 3 months instead of cancelling. However, you can only pause once every 12 months. Sources: pause.md"
+}
