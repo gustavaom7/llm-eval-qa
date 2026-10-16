@@ -1,0 +1,7 @@
+{
+  "input_tokens": 324,
+  "latency_ms": 20100,
+  "model": "qwen2.5:7b",
+  "output_tokens": 75,
+  "text": "{\n  \"reason\": \"The response correctly states that 15 Mbps is recommended for 4K streaming, aligning with the expected output. However, it includes additional information about slower connections, which is not present in the expected output and could be seen as extraneous. The Sources line is also redundant given the context.\",\n  \"score\": 8\n}"
+}

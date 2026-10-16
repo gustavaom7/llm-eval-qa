@@ -1,0 +1,7 @@
+{
+  "input_tokens": 305,
+  "latency_ms": 35115,
+  "model": "qwen2.5:7b",
+  "output_tokens": 56,
+  "text": "{\n  \"reason\": \"The response includes the cost of the Basic plan as stated in the expected output, but adds unnecessary details about screen limitations and resolution that were not present in the expected output. The Sources line is correctly included.\",\n  \"score\": 8\n}"
+}
