@@ -1,0 +1,7 @@
+{
+  "input_tokens": 478,
+  "latency_ms": 22524,
+  "model": "qwen2.5:7b",
+  "output_tokens": 80,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that 15 Mbps is recommended for 4K streaming, but it does not directly contradict the claim that 15 Mbps is the minimum speed required for 4K streaming. The claim is consistent with the context.\"\n}\n]\n}"
+}

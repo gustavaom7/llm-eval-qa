@@ -1,0 +1,7 @@
+{
+  "input_tokens": 433,
+  "latency_ms": 39749,
+  "model": "qwen2.5:7b",
+  "output_tokens": 31,
+  "text": "Basic costs $7.99/month. You can watch on 1 screen at a time, in HD. Sources: plans-and-prices.md"
+}

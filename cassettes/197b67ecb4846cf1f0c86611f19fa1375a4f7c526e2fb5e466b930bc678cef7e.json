@@ -1,0 +1,7 @@
+{
+  "input_tokens": 428,
+  "latency_ms": 15466,
+  "model": "qwen2.5:7b",
+  "output_tokens": 58,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The retrieval context states that you can download titles on 2 devices with the Standard plan, not keep downloads on 2 devices.\"\n}\n]}"
+}

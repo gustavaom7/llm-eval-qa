@@ -1,0 +1,7 @@
+{
+  "input_tokens": 462,
+  "latency_ms": 41948,
+  "model": "qwen2.5:7b",
+  "output_tokens": 65,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"borderline\",\n\"reason\": \"The context does not explicitly state that the service operates in HD, only that the Basic plan allows watching in HD.\"\n}\n]\n}"
+}

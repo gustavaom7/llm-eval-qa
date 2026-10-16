@@ -1,0 +1,7 @@
+{
+  "input_tokens": 502,
+  "latency_ms": 34355,
+  "model": "qwen2.5:7b",
+  "output_tokens": 145,
+  "text": "{\n\"verdicts\": [\n    {\n        \"verdict\": \"yes\"\n    },\n    {\n        \"verdict\": \"no\",\n        \"reason\": \"The context states that refunds are only available within 14 days of the first payment, while the claim states that a refund is not available 15 days after the first payment, which directly contradicts the context.\"\n    },\n    {\n        \"verdict\": \"no\",\n        \"reason\": \"The context mentions that refunds are only granted if less than 2 hours have been watched on the account since the first payment, which directly contradicts the claim that refunds are only available if under 2 hours have been watched.\"\n    }\n]}"
+}

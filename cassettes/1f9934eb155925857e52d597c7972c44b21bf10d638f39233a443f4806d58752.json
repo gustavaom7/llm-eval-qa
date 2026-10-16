@@ -1,0 +1,7 @@
+{
+  "input_tokens": 417,
+  "latency_ms": 25851,
+  "model": "qwen2.5:7b",
+  "output_tokens": 126,
+  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"no\"\n    },\n    {\n      \"verdict\": \"yes\",\n      \"reason\": \"This statement directly addresses the policy regarding the timeframe for refunds.\"\n    },\n    {\n      \"verdict\": \"borderline\",\n      \"reason\": \"This statement provides a condition under which refunds might be available, but it does not directly answer the question.\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"All three sources cited are about the same policy, reiterating the same information.\"\n    }\n  ]\n}"
+}

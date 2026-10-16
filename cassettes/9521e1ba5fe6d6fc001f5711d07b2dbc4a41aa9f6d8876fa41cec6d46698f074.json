@@ -1,0 +1,7 @@
+{
+  "input_tokens": 303,
+  "latency_ms": 12042,
+  "model": "qwen2.5:7b",
+  "output_tokens": 57,
+  "text": "{\n  \"statements\": [\n    \"You do not get money back for the unused months.\",\n    \"According to the policy, unused days and partial months are not refunded after cancelling an annual plan.\",\n    \"Sources: plans-and-prices.md, refunds.md\"\n  ]\n}"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 350,
+  "latency_ms": 7544,
+  "model": "qwen2.5:7b",
+  "output_tokens": 26,
+  "text": "{\n  \"claims\": [\n    \"Unused days and partial months are not refunded after cancelling an annual plan.\"\n  ]\n}"
+}

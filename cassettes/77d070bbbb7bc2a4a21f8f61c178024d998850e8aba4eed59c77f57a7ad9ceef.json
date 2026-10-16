@@ -1,0 +1,7 @@
+{
+  "input_tokens": 484,
+  "latency_ms": 16857,
+  "model": "qwen2.5:7b",
+  "output_tokens": 32,
+  "text": "No, you can only share with up to 4 profiles in one household with your Premium account. [family-sharing.md, plans-and-prices.md]"
+}

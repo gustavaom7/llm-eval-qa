@@ -1,0 +1,7 @@
+{
+  "input_tokens": 450,
+  "latency_ms": 14528,
+  "model": "qwen2.5:7b",
+  "output_tokens": 31,
+  "text": "Yes, Lumen+ gift cards do not expire. According to the help center, \"Gift cards have no expiry.\" Sources: gift-cards.md"
+}

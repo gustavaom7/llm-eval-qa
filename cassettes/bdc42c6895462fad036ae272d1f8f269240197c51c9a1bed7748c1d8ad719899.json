@@ -1,0 +1,7 @@
+{
+  "input_tokens": 315,
+  "latency_ms": 14718,
+  "model": "qwen2.5:7b",
+  "output_tokens": 66,
+  "text": "{\n  \"statements\": [\n    \"If a payment fails, the failed payment is retried 3 times over 7 days.\",\n    \"You keep access while we retry.\",\n    \"If all 3 retries fail, the membership is put on hold until you update your payment method in Account > Membership.\"\n  ]\n}"
+}

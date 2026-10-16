@@ -1,0 +1,7 @@
+{
+  "input_tokens": 320,
+  "latency_ms": 17140,
+  "model": "qwen2.5:7b",
+  "output_tokens": 61,
+  "text": "{\n  \"reason\": \"The response accurately states that no partial refunds are given, aligning with the expected output. However, it provides more detail than necessary, which is not penalized. The inclusion of sources also adds value but is not a requirement.\",\n  \"score\": 8\n}"
+}

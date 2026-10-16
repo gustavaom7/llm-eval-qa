@@ -1,0 +1,7 @@
+{
+  "input_tokens": 376,
+  "latency_ms": 13353,
+  "model": "qwen2.5:7b",
+  "output_tokens": 52,
+  "text": "{\n  \"claims\": [\n    \"Deleting your account removes your profiles and watch history permanently.\",\n    \"Your data is kept for 24 months before it is deleted.\",\n    \"Billing records are kept as long as tax law requires.\"\n  ]\n}"
+}

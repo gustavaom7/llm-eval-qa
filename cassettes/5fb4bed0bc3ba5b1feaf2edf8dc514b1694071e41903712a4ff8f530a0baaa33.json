@@ -1,0 +1,7 @@
+{
+  "input_tokens": 344,
+  "latency_ms": 8859,
+  "model": "qwen2.5:7b",
+  "output_tokens": 37,
+  "text": "{\n  \"claims\": [\n    \"The change takes effect at the next billing date.\",\n    \"Until then, you keep the features of your current Premium plan.\"\n  ]\n}"
+}
