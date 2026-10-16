@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from evals.dataset import load_golden
+from evals.dataset import check_against_corpus, load_golden
 from evals.report import write_summary
 from evals.runner import build_bot, run_bot
 from support_bot.cli import load_budgets, load_config
@@ -31,8 +31,10 @@ def budgets(config):
 
 
 @pytest.fixture(scope="session")
-def golden():
-    return load_golden(ROOT / "datasets" / "golden.yaml")
+def golden(config):
+    items = load_golden(ROOT / "datasets" / "golden.yaml")
+    check_against_corpus(items, config["corpus_dir"])  # a dataset error stops the run before any model call
+    return items
 
 
 @pytest.fixture(scope="session")

@@ -115,3 +115,10 @@ def test_judge_mean_passes_above_threshold_and_lists_low_scores():
     r = judge_mean("Faithfulness", {"a": 1.0, "b": 0.6}, 0.7)
     assert r.passed and r.value == pytest.approx(0.8)
     assert r.failures == ["b: 0.60"]
+
+
+def test_required_facts_treat_dash_variants_alike():
+    r = required_facts(
+        [item("a", include=("5–10 business days",))], {"a": answer("5-10 business days")}, 0.85
+    )
+    assert r.passed

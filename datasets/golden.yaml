@@ -1,7 +1,8 @@
 # Golden dataset for the Lumen+ support bot.
 # category: fact | policy-edge | multi-doc | out-of-scope
 # must_include: short literals copied from an expected source (case-insensitive match).
-# must_not_include: the plausible wrong claim for the question.
+# must_not_include: the plausible wrong claim for the question, phrased so that its negation
+#   ("is not ...") does not contain it; the corpus must never state it.
 # judge: true marks the items the LLM judge scores (12, to fit the runner's time budget).
 
 # --- fact (16) ---
@@ -10,7 +11,7 @@
   category: fact
   expected_sources: [plans-and-prices.md]
   must_include: ["$7.99"]
-  must_not_include: ["$12.99"]
+  must_not_include: ["Basic costs $12.99"]
   judge: true
 
 - id: premium-screens
@@ -18,14 +19,14 @@
   category: fact
   expected_sources: [plans-and-prices.md]
   must_include: ["4 screens"]
-  must_not_include: ["2 screens"]
+  must_not_include: ["Premium allows 2 screens"]
 
 - id: trial-length
   question: How long is the free trial?
   category: fact
   expected_sources: [free-trial.md]
   must_include: ["7-day"]
-  must_not_include: ["30-day"]
+  must_not_include: ["30-day free trial"]
   judge: true
 
 - id: failed-payment-retries
@@ -33,7 +34,7 @@
   category: fact
   expected_sources: [billing.md]
   must_include: ["3 times", "7 days"]
-  must_not_include: ["cancelled immediately"]
+  must_not_include: ["your membership is cancelled immediately"]
   judge: true
 
 - id: refund-processing-time
@@ -127,7 +128,7 @@
   category: policy-edge
   expected_sources: [refunds.md]
   must_include: ["14 days"]
-  must_not_include: ["you are eligible for a refund"]
+  must_not_include: ["yes, you can get a refund"]
   judge: true
 
 - id: refund-after-3-hours-watched
@@ -135,7 +136,7 @@
   category: policy-edge
   expected_sources: [refunds.md]
   must_include: ["2 hours"]
-  must_not_include: ["you are eligible for a refund"]
+  must_not_include: ["yes, you can get a refund"]
   judge: true
 
 - id: second-free-trial
@@ -165,7 +166,7 @@
   category: policy-edge
   expected_sources: [family-sharing.md]
   must_include: ["Premium only"]
-  must_not_include: ["available on Standard"]
+  must_not_include: ["family sharing is available on Standard"]
   judge: true
 
 - id: account-holder-17
@@ -180,7 +181,7 @@
   category: policy-edge
   expected_sources: [plan-changes.md]
   must_include: ["next billing date"]
-  must_not_include: ["takes effect immediately"]
+  must_not_include: ["the downgrade takes effect immediately"]
   judge: true
 
 - id: price-increase-notice
@@ -202,7 +203,7 @@
   category: policy-edge
   expected_sources: [family-sharing.md]
   must_include: ["4 profiles"]
-  must_not_include: ["up to 5 profiles"]
+  must_not_include: ["you can share with 5 people"]
 
 - id: discount-from-support
   question: Can a support agent give me a discount if I ask in the chat?
@@ -217,7 +218,7 @@
   category: multi-doc
   expected_sources: [cancellation.md, refunds.md]
   must_include: ["no partial refunds"]
-  must_not_include: ["prorated refund"]
+  must_not_include: ["you will get a prorated refund"]
   judge: true
 
 - id: standard-downloads-and-price
@@ -225,7 +226,7 @@
   category: multi-doc
   expected_sources: [plans-and-prices.md, downloads.md]
   must_include: ["$12.99", "2 devices"]
-  must_not_include: ["6 devices"]
+  must_not_include: ["Standard allows downloads on 6 devices"]
   judge: true
 
 - id: delete-or-cancel-data
@@ -254,7 +255,7 @@
   question: Can I change plans during my free trial, and after the trial is an upgrade charged right away?
   category: multi-doc
   expected_sources: [free-trial.md, plan-changes.md]
-  must_include: ["at no cost", "immediately"]
+  must_include: ["at no cost", "takes effect immediately"]
   must_not_include: []
 
 # --- out-of-scope (6): the bot must answer with the fixed refusal ---

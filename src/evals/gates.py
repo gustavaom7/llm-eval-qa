@@ -33,8 +33,12 @@ def _rate(passed: int, total: int) -> float:
     return passed / total if total else 1.0
 
 
+def _normalise(text: str) -> str:
+    return text.lower().replace("–", "-").replace("—", "-")  # "5–10" and "5-10" are the same fact
+
+
 def _contains(text: str, phrase: str) -> bool:
-    return phrase.lower() in text.lower()
+    return _normalise(phrase) in _normalise(text)
 
 
 def _in_scope(items: list[GoldenItem]) -> list[GoldenItem]:

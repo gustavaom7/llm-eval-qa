@@ -5,6 +5,7 @@ from deepeval.metrics.faithfulness.schema import Truths
 
 from evals.dataset import GoldenItem
 from evals.judge import RecordedJudge, build_metrics, judge_scores
+from evals.runner import MissingRecordings
 from support_bot.bot import Answer
 from support_bot.recorder import Recorder
 from tests.fakes import FakeLLM
@@ -85,9 +86,19 @@ def test_only_judge_items_are_scored(tmp_path):
     assert not any("In Account." in user for _, user, _ in llm.calls)
 
 
-def test_missing_judge_recording_propagates(tmp_path):
-    from support_bot.recorder import CassetteMissing
-
+def test_missing_judge_recordings_are_listed_by_item(tmp_path):
+    second = GoldenItem("judged-2", "Refund?", "fact", ["refunds.md"], ["14 days"], [], judge=True)
+    answers = {**ANSWERS, "judged-2": ANSWERS["judged"]}
     metrics = build_metrics(recorded(tmp_path, FakeLLM(), mode="replay"))
-    with pytest.raises(CassetteMissing):
-        judge_scores(ITEMS, ANSWERS, metrics)
+    with pytest.raises(MissingRecordings) as exc:
+        judge_scores([*ITEMS, second], answers, metrics)
+    message = str(exc.value)
+    assert "judged, judged-2" in message and "Run the Record workflow" in message
+    assert "judge" in message
+
+
+def test_metrics_ignore_a_configured_eval_mode(tmp_path, monkeypatch):
+    monkeypatch.setenv("DEEPEVAL_EVAL_MODE", "hybrid")
+    metrics = build_metrics(recorded(tmp_path, FakeLLM(responder=good_judge)))
+    assert metrics["faithfulness"].eval_mode.value == "llm"
+    assert metrics["answer_relevancy"].eval_mode.value == "llm"

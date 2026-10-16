@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from evals.dataset import DatasetError, load_golden
+from evals.dataset import DatasetError, check_against_corpus, load_golden
 
 ROOT = Path(__file__).resolve().parents[2]
 DATASET = ROOT / "datasets" / "golden.yaml"
@@ -40,23 +40,6 @@ def test_golden_has_spec_distribution():
     assert counts == {"fact": 16, "policy-edge": 12, "multi-doc": 6, "out-of-scope": 6}
     judged = Counter(i.category for i in items if i.judge)
     assert judged == {"fact": 4, "policy-edge": 5, "multi-doc": 3}
-
-
-def test_expected_sources_exist_in_corpus():
-    missing = [
-        f"{i.id}: {s}" for i in load_golden(DATASET) for s in i.expected_sources if not (CORPUS / s).is_file()
-    ]
-    assert missing == []
-
-
-def test_required_facts_are_literally_in_their_sources():
-    problems = []
-    for item in load_golden(DATASET):
-        texts = [(CORPUS / s).read_text(encoding="utf-8").lower() for s in item.expected_sources]
-        for fact in item.must_include:
-            if not any(fact.lower() in t for t in texts):
-                problems.append(f"{item.id}: '{fact}' not found in {item.expected_sources}")
-    assert problems == []
 
 
 def test_multi_doc_items_have_two_sources():
@@ -107,3 +90,27 @@ def test_out_of_scope_item_with_sources_is_rejected(tmp_path):
 def test_judge_on_out_of_scope_is_rejected(tmp_path):
     with pytest.raises(DatasetError, match="judge"):
         load_golden(write(tmp_path, {**OUT_OF_SCOPE, "judge": True}))
+
+
+def test_golden_passes_the_corpus_check():
+    check_against_corpus(load_golden(DATASET), CORPUS)
+
+
+def test_corpus_check_rejects_a_fact_missing_from_its_source(tmp_path):
+    [item] = load_golden(write(tmp_path, {**VALID, "must_include": ["two weeks"]}))
+    with pytest.raises(DatasetError, match="refund-window: 'two weeks' not found in refunds.md"):
+        check_against_corpus([item], CORPUS)
+
+
+def test_corpus_check_rejects_a_forbidden_phrase_the_corpus_states(tmp_path):
+    [item] = load_golden(write(tmp_path, {**VALID, "must_not_include": ["5–10 business days"]}))
+    with pytest.raises(
+        DatasetError, match="refund-window: forbidden '5–10 business days' is stated in refunds.md"
+    ):
+        check_against_corpus([item], CORPUS)
+
+
+def test_corpus_check_rejects_an_unknown_source(tmp_path):
+    [item] = load_golden(write(tmp_path, {**VALID, "expected_sources": ["nope.md"]}))
+    with pytest.raises(DatasetError, match="nope.md"):
+        check_against_corpus([item], CORPUS)

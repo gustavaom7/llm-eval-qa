@@ -25,7 +25,15 @@ def test_record_workflow_never_pushes_to_main():
     text = (WORKFLOWS / "record.yml").read_text()
     pushes = [line.strip() for line in text.splitlines() if "git push" in line]
     assert pushes == ["git push origin HEAD"]
+    assert "git switch -c cassettes/run-${{ github.run_id }}-${{ github.run_attempt }}" in text
     assert text.index("git switch -c cassettes/run-") < text.index("git push origin HEAD")
+
+
+def test_push_step_tolerates_a_run_that_recorded_nothing():
+    steps = load("record.yml")["jobs"]["evaluate"]["steps"]
+    push = next(s for s in steps if s.get("name") == "Push cassettes")["run"]
+    assert "[ -d cassettes ] || exit 0" in push
+    assert "git add cassettes/*.json" in push
 
 
 def test_record_workflow_saves_cassettes_before_failing_on_gates():

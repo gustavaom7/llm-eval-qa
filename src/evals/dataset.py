@@ -66,3 +66,20 @@ def load_golden(path: Path) -> list[GoldenItem]:
             raise DatasetError(f"{item.id}: duplicate id")
         seen.add(item.id)
     return items
+
+
+def check_against_corpus(items: list[GoldenItem], corpus_dir: Path) -> None:
+    """Fail before any model runs when the dataset disagrees with the corpus: an unknown source, a required
+    fact its sources do not state word for word, or a forbidden claim the corpus itself states."""
+    docs = {p.name: p.read_text(encoding="utf-8").lower() for p in Path(corpus_dir).glob("*.md")}
+    for item in items:
+        unknown = [s for s in item.expected_sources if s not in docs]
+        if unknown:
+            raise DatasetError(f"{item.id}: unknown source {', '.join(unknown)}")
+        for fact in item.must_include:
+            if not any(fact.lower() in docs[s] for s in item.expected_sources):
+                raise DatasetError(f"{item.id}: '{fact}' not found in {', '.join(item.expected_sources)}")
+        for claim in item.must_not_include:
+            stated = [name for name, text in sorted(docs.items()) if claim.lower() in text]
+            if stated:
+                raise DatasetError(f"{item.id}: forbidden '{claim}' is stated in {', '.join(stated)}")

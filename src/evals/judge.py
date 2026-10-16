@@ -9,6 +9,7 @@ from deepeval.test_case import LLMTestCase, SingleTurnParams
 from pydantic import BaseModel, ValidationError
 
 from evals.dataset import GoldenItem
+from evals.runner import MissingRecordings
 from support_bot.bot import Answer
 from support_bot.llm import LLMUnavailable
 from support_bot.recorder import CassetteMissing, Recorder, RunTimeExceeded
@@ -20,7 +21,7 @@ POLICY_STEPS = [
 ]
 
 # Problems with the run itself, not with one judged answer: they stop the suite instead of scoring 0.
-RUN_ERRORS = (CassetteMissing, RunTimeExceeded, LLMUnavailable)
+RUN_ERRORS = (RunTimeExceeded, LLMUnavailable)
 
 
 class RecordedJudge(DeepEvalBaseLLM):
@@ -49,8 +50,14 @@ class RecordedJudge(DeepEvalBaseLLM):
 
 def build_metrics(judge: RecordedJudge) -> dict[str, BaseMetric]:
     return {
-        "faithfulness": FaithfulnessMetric(model=judge, include_reason=False, async_mode=False),
-        "answer_relevancy": AnswerRelevancyMetric(model=judge, include_reason=False, async_mode=False),
+        # eval_mode pinned: DeepEval reads DEEPEVAL_EVAL_MODE from the environment and .env files, and its
+        # other modes call a decision model outside the recorder.
+        "faithfulness": FaithfulnessMetric(
+            model=judge, include_reason=False, async_mode=False, eval_mode="llm"
+        ),
+        "answer_relevancy": AnswerRelevancyMetric(
+            model=judge, include_reason=False, async_mode=False, eval_mode="llm"
+        ),
         "policy_correctness": GEval(
             name="Policy correctness",
             evaluation_steps=POLICY_STEPS,
@@ -71,6 +78,7 @@ def judge_scores(
     """Score metric -> item id -> score for the items marked judge: true; None when the judge's output
     could not be read."""
     scores: dict[str, dict[str, float | None]] = {name: {} for name in metrics}
+    missing: list[str] = []
     for item in (i for i in items if i.judge):
         answer = answers[item.id]
         case = LLMTestCase(
@@ -83,8 +91,13 @@ def judge_scores(
             try:
                 metric.measure(case)
                 scores[name][item.id] = metric.score
+            except CassetteMissing:
+                missing.append(item.id)
+                break  # one missing verdict is enough to name the item
             except RUN_ERRORS:
                 raise
             except Exception:  # noqa: BLE001 — any judge failure on one answer scores None, reported
                 scores[name][item.id] = None
+    if missing:
+        raise MissingRecordings(missing, what="judge verdict")
     return scores

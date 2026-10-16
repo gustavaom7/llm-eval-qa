@@ -13,10 +13,10 @@ from support_bot.retriever import Retriever
 class MissingRecordings(Exception):
     """Replay found no recording for some dataset items."""
 
-    def __init__(self, ids: list[str]):
+    def __init__(self, ids: list[str], what: str = "answer"):
         self.ids = ids
         super().__init__(
-            f"No recorded answer for {len(ids)} items ({', '.join(ids)}): the prompt, retriever or dataset "
+            f"No recorded {what} for {len(ids)} items ({', '.join(ids)}): the prompt, retriever or dataset "
             "changed. Run the Record workflow."
         )
 
