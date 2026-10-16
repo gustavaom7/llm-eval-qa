@@ -9,7 +9,7 @@ import yaml
 
 CATEGORIES = ("fact", "policy-edge", "multi-doc", "out-of-scope")
 REQUIRED = ("id", "question", "category", "expected_sources", "must_include", "must_not_include")
-OPTIONAL = ("judge",)
+OPTIONAL = ("judge", "reference_answer")
 
 
 class DatasetError(ValueError):
@@ -25,6 +25,7 @@ class GoldenItem:
     must_include: list[str | list[str]]  # a phrase, or a list of accepted phrasings
     must_not_include: list[str]
     judge: bool = False
+    reference_answer: str = ""  # what the judge's policy-correctness metric compares against
 
     @property
     def in_scope(self) -> bool:

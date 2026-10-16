@@ -131,3 +131,12 @@ def test_malformed_fact_is_rejected(tmp_path, bad):
 def test_corpus_check_needs_only_the_first_phrasing_in_the_source(tmp_path):
     [item] = load_golden(write(tmp_path, {**VALID, "must_include": [["14 days", "two weeks"]]}))
     check_against_corpus([item], CORPUS)
+
+
+def test_judged_items_have_a_reference_answer():
+    assert all(i.reference_answer for i in load_golden(DATASET) if i.judge)
+
+
+def test_reference_answer_is_optional(tmp_path):
+    [item] = load_golden(write(tmp_path, VALID))
+    assert item.reference_answer == ""
