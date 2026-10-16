@@ -4,7 +4,7 @@
 
 Testing an LLM product, not just using AI to write tests. The system under test is a small retrieval-augmented support bot for **Lumen+**, a fictional streaming subscription; the point of the repo is the evaluation pipeline around it: deterministic gates, LLM-as-judge metrics, a fixed red-team set, budgets and replayable CI. Everything runs on local open-source models with [Ollama](https://ollama.com), at zero cost.
 
-> Status: milestone 1 of 4 (the bot). Evaluation suites arrive in milestones 2 and 3. Design: [`docs/superpowers/specs/`](docs/superpowers/specs/2026-10-16-llm-eval-qa-design.md).
+> Status: milestone 2 of 4 (golden evals). Red-team and the full report arrive in milestone 3. Design: [`docs/superpowers/specs/`](docs/superpowers/specs/2026-10-16-llm-eval-qa-design.md).
 
 ## The bot
 
@@ -37,11 +37,50 @@ support-bot ask "Can I get a refund 10 days after my first payment?" --mode live
 
 In replay mode a question with no recording fails with "run the Record workflow": a change to the prompt or the retriever cannot pass CI without being evaluated.
 
+## Evaluation
+
+40 questions in [`datasets/golden.yaml`](datasets/golden.yaml): 16 direct facts, 12 policy edges (refund window, trial once per account, pause limits, age 18+), 6 that need two documents, and 6 out of scope. Each item names the documents that hold the answer, the facts the answer must state, and the plausible wrong claim it must not make. A test checks that every required fact is written, word for word, in its source document.
+
+Three layers, cheapest first. Every threshold lives in [`budgets.yaml`](budgets.yaml).
+
+| Layer | Check | Gate |
+|---|---|---|
+| Retrieval (no model) | an expected document is among the 3 retrieved chunks | recall@3 ≥ 90% |
+| Answers (deterministic) | required facts stated | ≥ 85% of answers |
+| | forbidden claim made | never |
+| | out-of-scope question gets the fixed refusal | always |
+| | answer names a retrieved source | ≥ 95% |
+| | prompt size | ≤ 2500 input tokens |
+| Judge (DeepEval, local `qwen2.5:7b`) | faithfulness, answer relevancy, policy correctness (G-Eval) | mean ≥ 0.70; individual scores are reported, not blocking |
+
+A failing gate prints what failed in plain words, for example:
+
+```
+Required facts: FAIL — 30 of 34 answers state every required fact; gate 85%
+  - refund-day-15: missing '14 days'
+```
+
+The deterministic gates decide pass or fail; a small local judge is noisy, so it only blocks on a large drop. It scores the 12 items marked `judge: true`: each judged answer costs 6 judge calls, and on a CPU runner judging every question would not fit the 60-minute run budget.
+
+### Recording and replay
+
+Pull requests never call a model. They replay answers recorded in `cassettes/`, keyed by a hash of the model, prompt, question and options, so a change to the prompt, retriever or dataset fails CI with "Run the Record workflow" until it is evaluated.
+
+The [Record workflow](.github/workflows/record.yml) installs Ollama on a GitHub runner, pulls both models and runs every suite:
+
+- `record` (manual): records only what is missing and pushes the cassettes to a `cassettes/run-<id>` branch, merged through a pull request. A run stopped by the time budget resumes when started again on that branch.
+- `live` (manual, and monthly): calls the models without recording, to measure latency and catch drift.
+
+Each run writes the gate table and the models' latencies to the job summary.
+
 ## Tests
 
 ```bash
+pip install -e ".[dev,eval]"
 ruff check .
-pytest
+pytest -m "not quality"            # unit tests and the retrieval gate
+pytest tests/evals                 # all gates, replaying recorded answers
+pytest tests/evals --mode record   # with Ollama running: record what is missing
 ```
 
-Unit tests use a fake model and never call Ollama. CI (`.github/workflows/ci.yml`) runs both on every push and pull request.
+Unit tests use a fake model and never call Ollama. CI (`.github/workflows/ci.yml`) runs lint and `pytest -m "not quality"` on every push and pull request; the quality suites join once the first recording is merged.

@@ -1,8 +1,12 @@
-# Models run locally with Ollama: `ollama pull qwen2.5:3b` (bot) and `ollama pull qwen2.5:7b` (judge, milestone 2).
+# Models run locally with Ollama: `ollama pull qwen2.5:3b` (bot) and `ollama pull qwen2.5:7b` (judge).
 bot_model: qwen2.5:3b
 judge_model: qwen2.5:7b
 ollama_host: http://localhost:11434
+# num_ctx is explicit: Ollama's default context window silently truncates longer prompts.
+bot_options: {temperature: 0, seed: 42, num_ctx: 4096}
+judge_options: {temperature: 0, seed: 42, num_ctx: 8192}
+request_timeout_s: 600
 corpus_dir: corpus
 cassette_dir: cassettes
+budgets_file: budgets.yaml
 k: 3
-run_time_budget_minutes: 60

@@ -22,7 +22,7 @@ class LLM(Protocol):
     model: str
     options: dict
 
-    def complete(self, system: str, user: str) -> Completion: ...
+    def complete(self, system: str, user: str, schema: dict | None = None) -> Completion: ...
 
 
 class LLMUnavailable(Exception):
@@ -43,13 +43,15 @@ class OllamaLLM:
         self.options = dict(DEFAULT_OPTIONS if options is None else options)
         self._client = httpx.Client(timeout=timeout, transport=transport)
 
-    def complete(self, system: str, user: str) -> Completion:
+    def complete(self, system: str, user: str, schema: dict | None = None) -> Completion:
         body = {
             "model": self.model,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "stream": False,
             "options": self.options,
         }
+        if schema is not None:
+            body["format"] = schema  # Ollama structured output: the reply must match this JSON schema
         try:
             response = self._client.post(f"{self.host}/api/chat", json=body)
         except httpx.TimeoutException as exc:

@@ -1,3 +1,5 @@
+import time
+
 import pytest
 
 from support_bot.recorder import CassetteMissing, Recorder, RunTimeExceeded, cassette_key
@@ -52,3 +54,51 @@ def test_time_budget_exceeded(tmp_path):
 def test_recorder_exposes_wrapped_model_and_options(tmp_path):
     rec = Recorder(FakeLLM(model="m1", options={"seed": 1}), tmp_path)
     assert (rec.model, rec.options) == ("m1", {"seed": 1})
+
+
+def test_key_changes_with_schema():
+    assert cassette_key("m", "s", "u", {}) != cassette_key("m", "s", "u", {}, schema={"type": "object"})
+
+
+def test_record_reuses_existing_cassette_without_calling(tmp_path):
+    Recorder(FakeLLM(default="first"), tmp_path, mode="record").complete("s", "u")
+    second = FakeLLM(default="second")
+    assert Recorder(second, tmp_path, mode="record").complete("s", "u").text == "first"
+    assert second.calls == []
+
+
+def test_interrupted_record_run_resumes(tmp_path):
+    Recorder(FakeLLM(default="kept"), tmp_path, mode="record").complete("s", "q1")
+    out_of_time = Recorder(FakeLLM(), tmp_path, mode="record", time_budget_s=0)
+    assert out_of_time.complete("s", "q1").text == "kept"
+    with pytest.raises(RunTimeExceeded):
+        out_of_time.complete("s", "q2")
+
+
+def test_record_rerecords_unreadable_cassette(tmp_path):
+    rec = Recorder(FakeLLM(default="old"), tmp_path, mode="record")
+    rec.complete("s", "u")
+    next(tmp_path.glob("*.json")).write_text("{broken")
+    assert Recorder(FakeLLM(default="new"), tmp_path, mode="record").complete("s", "u").text == "new"
+
+
+def test_recorders_share_start_time(tmp_path):
+    rec = Recorder(FakeLLM(), tmp_path, mode="live", time_budget_s=10, started=time.monotonic() - 11)
+    with pytest.raises(RunTimeExceeded):
+        rec.complete("s", "u")
+
+
+def test_structured_request_is_recorded_under_its_schema(tmp_path):
+    llm = FakeLLM(default="{}")
+    rec = Recorder(llm, tmp_path, mode="record")
+    rec.complete("s", "u", schema={"type": "object"})
+    assert llm.calls == [("s", "u", {"type": "object"})]
+    with pytest.raises(CassetteMissing):
+        Recorder(FakeLLM(), tmp_path, mode="replay").complete("s", "u")
+
+
+def test_recorder_logs_latency_of_every_completion(tmp_path):
+    rec = Recorder(FakeLLM(), tmp_path, mode="record")
+    rec.complete("s", "u1")
+    rec.complete("s", "u1")
+    assert rec.latencies_ms == [7, 7]

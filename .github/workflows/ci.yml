@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+env:
+  DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,8 +18,10 @@ jobs:
           python-version: "3.12"
           cache: pip
       - name: Install
-        run: pip install -e ".[dev]"
+        run: pip install -e ".[dev,eval]"
       - name: Lint
         run: ruff check .
+      # Unit tests and the retrieval gate. The quality suites replay recorded answers and join
+      # once the first recording is committed.
       - name: Test
-        run: pytest -v
+        run: pytest -v -m "not quality"

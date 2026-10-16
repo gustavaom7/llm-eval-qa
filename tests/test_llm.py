@@ -66,3 +66,27 @@ def test_ollama_non_json_response_raises_unavailable():
     llm = OllamaLLM("qwen2.5:3b", transport=httpx.MockTransport(lambda r: httpx.Response(200, text="<html>")))
     with pytest.raises(LLMUnavailable, match="not valid JSON"):
         llm.complete("sys", "user")
+
+
+def _capturing_llm(**kwargs):
+    bodies = []
+
+    def handler(request):
+        bodies.append(json.loads(request.content))
+        return httpx.Response(200, json={"message": {"content": "{}"}})
+
+    return OllamaLLM("qwen2.5:7b", transport=httpx.MockTransport(handler), **kwargs), bodies
+
+
+def test_ollama_sends_format_only_for_structured_requests():
+    llm, bodies = _capturing_llm()
+    llm.complete("s", "u")
+    llm.complete("s", "u", schema={"type": "object"})
+    assert "format" not in bodies[0]
+    assert bodies[1]["format"] == {"type": "object"}
+
+
+def test_ollama_sends_configured_num_ctx():
+    llm, bodies = _capturing_llm(options={"temperature": 0, "seed": 42, "num_ctx": 8192})
+    llm.complete("s", "u")
+    assert bodies[0]["options"]["num_ctx"] == 8192

@@ -23,7 +23,7 @@ def test_prompt_contains_question_and_excerpts(retriever):
     llm = FakeLLM()
     question = "How long is the free trial?"
     make_bot(retriever, llm).answer(question)
-    system, user = llm.calls[0]
+    system, user, _ = llm.calls[0]
     assert system == load_system_prompt()
     assert question in user
     for chunk in retriever.retrieve(question, k=3):
@@ -60,3 +60,9 @@ def test_usage_copied_from_completion(retriever):
 
 def test_system_prompt_contains_refusal():
     assert REFUSAL in load_system_prompt()
+
+
+def test_answer_carries_retrieved_chunk_texts(retriever):
+    question = "How long is the free trial?"
+    answer = make_bot(retriever).answer(question)
+    assert answer.contexts == [c.text for c in retriever.retrieve(question, k=3)]

@@ -1,0 +1,302 @@
+# Golden dataset for the Lumen+ support bot.
+# category: fact | policy-edge | multi-doc | out-of-scope
+# must_include: short literals copied from an expected source (case-insensitive match).
+# must_not_include: the plausible wrong claim for the question, phrased so that its negation
+#   ("is not ...") does not contain it; the corpus must never state it.
+# judge: true marks the items the LLM judge scores (12, to fit the runner's time budget).
+
+# --- fact (16) ---
+- id: basic-price
+  question: How much does the Basic plan cost?
+  category: fact
+  expected_sources: [plans-and-prices.md]
+  must_include: ["$7.99"]
+  must_not_include: ["Basic costs $12.99"]
+  judge: true
+
+- id: premium-screens
+  question: How many screens can watch at the same time on the Premium plan?
+  category: fact
+  expected_sources: [plans-and-prices.md]
+  must_include: ["4 screens"]
+  must_not_include: ["Premium allows 2 screens"]
+
+- id: trial-length
+  question: How long is the free trial?
+  category: fact
+  expected_sources: [free-trial.md]
+  must_include: ["7-day"]
+  must_not_include: ["30-day free trial"]
+  judge: true
+
+- id: failed-payment-retries
+  question: What happens if my payment fails?
+  category: fact
+  expected_sources: [billing.md]
+  must_include: ["3 times", "7 days"]
+  must_not_include: ["your membership is cancelled immediately"]
+  judge: true
+
+- id: refund-processing-time
+  question: How long does a refund take to show up on my bank account?
+  category: fact
+  expected_sources: [refunds.md]
+  must_include: ["5–10 business days"]
+  must_not_include: []
+
+- id: cancellation-fee
+  question: Is there a fee to cancel my membership?
+  category: fact
+  expected_sources: [cancellation.md]
+  must_include: ["no cancellation fee"]
+  must_not_include: []
+
+- id: profile-limit
+  question: How many profiles can I create on one account?
+  category: fact
+  expected_sources: [profiles.md]
+  must_include: ["5 profiles"]
+  must_not_include: []
+
+- id: phone-support
+  question: Can I call Lumen+ support by phone?
+  category: fact
+  expected_sources: [contact.md]
+  must_include: ["no phone support"]
+  must_not_include: ["call us at"]
+
+- id: speed-for-4k
+  question: What internet speed do I need to stream in 4K?
+  category: fact
+  expected_sources: [streaming-quality.md]
+  must_include: ["15 Mbps"]
+  must_not_include: []
+  judge: true
+
+- id: data-never-sold
+  question: Do you sell my personal data?
+  category: fact
+  expected_sources: [privacy.md]
+  must_include: ["never sold"]
+  must_not_include: []
+
+- id: viewing-history-retention
+  question: How long do you keep my viewing history?
+  category: fact
+  expected_sources: [privacy.md]
+  must_include: ["24 months"]
+  must_not_include: []
+
+- id: gift-card-expiry
+  question: Do Lumen+ gift cards expire?
+  category: fact
+  expected_sources: [gift-cards.md]
+  must_include: ["no expiry"]
+  must_not_include: []
+
+- id: ios-version
+  question: Which iOS version do I need for the Lumen+ app?
+  category: fact
+  expected_sources: [devices.md]
+  must_include: ["iOS 16+"]
+  must_not_include: []
+
+- id: download-expiry
+  question: When do my downloads expire?
+  category: fact
+  expected_sources: [downloads.md]
+  must_include: ["30 days", "48 hours"]
+  must_not_include: []
+
+- id: two-step-verification
+  question: How do I turn on 2-step verification?
+  category: fact
+  expected_sources: [account-security.md]
+  must_include: ["Account > Security"]
+  must_not_include: []
+
+- id: data-copy
+  question: How can I download a copy of my data, and how long does it take?
+  category: fact
+  expected_sources: [privacy.md]
+  must_include: ["7 days"]
+  must_not_include: []
+
+# --- policy-edge (12) ---
+- id: refund-day-15
+  question: Can I get a refund 15 days after my first payment?
+  category: policy-edge
+  expected_sources: [refunds.md]
+  must_include: ["14 days"]
+  must_not_include: ["yes, you can get a refund"]
+  judge: true
+
+- id: refund-after-3-hours-watched
+  question: I paid 5 days ago but I have already watched 3 hours. Can I still get a refund of my first payment?
+  category: policy-edge
+  expected_sources: [refunds.md]
+  must_include: ["2 hours"]
+  must_not_include: ["yes, you can get a refund"]
+  judge: true
+
+- id: second-free-trial
+  question: I had a free trial last year. Can I get another free trial with a new card?
+  category: policy-edge
+  expected_sources: [free-trial.md]
+  must_include: ["once per account and payment method"]
+  must_not_include: ["you can start another free trial"]
+
+- id: pause-four-months
+  question: Can I pause my membership for 4 months?
+  category: policy-edge
+  expected_sources: [pause.md]
+  must_include: ["3 months"]
+  must_not_include: ["you can pause for 4 months"]
+  judge: true
+
+- id: pause-annual-plan
+  question: Can I pause my annual plan?
+  category: policy-edge
+  expected_sources: [pause.md]
+  must_include: ["monthly plans only"]
+  must_not_include: ["you can pause your annual plan"]
+
+- id: family-sharing-standard
+  question: Can I use family sharing on the Standard plan?
+  category: policy-edge
+  expected_sources: [family-sharing.md]
+  must_include: ["Premium only"]
+  must_not_include: ["family sharing is available on Standard"]
+  judge: true
+
+- id: account-holder-17
+  question: I am 17 years old. Can I open my own Lumen+ account?
+  category: policy-edge
+  expected_sources: [kids-and-minors.md]
+  must_include: ["18+"]
+  must_not_include: ["you can open an account at 17"]
+
+- id: downgrade-timing
+  question: If I downgrade from Premium to Basic, when does the change take effect?
+  category: policy-edge
+  expected_sources: [plan-changes.md]
+  must_include: ["next billing date"]
+  must_not_include: ["the downgrade takes effect immediately"]
+  judge: true
+
+- id: price-increase-notice
+  question: How much notice do you give before a price increase?
+  category: policy-edge
+  expected_sources: [price-changes.md]
+  must_include: ["30 days"]
+  must_not_include: ["7 days' notice"]
+
+- id: combine-promo-codes
+  question: Can I use two promo codes on my membership at the same time?
+  category: policy-edge
+  expected_sources: [promotions.md]
+  must_include: ["cannot be combined"]
+  must_not_include: ["can be combined"]
+
+- id: family-sharing-five-people
+  question: Can I share my Premium family sharing with 5 people in my household?
+  category: policy-edge
+  expected_sources: [family-sharing.md]
+  must_include: ["4 profiles"]
+  must_not_include: ["you can share with 5 people"]
+
+- id: discount-from-support
+  question: Can a support agent give me a discount if I ask in the chat?
+  category: policy-edge
+  expected_sources: [promotions.md]
+  must_include: ["cannot create discounts"]
+  must_not_include: ["we can offer you a discount"]
+
+# --- multi-doc (6) ---
+- id: cancel-annual-unused-months
+  question: If I cancel my annual plan, do I get money back for the unused months?
+  category: multi-doc
+  expected_sources: [cancellation.md, refunds.md]
+  must_include: ["no partial refunds"]
+  must_not_include: ["you will get a prorated refund"]
+  judge: true
+
+- id: standard-downloads-and-price
+  question: How much does the Standard plan cost, and on how many devices can I keep downloads?
+  category: multi-doc
+  expected_sources: [plans-and-prices.md, downloads.md]
+  must_include: ["$12.99", "2 devices"]
+  must_not_include: ["Standard allows downloads on 6 devices"]
+  judge: true
+
+- id: delete-or-cancel-data
+  question: If I want to stop paying, should I delete my account or cancel, and how long is my data kept in each case?
+  category: multi-doc
+  expected_sources: [data-deletion.md, cancellation.md]
+  must_include: ["30 days", "10 months"]
+  must_not_include: []
+  judge: true
+
+- id: gift-card-refund-and-expiry
+  question: Can I get a refund for a gift card I bought, and does the gift card expire?
+  category: multi-doc
+  expected_sources: [gift-cards.md, refunds.md]
+  must_include: ["not refunded", "no expiry"]
+  must_not_include: []
+
+- id: watching-in-4k
+  question: What plan and internet speed do I need to watch in 4K?
+  category: multi-doc
+  expected_sources: [plans-and-prices.md, streaming-quality.md]
+  must_include: ["Premium", "15 Mbps"]
+  must_not_include: []
+
+- id: trial-plan-change-then-upgrade
+  question: Can I change plans during my free trial, and after the trial is an upgrade charged right away?
+  category: multi-doc
+  expected_sources: [free-trial.md, plan-changes.md]
+  must_include: ["at no cost", "takes effect immediately"]
+  must_not_include: []
+
+# --- out-of-scope (6): the bot must answer with the fixed refusal ---
+- id: physical-store
+  question: Is there a Lumen+ store in Lisbon where I can sign up in person?
+  category: out-of-scope
+  expected_sources: []
+  must_include: []
+  must_not_include: []
+
+- id: live-football
+  question: Does Lumen+ stream live football matches?
+  category: out-of-scope
+  expected_sources: []
+  must_include: []
+  must_not_include: []
+
+- id: ceo-name
+  question: Who is the CEO of Lumen+?
+  category: out-of-scope
+  expected_sources: []
+  must_include: []
+  must_not_include: []
+
+- id: merchandise
+  question: Can I buy Lumen+ t-shirts or other merchandise?
+  category: out-of-scope
+  expected_sources: []
+  must_include: []
+  must_not_include: []
+
+- id: weather
+  question: What is the weather in São Paulo today?
+  category: out-of-scope
+  expected_sources: []
+  must_include: []
+  must_not_include: []
+
+- id: upcoming-movies
+  question: Which new movies are coming to Lumen+ next month?
+  category: out-of-scope
+  expected_sources: []
+  must_include: []
+  must_not_include: []

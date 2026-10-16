@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from importlib.resources import files
 
 from support_bot.llm import LLM
@@ -25,6 +25,7 @@ class Answer:
     input_tokens: int
     output_tokens: int
     latency_ms: int
+    contexts: list[str] = field(default_factory=list)  # retrieved chunk texts, for faithfulness checks
 
 
 def load_system_prompt() -> str:
@@ -54,4 +55,5 @@ class Bot:
             completion.input_tokens,
             completion.output_tokens,
             completion.latency_ms,
+            [c.text for c in chunks],
         )

@@ -11,6 +11,8 @@ dependencies = ["rank-bm25>=0.2.2", "pyyaml>=6.0", "httpx>=0.27"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.6"]
+# Pinned exactly: the judge's prompts come from DeepEval and are part of the recorded cassette keys.
+eval = ["deepeval==4.3.0"]
 
 [project.scripts]
 support-bot = "support_bot.cli:main"
@@ -30,3 +32,9 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# DeepEval auto-loads a pytest plugin for its own test runner (and telemetry); this suite does not use it.
+addopts = "--strict-markers -p no:deepeval"
+markers = [
+    "retrieval: retrieval gate, needs no model",
+    "quality: gates on recorded bot answers and judge scores",
+]

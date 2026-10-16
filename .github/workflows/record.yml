@@ -1,0 +1,81 @@
+name: Record
+
+# Runs the evaluation against real local models (Ollama on the runner, no API key, no cost).
+#   record: calls the models for every request not yet recorded and pushes the new cassettes to a
+#           cassettes/run-<id>-<attempt> branch; open a PR from it. To resume a run stopped by
+#           the time budget, dispatch the workflow again on that branch ("Re-run jobs" starts over).
+#   live:   calls the models without recording, to measure latency and drift (monthly).
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: record new answers, or run live without recording
+        type: choice
+        options: [record, live]
+        default: record
+  schedule:
+    - cron: "17 6 1 * *"
+
+permissions:
+  contents: write
+
+env:
+  MODE: ${{ github.event.inputs.mode || 'live' }}
+  DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev,eval]"
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          if ! curl -sf http://localhost:11434/api/version; then
+            nohup ollama serve > ollama.log 2>&1 &
+          fi
+          for i in $(seq 1 30); do curl -sf http://localhost:11434/api/version && break; sleep 2; done
+          ollama --version
+      - name: Pull models
+        run: |
+          for model in $(python -c "import yaml; c = yaml.safe_load(open('config.yaml')); print(c['bot_model'], c['judge_model'])"); do
+            ollama pull "$model"
+          done
+      - name: Evaluate
+        id: evals
+        continue-on-error: true
+        run: pytest tests/evals -m "retrieval or quality" --mode "$MODE" -v
+      - name: Summary
+        if: always()
+        run: |
+          if [ -f reports/summary.md ]; then cat reports/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
+          echo "Ollama: $(ollama --version)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload report and cassettes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-${{ env.MODE }}-${{ github.run_id }}
+          path: |
+            reports/
+            cassettes/
+          if-no-files-found: ignore
+      - name: Push cassettes
+        if: always() && env.MODE == 'record'
+        run: |
+          [ -d cassettes ] || exit 0  # an early failure recorded nothing
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c cassettes/run-${{ github.run_id }}-${{ github.run_attempt }}
+          git add cassettes/*.json
+          git diff --cached --quiet || git commit -m "Record cassettes (run ${{ github.run_id }})"
+          git push origin HEAD
+      - name: Fail if a gate failed
+        if: steps.evals.outcome == 'failure'
+        run: exit 1

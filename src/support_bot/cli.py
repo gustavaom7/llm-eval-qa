@@ -18,9 +18,13 @@ from support_bot.retriever import Retriever
 def load_config(path: Path) -> dict:
     config = yaml.safe_load(path.read_text(encoding="utf-8"))
     base = path.resolve().parent
-    for key in ("corpus_dir", "cassette_dir"):
+    for key in ("corpus_dir", "cassette_dir", "budgets_file"):
         config[key] = base / config[key]
     return config
+
+
+def load_budgets(path: Path) -> dict:
+    return yaml.safe_load(Path(path).read_text(encoding="utf-8"))
 
 
 def positive_int(value: str) -> int:
@@ -46,10 +50,14 @@ def main(argv: list[str] | None = None, llm: LLM | None = None) -> int:
     args = parser.parse_args(argv)
 
     config = load_config(args.config)
-    model = llm or OllamaLLM(config["bot_model"], host=config["ollama_host"])
-    recorder = Recorder(
-        model, config["cassette_dir"], mode=args.mode, time_budget_s=config["run_time_budget_minutes"] * 60
+    model = llm or OllamaLLM(
+        config["bot_model"],
+        host=config["ollama_host"],
+        options=config["bot_options"],
+        timeout=config["request_timeout_s"],
     )
+    budget_s = load_budgets(config["budgets_file"])["run_time_budget_minutes"] * 60
+    recorder = Recorder(model, config["cassette_dir"], mode=args.mode, time_budget_s=budget_s)
     bot = Bot(
         Retriever(load_corpus(config["corpus_dir"])), recorder, load_system_prompt(), k=args.k or config["k"]
     )
