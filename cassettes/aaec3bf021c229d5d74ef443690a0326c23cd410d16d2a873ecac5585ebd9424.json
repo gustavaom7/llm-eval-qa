@@ -1,7 +1,0 @@
-{
-  "input_tokens": 447,
-  "latency_ms": 12376,
-  "model": "qwen2.5:7b",
-  "output_tokens": 39,
-  "text": "Support agents cannot create discounts, credits or free months, and cannot change the price of a membership. Requests for a discount through the chat are always declined. Sources: promotions.md, contact.md"
-}

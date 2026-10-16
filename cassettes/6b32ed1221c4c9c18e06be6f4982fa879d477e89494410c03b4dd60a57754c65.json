@@ -1,7 +1,0 @@
-{
-  "input_tokens": 428,
-  "latency_ms": 9813,
-  "model": "qwen2.5:7b",
-  "output_tokens": 26,
-  "text": "Gift cards cannot be refunded and do not expire. However, they cannot be redeemed for cash. Sources: gift-cards.md"
-}

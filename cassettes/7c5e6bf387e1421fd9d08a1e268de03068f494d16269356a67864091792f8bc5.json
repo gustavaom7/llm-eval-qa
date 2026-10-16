@@ -1,7 +1,0 @@
-{
-  "input_tokens": 425,
-  "latency_ms": 10419,
-  "model": "qwen2.5:7b",
-  "output_tokens": 32,
-  "text": "The Standard plan costs $12.99/month and you can keep downloads on 2 devices. Sources: plans-and-prices.md, downloads.md"
-}

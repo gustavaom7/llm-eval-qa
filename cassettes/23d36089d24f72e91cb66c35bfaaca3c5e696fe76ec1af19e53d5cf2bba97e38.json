@@ -1,7 +1,0 @@
-{
-  "input_tokens": 432,
-  "latency_ms": 9493,
-  "model": "qwen2.5:7b",
-  "output_tokens": 23,
-  "text": "Promo codes cannot be combined: only one promotion applies to a membership at a time.\n\nSources: promotions.md"
-}

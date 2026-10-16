@@ -1,7 +1,0 @@
-{
-  "input_tokens": 497,
-  "latency_ms": 18095,
-  "model": "qwen2.5:7b",
-  "output_tokens": 77,
-  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context does not mention any method for requesting refunds, only that they can be requested within 14 days of the first payment.\"\n}\n]}"
-}

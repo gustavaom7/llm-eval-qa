@@ -1,7 +1,0 @@
-{
-  "input_tokens": 338,
-  "latency_ms": 7828,
-  "model": "qwen2.5:7b",
-  "output_tokens": 42,
-  "text": "{\n  \"claims\": [\n    \"You can pause your membership only once every 12 months.\",\n    \"The membership can be paused for up to 3 months at a time.\"\n  ]\n}"
-}

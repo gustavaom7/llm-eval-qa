@@ -1,7 +1,0 @@
-{
-  "input_tokens": 362,
-  "latency_ms": 13248,
-  "model": "qwen2.5:7b",
-  "output_tokens": 72,
-  "text": "{\n  \"claims\": [\n    \"A failed payment is retried 3 times over 7 days.\",\n    \"You keep access while the payment retries are in progress.\",\n    \"If all 3 retries fail, the membership is put on hold.\",\n    \"The membership can be resumed by updating the payment method in Account > Membership.\"\n  ]\n}"
-}

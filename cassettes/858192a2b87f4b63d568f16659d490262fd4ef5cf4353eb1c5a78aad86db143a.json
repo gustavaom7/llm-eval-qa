@@ -1,7 +1,0 @@
-{
-  "input_tokens": 426,
-  "latency_ms": 8868,
-  "model": "qwen2.5:7b",
-  "output_tokens": 21,
-  "text": "Every account can have up to 5 profiles per account. Sources: profiles.md, family-sharing.md"
-}

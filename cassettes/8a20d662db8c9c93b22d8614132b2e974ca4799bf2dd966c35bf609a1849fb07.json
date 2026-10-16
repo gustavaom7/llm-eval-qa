@@ -1,7 +1,0 @@
-{
-  "input_tokens": 288,
-  "latency_ms": 12969,
-  "model": "qwen2.5:7b",
-  "output_tokens": 70,
-  "text": "{\n  \"reason\": \"The response correctly states the 7-day free trial, aligning with the expected output. However, it does not explicitly state '7-day' as a complete answer, which is slightly shorter than the expected output. The Sources line is also present, though not penalized.\",\n  \"score\": 8\n}"
-}

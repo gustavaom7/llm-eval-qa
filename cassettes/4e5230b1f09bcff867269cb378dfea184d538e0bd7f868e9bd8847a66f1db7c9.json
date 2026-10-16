@@ -1,7 +1,0 @@
-{
-  "input_tokens": 340,
-  "latency_ms": 17105,
-  "model": "qwen2.5:7b",
-  "output_tokens": 79,
-  "text": "{\n  \"reason\": \"The response does not state every fact in the expected output, as it fails to mention the 14-day window for refunds. It also includes unnecessary details about the 2-hour watch limit, which contradicts the expected output. However, it correctly mentions the in-app chat for requesting refunds and provides the relevant sources.\",\n  \"score\": 2\n}"
-}

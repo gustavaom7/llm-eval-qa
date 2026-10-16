@@ -1,7 +1,0 @@
-{
-  "input_tokens": 425,
-  "latency_ms": 12197,
-  "model": "qwen2.5:7b",
-  "output_tokens": 44,
-  "text": "The free trial is available once per account and payment method. Since you had a free trial last year, you cannot get another free trial with a new card. Sources: free-trial.md, free-trial.md"
-}

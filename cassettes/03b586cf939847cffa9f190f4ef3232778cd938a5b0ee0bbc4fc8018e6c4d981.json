@@ -1,7 +1,0 @@
-{
-  "input_tokens": 336,
-  "latency_ms": 35695,
-  "model": "qwen2.5:7b",
-  "output_tokens": 112,
-  "text": "{\n  \"truths\": [\n    \"Basic costs $7.99/month.\",\n    \"You can watch on 1 screen at a time with the Basic plan.\",\n    \"In HD, you can watch on 1 screen at a time with the Basic plan.\",\n    \"Downloads are available on Standard and Premium plans.\",\n    \"Basic does not include downloads.\",\n    \"You can change your plan during the trial at no cost.\",\n    \"The plan selected on day 7 of the trial is the one you are charged for.\"\n  ]\n}"
-}

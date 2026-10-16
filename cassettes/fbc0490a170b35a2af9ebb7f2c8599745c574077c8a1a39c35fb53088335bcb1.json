@@ -1,7 +1,0 @@
-{
-  "input_tokens": 315,
-  "latency_ms": 10601,
-  "model": "qwen2.5:7b",
-  "output_tokens": 69,
-  "text": "{\n  \"statements\": [\n    \"You can get a refund only within 14 days of your first payment.\",\n    \"You can get a refund only if under 2 hours watched in total on the account since that payment.\",\n    \"This applies once per account.\",\n    \"Request it through the in-app chat.\"\n  ]\n}"
-}

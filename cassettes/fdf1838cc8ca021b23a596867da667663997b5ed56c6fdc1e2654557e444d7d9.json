@@ -1,7 +1,0 @@
-{
-  "input_tokens": 437,
-  "latency_ms": 10188,
-  "model": "qwen2.5:7b",
-  "output_tokens": 26,
-  "text": "You can watch on 4 screens at a time with the Premium plan.\n\nSources: devices.md, plans-and-prices.md"
-}

@@ -1,7 +1,0 @@
-{
-  "input_tokens": 332,
-  "latency_ms": 15961,
-  "model": "qwen2.5:7b",
-  "output_tokens": 79,
-  "text": "{\n  \"reason\": \"The response correctly states the 14-day refund period, aligning with the expected output. However, it provides additional details not present in the expected output, such as the 2-hour watch requirement, which is not mentioned in the expected output. The Sources line is also redundant and not required by the evaluation steps.\",\n  \"score\": 7\n}"
-}

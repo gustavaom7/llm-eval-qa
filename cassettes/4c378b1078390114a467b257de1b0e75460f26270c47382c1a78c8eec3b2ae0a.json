@@ -1,7 +1,0 @@
-{
-  "input_tokens": 332,
-  "latency_ms": 6354,
-  "model": "qwen2.5:7b",
-  "output_tokens": 33,
-  "text": "{\n  \"claims\": [\n    \"Family sharing is not available on the Standard plan.\",\n    \"Family sharing is available on the Premium plan.\"\n  ]\n}"
-}

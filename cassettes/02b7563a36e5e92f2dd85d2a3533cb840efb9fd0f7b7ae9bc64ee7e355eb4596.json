@@ -1,7 +1,0 @@
-{
-  "input_tokens": 451,
-  "latency_ms": 12825,
-  "model": "qwen2.5:7b",
-  "output_tokens": 42,
-  "text": "You can share your Premium family sharing with up to 4 profiles in one household. Everyone sharing must live at the same address as the account holder. Sources: family-sharing.md, plans-and-prices.md"
-}

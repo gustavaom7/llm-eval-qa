@@ -1,7 +1,0 @@
-{
-  "input_tokens": 435,
-  "latency_ms": 9787,
-  "model": "qwen2.5:7b",
-  "output_tokens": 25,
-  "text": "Family sharing is not available on the Standard plan. It is only available on the Premium plan. Sources: family-sharing.md"
-}

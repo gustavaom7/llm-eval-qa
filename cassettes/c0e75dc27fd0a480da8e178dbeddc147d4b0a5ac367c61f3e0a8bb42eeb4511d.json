@@ -1,7 +1,0 @@
-{
-  "input_tokens": 378,
-  "latency_ms": 17905,
-  "model": "qwen2.5:7b",
-  "output_tokens": 102,
-  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"yes\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement specifies a 12-month restriction which is not directly relevant to the 4-month pause request.\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement limits the pause duration to 3 months, which is not sufficient for the 4-month request.\"\n    }\n  ]\n}"
-}

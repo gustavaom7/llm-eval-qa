@@ -1,7 +1,0 @@
-{
-  "input_tokens": 353,
-  "latency_ms": 15500,
-  "model": "qwen2.5:7b",
-  "output_tokens": 75,
-  "text": "{\n  \"truths\": [\n    \"Standard costs $12.99/month.\",\n    \"You can watch on 2 screens at a time with the Standard plan.\",\n    \"You can download titles on 2 devices with the Standard plan.\",\n    \"Premium plan allows downloads on 6 devices.\",\n    \"Basic plan does not include downloads.\"\n  ]\n}"
-}

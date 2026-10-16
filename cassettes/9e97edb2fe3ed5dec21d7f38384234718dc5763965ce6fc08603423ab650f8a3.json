@@ -1,7 +1,0 @@
-{
-  "input_tokens": 428,
-  "latency_ms": 10686,
-  "model": "qwen2.5:7b",
-  "output_tokens": 33,
-  "text": "Downloads expire after 30 days, or 48 hours after you start watching, whichever comes first. Sources: downloads.md, plans-and-prices.md"
-}
