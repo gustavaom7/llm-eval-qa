@@ -1,0 +1,7 @@
+{
+  "input_tokens": 345,
+  "latency_ms": 19368,
+  "model": "qwen2.5:7b",
+  "output_tokens": 106,
+  "text": "{\n  \"statements\": [\n    \"You should cancel your account to stop paying, not delete it.\",\n    \"Deleting your account removes your profiles and watch history, which you want to avoid if you only want to stop paying.\",\n    \"Cancellation cancels your membership immediately and cannot be undone.\",\n    \"Your viewing history will be kept for 24 months before being deleted.\",\n    \"Billing records are kept as long as required by tax law.\",\n    \"Sources: data-deletion.md, privacy.md\"\n  ]\n}"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 409,
+  "latency_ms": 3338,
+  "model": "qwen2.5:3b",
+  "output_tokens": 15,
+  "text": "The free trial is 7 days. Sources: free-trial.md"
+}

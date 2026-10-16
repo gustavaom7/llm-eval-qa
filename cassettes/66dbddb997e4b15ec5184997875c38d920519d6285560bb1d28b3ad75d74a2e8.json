@@ -1,0 +1,7 @@
+{
+  "input_tokens": 488,
+  "latency_ms": 16137,
+  "model": "qwen2.5:7b",
+  "output_tokens": 67,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that you can pause your membership for up to 3 months, not 'up to' 3 months, which means it is a definitive 3 months.\"\n}\n]\n}"
+}

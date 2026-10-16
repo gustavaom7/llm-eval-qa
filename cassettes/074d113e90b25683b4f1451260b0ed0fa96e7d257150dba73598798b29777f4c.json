@@ -1,0 +1,7 @@
+{
+  "input_tokens": 425,
+  "latency_ms": 4913,
+  "model": "qwen2.5:3b",
+  "output_tokens": 35,
+  "text": "You can pause your membership for up to 3 months instead of cancelling. After the pause, the membership resumes automatically at the end of the pause. Sources: pause.md"
+}

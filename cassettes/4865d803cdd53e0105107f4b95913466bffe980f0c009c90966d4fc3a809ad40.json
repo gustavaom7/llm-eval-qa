@@ -1,0 +1,7 @@
+{
+  "input_tokens": 363,
+  "latency_ms": 23522,
+  "model": "qwen2.5:7b",
+  "output_tokens": 134,
+  "text": "{\n  \"truths\": [\n    \"A downgrade takes effect at the next billing date.\",\n    \"Until a downgrade takes effect, you keep the features of your current plan.\",\n    \"No refund or credit is given for the remaining days of the higher plan during a downgrade.\",\n    \"An upgrade takes effect immediately.\",\n    \"The price difference for the rest of the current billing period is prorated and charged right away during an upgrade.\",\n    \"From the next billing date, you pay the full price of the new plan after an upgrade.\",\n    \"Downloads are available on Standard and Premium plans.\",\n    \"Basic plans do not include downloads.\"\n  ]\n}"
+}

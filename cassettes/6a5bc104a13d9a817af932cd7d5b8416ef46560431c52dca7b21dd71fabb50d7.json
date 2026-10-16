@@ -1,0 +1,7 @@
+{
+  "input_tokens": 447,
+  "latency_ms": 6203,
+  "model": "qwen2.5:3b",
+  "output_tokens": 49,
+  "text": "Not allowed. Refunds — What is not refunded. Annual plans after the first 14 days are not refunded. Support agents cannot make exceptions to this policy. Sources: refunds.md, plans-and-prices.md, plan-changes.md"
+}

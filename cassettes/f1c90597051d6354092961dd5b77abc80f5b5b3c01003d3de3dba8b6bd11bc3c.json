@@ -1,0 +1,7 @@
+{
+  "input_tokens": 443,
+  "latency_ms": 6166,
+  "model": "qwen2.5:3b",
+  "output_tokens": 48,
+  "text": "Support agents cannot create discounts, credits, or free months. Requests for a discount through the chat are always declined. Support via in-app chat is available 24/7. Sources: promotions.md, contact.md, account-security.md"
+}

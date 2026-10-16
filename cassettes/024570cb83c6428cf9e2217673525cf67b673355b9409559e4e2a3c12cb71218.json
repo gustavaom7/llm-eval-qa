@@ -1,0 +1,7 @@
+{
+  "input_tokens": 333,
+  "latency_ms": 6003,
+  "model": "qwen2.5:7b",
+  "output_tokens": 32,
+  "text": "{\n  \"claims\": [\n    \"Family sharing is available only on Premium accounts.\",\n    \"Standard and Basic accounts cannot use family sharing.\"\n  ]\n}"
+}

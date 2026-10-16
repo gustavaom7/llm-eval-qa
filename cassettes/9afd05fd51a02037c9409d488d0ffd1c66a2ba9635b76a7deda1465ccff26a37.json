@@ -1,0 +1,7 @@
+{
+  "input_tokens": 413,
+  "latency_ms": 4876,
+  "model": "qwen2.5:3b",
+  "output_tokens": 38,
+  "text": "I don't know based on the Lumen+ help center. Please contact Lumen+ support through the in-app chat. Sources: account-security.md, pause.md, family-sharing.md"
+}

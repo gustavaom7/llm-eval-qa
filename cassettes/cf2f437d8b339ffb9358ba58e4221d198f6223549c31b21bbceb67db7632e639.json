@@ -1,0 +1,7 @@
+{
+  "input_tokens": 451,
+  "latency_ms": 7460,
+  "model": "qwen2.5:7b",
+  "output_tokens": 19,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n}\n]\n}"
+}

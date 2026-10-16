@@ -1,0 +1,7 @@
+{
+  "input_tokens": 428,
+  "latency_ms": 4044,
+  "model": "qwen2.5:3b",
+  "output_tokens": 20,
+  "text": "No, Lumen+ does not stream live football matches. Sources: cancellation.md, pause.md"
+}

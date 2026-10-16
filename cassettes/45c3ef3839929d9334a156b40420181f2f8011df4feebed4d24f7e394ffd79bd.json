@@ -1,0 +1,7 @@
+{
+  "input_tokens": 433,
+  "latency_ms": 6092,
+  "model": "qwen2.5:3b",
+  "output_tokens": 52,
+  "text": "You can get a refund only within 14 days of your first payment, and only if under 2 hours watched in total on the account since that payment. This applies once per account. Request it through the in-app chat. Sources: refunds.md"
+}

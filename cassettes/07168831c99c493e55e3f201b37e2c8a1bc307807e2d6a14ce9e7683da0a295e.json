@@ -1,0 +1,7 @@
+{
+  "input_tokens": 316,
+  "latency_ms": 13955,
+  "model": "qwen2.5:7b",
+  "output_tokens": 75,
+  "text": "{\n  \"statements\": [\n    \"You cannot get a refund of your first payment.\",\n    \"You have already watched 3 hours.\",\n    \"3 hours exceed the limit of 2 hours allowed within 14 days of your first payment.\",\n    \"Request a refund through the in-app chat.\",\n    \"Sources: refunds.md, downloads.md\"\n  ]\n}"
+}

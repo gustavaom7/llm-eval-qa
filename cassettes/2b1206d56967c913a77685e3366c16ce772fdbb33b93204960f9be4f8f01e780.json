@@ -1,0 +1,7 @@
+{
+  "input_tokens": 431,
+  "latency_ms": 4180,
+  "model": "qwen2.5:3b",
+  "output_tokens": 22,
+  "text": "The recommended internet speed for streaming in 4K is 15 Mbps. Sources: streaming-quality.md"
+}

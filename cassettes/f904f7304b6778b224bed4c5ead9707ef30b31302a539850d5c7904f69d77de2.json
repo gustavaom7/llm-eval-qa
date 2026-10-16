@@ -1,0 +1,7 @@
+{
+  "input_tokens": 392,
+  "latency_ms": 4200,
+  "model": "qwen2.5:3b",
+  "output_tokens": 34,
+  "text": "Privacy — What we keep\nViewing history kept 24 months, then deleted. Billing records are kept as long as tax law requires. Sources: privacy.md"
+}

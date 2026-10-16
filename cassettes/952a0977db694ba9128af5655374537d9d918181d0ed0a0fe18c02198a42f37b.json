@@ -1,0 +1,7 @@
+{
+  "input_tokens": 447,
+  "latency_ms": 7479,
+  "model": "qwen2.5:3b",
+  "output_tokens": 68,
+  "text": "You can share with up to 4 profiles in one household. Everyone sharing must live at the same address as the account holder. Lumen+ may ask a device to confirm it belongs to the household. Not allowed to share with more than 4 profiles. Premium is required. Sources: family-sharing.md, plans-and-prices.md"
+}

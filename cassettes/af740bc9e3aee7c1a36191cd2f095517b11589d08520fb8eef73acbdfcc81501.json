@@ -1,0 +1,7 @@
+{
+  "input_tokens": 422,
+  "latency_ms": 5195,
+  "model": "qwen2.5:3b",
+  "output_tokens": 41,
+  "text": "Every account can have up to 5 profiles per account. Each profile has its own watch history, recommendations, and My List. Profiles — How many profiles [profiles.md]  \nSources: profiles.md"
+}

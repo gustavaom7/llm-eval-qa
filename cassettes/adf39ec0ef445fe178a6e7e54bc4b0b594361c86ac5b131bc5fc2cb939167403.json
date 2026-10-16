@@ -1,0 +1,7 @@
+{
+  "input_tokens": 295,
+  "latency_ms": 12961,
+  "model": "qwen2.5:7b",
+  "output_tokens": 64,
+  "text": "{\n  \"reason\": \"The response accurately states the recommended internet speed for 4K streaming, aligning with the expected output. However, it does not include the speed in the answer, only in the Sources section, which is a minor deviation from the expected format.\",\n  \"score\": 8\n}"
+}

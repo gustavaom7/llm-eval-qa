@@ -1,0 +1,7 @@
+{
+  "input_tokens": 295,
+  "latency_ms": 8440,
+  "model": "qwen2.5:7b",
+  "output_tokens": 44,
+  "text": "{\n  \"statements\": [\n    \"You can pause your membership for up to 3 months instead of cancelling.\",\n    \"After the pause, the membership resumes automatically at the end of the pause.\"\n  ]\n}"
+}
