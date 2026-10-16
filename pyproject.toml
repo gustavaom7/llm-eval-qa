@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-eval-qa"
+version = "0.1.0"
+description = "A retrieval-augmented support bot and the evaluation pipeline around it"
+requires-python = ">=3.12"
+dependencies = ["rank-bm25>=0.2.2", "pyyaml>=6.0", "httpx>=0.27"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.scripts]
+support-bot = "support_bot.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+support_bot = ["prompts/*.md"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
