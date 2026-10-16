@@ -122,3 +122,8 @@ def test_required_facts_treat_dash_variants_alike():
         [item("a", include=("5–10 business days",))], {"a": answer("5-10 business days")}, 0.85
     )
     assert r.passed
+
+
+def test_required_facts_treat_hyphenated_and_spaced_forms_alike():
+    r = required_facts([item("a", include=("7-day",))], {"a": answer("The free trial is 7 days long.")}, 0.85)
+    assert r.passed

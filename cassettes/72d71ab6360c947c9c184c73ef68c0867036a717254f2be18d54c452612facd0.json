@@ -1,7 +1,0 @@
-{
-  "input_tokens": 318,
-  "latency_ms": 17998,
-  "model": "qwen2.5:7b",
-  "output_tokens": 65,
-  "text": "{\n  \"reason\": \"The response does not state every fact in the expected output, as it does not mention the 2 hours watched. It also contradicts the expected output by providing a generic answer to contact support rather than addressing the refund directly based on the hours watched.\",\n  \"score\": 2\n}"
-}

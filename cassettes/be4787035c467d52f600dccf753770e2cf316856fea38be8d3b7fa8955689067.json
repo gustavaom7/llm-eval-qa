@@ -1,7 +1,0 @@
-{
-  "input_tokens": 337,
-  "latency_ms": 3978,
-  "model": "qwen2.5:7b",
-  "output_tokens": 7,
-  "text": "{ \"claims\": [] }"
-}

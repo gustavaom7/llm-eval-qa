@@ -1,7 +1,0 @@
-{
-  "input_tokens": 321,
-  "latency_ms": 21541,
-  "model": "qwen2.5:7b",
-  "output_tokens": 86,
-  "text": "{\n  \"reason\": \"The response correctly states that the downgrade takes effect at the next billing date, aligning with the expected output. However, it provides additional details that, while accurate, are not required by the expected output, such as retaining current plan features until the next billing date and no refund policy. These extra details do not affect the score negatively but are not necessary.\",\n  \"score\": 8\n}"
-}

@@ -1,7 +1,0 @@
-{
-  "input_tokens": 343,
-  "latency_ms": 9430,
-  "model": "qwen2.5:7b",
-  "output_tokens": 39,
-  "text": "{\n  \"claims\": [\n    \"The Standard plan costs $12.99/month.\",\n    \"You can keep downloads on 2 devices at the same time.\"\n  ]\n}"
-}

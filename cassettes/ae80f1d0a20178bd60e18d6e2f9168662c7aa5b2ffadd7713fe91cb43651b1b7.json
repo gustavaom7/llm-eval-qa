@@ -1,7 +1,0 @@
-{
-  "input_tokens": 349,
-  "latency_ms": 8400,
-  "model": "qwen2.5:3b",
-  "output_tokens": 60,
-  "text": "You should cancel your account to stop paying, not delete it. Deleting your account removes your profiles and watch history permanently. Your viewing history will be kept for 24 months before being deleted. Billing records are kept until tax laws require their deletion. Sources: data-deletion.md, privacy.md"
-}

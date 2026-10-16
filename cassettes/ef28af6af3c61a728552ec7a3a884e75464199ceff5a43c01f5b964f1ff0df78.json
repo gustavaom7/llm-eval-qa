@@ -1,7 +1,0 @@
-{
-  "input_tokens": 492,
-  "latency_ms": 22132,
-  "model": "qwen2.5:7b",
-  "output_tokens": 69,
-  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that you can pause your membership for up to 3 months instead of cancelling, which directly contradicts the claim that you can only pause for up to 3 months.\"\n}\n]\n}"
-}

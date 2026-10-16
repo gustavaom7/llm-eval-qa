@@ -1,7 +1,0 @@
-{
-  "input_tokens": 366,
-  "latency_ms": 27579,
-  "model": "qwen2.5:7b",
-  "output_tokens": 123,
-  "text": "{\n  \"truths\": [\n    \"5 Mbps is recommended for HD streaming.\",\n    \"15 Mbps is recommended for 4K streaming.\",\n    \"Slower internet connections can still be used for streaming, with video quality adjusting automatically.\",\n    \"The highest streaming quality available is 4K on the Premium plan.\",\n    \"Streaming quality varies by plan: HD on Basic, Full HD on Standard, and 4K on Premium.\",\n    \"Access to streaming continues until the end of the paid period after cancellation.\",\n    \"Streaming is not possible after the paid period ends following cancellation.\"\n  ]\n}"
-}

@@ -1,7 +1,0 @@
-{
-  "input_tokens": 403,
-  "latency_ms": 37585,
-  "model": "qwen2.5:7b",
-  "output_tokens": 168,
-  "text": "{\n  \"truths\": [\n    \"Failed payments are retried 3 times over 7 days.\",\n    \"Access is kept while failed payments are being retried.\",\n    \"If all 3 retries of a failed payment fail, the membership is put on hold until the payment method is updated.\",\n    \"Refunds are available only within 14 days of the first payment.\",\n    \"Refunds are only granted if under 2 hours of content were watched on the account since the payment.\",\n    \"Refunds are only applicable once per account.\",\n    \"Refunds can be requested through the in-app chat.\",\n    \"The free trial is available once per account and payment method.\",\n    \"If an account or payment method has been used for a free trial before, the membership starts as a paid membership.\"\n  ]\n}"
-}

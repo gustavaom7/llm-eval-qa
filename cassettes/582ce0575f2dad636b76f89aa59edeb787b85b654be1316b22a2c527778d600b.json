@@ -1,7 +1,0 @@
-{
-  "input_tokens": 288,
-  "latency_ms": 7479,
-  "model": "qwen2.5:7b",
-  "output_tokens": 31,
-  "text": "{\n  \"statements\": [\n    \"You need an internet speed of at least 15 Mbps to stream in 4K.\"\n  ]\n}"
-}

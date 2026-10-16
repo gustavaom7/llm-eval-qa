@@ -1,7 +1,0 @@
-{
-  "input_tokens": 384,
-  "latency_ms": 18688,
-  "model": "qwen2.5:7b",
-  "output_tokens": 89,
-  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement does not address the refund policy or the possibility of getting a refund for the first payment.\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement does not provide information relevant to the refund policy or the possibility of getting a refund for the first payment.\"\n    }\n  ]\n}"
-}

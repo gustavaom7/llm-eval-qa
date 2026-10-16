@@ -1,7 +1,0 @@
-{
-  "input_tokens": 385,
-  "latency_ms": 7991,
-  "model": "qwen2.5:3b",
-  "output_tokens": 37,
-  "text": "We give 30 days' notice by email before any price increase. The email states the new price and the date it applies to your membership. Sources: price-changes.md"
-}

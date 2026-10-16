@@ -1,7 +1,0 @@
-{
-  "input_tokens": 320,
-  "latency_ms": 4841,
-  "model": "qwen2.5:3b",
-  "output_tokens": 19,
-  "text": "Viewing history is kept for 24 months, then deleted. Sources: privacy.md"
-}
