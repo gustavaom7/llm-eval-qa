@@ -33,3 +33,13 @@ def test_no_overlap_returns_empty(retriever):
 
 def test_k_limits_results(retriever):
     assert len(retriever.retrieve("plan price", k=2)) == 2
+
+
+def test_plural_and_question_words_still_find_prices(retriever):
+    docs = [c.doc for c in retriever.retrieve("What is the price of Standard?")]
+    assert "plans-and-prices.md" in docs
+
+
+def test_k_below_one_raises(retriever):
+    with pytest.raises(ValueError):
+        retriever.retrieve("price", k=0)

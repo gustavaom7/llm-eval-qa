@@ -51,19 +51,28 @@ class Recorder:
                     f"No recorded answer for this request ({path.name}). The prompt, retriever or dataset "
                     "changed: run the Record workflow to record new answers."
                 )
-            data = json.loads(path.read_text(encoding="utf-8"))
-            return Completion(data["text"], data["input_tokens"], data["output_tokens"], data["latency_ms"])
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                return Completion(
+                    data["text"], data["input_tokens"], data["output_tokens"], data["latency_ms"]
+                )
+            except (json.JSONDecodeError, KeyError) as exc:
+                raise CassetteMissing(
+                    f"Recorded answer {path.name} is unreadable: run the Record workflow to record it again."
+                ) from exc
 
         if time.monotonic() - self._started >= self.time_budget_s:
             raise RunTimeExceeded(f"Run exceeded its time budget of {self.time_budget_s:.0f} s.")
         completion = self.llm.complete(system, user)
         if self.mode == "record":
             self.cassette_dir.mkdir(parents=True, exist_ok=True)
-            path.write_text(
+            tmp = path.with_suffix(".tmp")
+            tmp.write_text(
                 json.dumps(
                     {"model": self.model, **asdict(completion)}, sort_keys=True, indent=2, ensure_ascii=False
                 )
                 + "\n",
                 encoding="utf-8",
             )
+            tmp.replace(path)  # atomic: an interrupted run never leaves a half-written cassette
         return completion

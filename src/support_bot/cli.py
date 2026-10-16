@@ -8,7 +8,7 @@ from pathlib import Path
 
 import yaml
 
-from support_bot.bot import Bot, load_system_prompt
+from support_bot.bot import Bot, EmptyQuestion, load_system_prompt
 from support_bot.corpus import load_corpus
 from support_bot.llm import LLM, LLMUnavailable, OllamaLLM
 from support_bot.recorder import CassetteMissing, Recorder, RunTimeExceeded
@@ -23,6 +23,13 @@ def load_config(path: Path) -> dict:
     return config
 
 
+def positive_int(value: str) -> int:
+    number = int(value)
+    if number < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return number
+
+
 def main(argv: list[str] | None = None, llm: LLM | None = None) -> int:
     parser = argparse.ArgumentParser(prog="support-bot", description="Lumen+ support bot")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -34,7 +41,7 @@ def main(argv: list[str] | None = None, llm: LLM | None = None) -> int:
         default="replay",
         help="replay recorded answers (default), record new ones, or call the model without recording",
     )
-    ask.add_argument("--k", type=int, default=None, help="number of excerpts to retrieve")
+    ask.add_argument("--k", type=positive_int, default=None, help="number of excerpts to retrieve")
     ask.add_argument("--config", type=Path, default=Path("config.yaml"))
     args = parser.parse_args(argv)
 
@@ -49,7 +56,7 @@ def main(argv: list[str] | None = None, llm: LLM | None = None) -> int:
 
     try:
         answer = bot.answer(args.question)
-    except ValueError as exc:
+    except EmptyQuestion as exc:
         print(exc, file=sys.stderr)
         return 2
     except (CassetteMissing, LLMUnavailable, RunTimeExceeded) as exc:
@@ -57,7 +64,7 @@ def main(argv: list[str] | None = None, llm: LLM | None = None) -> int:
         return 1
 
     print(answer.text)
-    print(f"Sources: {', '.join(answer.sources) or '(none)'}")
+    print(f"Retrieved: {', '.join(answer.sources) or '(none)'}")
     print(f"Tokens: {answer.input_tokens} in / {answer.output_tokens} out · {answer.latency_ms} ms")
     return 0
 

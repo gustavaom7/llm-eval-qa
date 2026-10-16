@@ -52,15 +52,26 @@ class OllamaLLM:
         }
         try:
             response = self._client.post(f"{self.host}/api/chat", json=body)
+        except httpx.TimeoutException as exc:
+            raise LLMUnavailable(
+                f"Ollama at {self.host} timed out after {self._client.timeout.read:.0f} s. "
+                "The first answer can be slow while the model loads; try again or raise the timeout."
+            ) from exc
         except httpx.TransportError as exc:
             raise LLMUnavailable(
                 f"Ollama is not reachable at {self.host}. Start it with `ollama serve`."
             ) from exc
         if response.status_code != 200:
             raise LLMUnavailable(f"Ollama returned {response.status_code}: {response.text}")
-        data = response.json()
+        try:
+            data = response.json()
+            text = data["message"]["content"]
+        except (ValueError, KeyError) as exc:
+            raise LLMUnavailable(
+                f"Ollama response is not valid JSON chat output: {response.text[:200]}"
+            ) from exc
         return Completion(
-            text=data["message"]["content"],
+            text=text,
             input_tokens=data.get("prompt_eval_count", 0),
             output_tokens=data.get("eval_count", 0),
             latency_ms=round(data.get("total_duration", 0) / 1_000_000),

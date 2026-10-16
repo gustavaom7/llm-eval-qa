@@ -8,6 +8,11 @@ from importlib.resources import files
 from support_bot.llm import LLM
 from support_bot.retriever import Retriever
 
+
+class EmptyQuestion(ValueError):
+    """The question has no text."""
+
+
 REFUSAL = (
     "I don't know based on the Lumen+ help center. Please contact Lumen+ support through the in-app chat."
 )
@@ -36,7 +41,7 @@ class Bot:
     def answer(self, question: str) -> Answer:
         question = question.strip()
         if not question:
-            raise ValueError("Question is empty.")
+            raise EmptyQuestion("Question is empty.")
         chunks = self.retriever.retrieve(question, k=self.k)
         if not chunks:
             return Answer(REFUSAL, [], 0, 0, 0)

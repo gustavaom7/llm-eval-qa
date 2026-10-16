@@ -50,3 +50,19 @@ def test_ollama_http_error_raises_unavailable_with_body():
     )
     with pytest.raises(LLMUnavailable, match="not found"):
         llm.complete("sys", "user")
+
+
+def test_ollama_timeout_says_model_is_slow_not_down():
+    def handler(request):
+        raise httpx.ReadTimeout("slow")
+
+    llm = OllamaLLM("qwen2.5:3b", transport=httpx.MockTransport(handler))
+    with pytest.raises(LLMUnavailable, match="timed out") as exc:
+        llm.complete("sys", "user")
+    assert "ollama serve" not in str(exc.value)
+
+
+def test_ollama_non_json_response_raises_unavailable():
+    llm = OllamaLLM("qwen2.5:3b", transport=httpx.MockTransport(lambda r: httpx.Response(200, text="<html>")))
+    with pytest.raises(LLMUnavailable, match="not valid JSON"):
+        llm.complete("sys", "user")
