@@ -1,0 +1,71 @@
+"""Session fixtures for the evaluation suites: one bot run over the dataset, shared by every gate."""
+
+import time
+from pathlib import Path
+
+import pytest
+
+from evals.dataset import load_golden
+from evals.report import write_summary
+from evals.runner import build_bot, run_bot
+from support_bot.cli import load_budgets, load_config
+from support_bot.corpus import load_corpus
+from support_bot.retriever import Retriever
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+@pytest.fixture(scope="session")
+def mode(request):
+    return request.config.getoption("--mode")
+
+
+@pytest.fixture(scope="session")
+def config():
+    return load_config(ROOT / "config.yaml")
+
+
+@pytest.fixture(scope="session")
+def budgets(config):
+    return load_budgets(config["budgets_file"])
+
+
+@pytest.fixture(scope="session")
+def golden():
+    return load_golden(ROOT / "datasets" / "golden.yaml")
+
+
+@pytest.fixture(scope="session")
+def started():
+    return time.monotonic()
+
+
+@pytest.fixture(scope="session")
+def retriever(config):
+    return Retriever(load_corpus(config["corpus_dir"]))
+
+
+@pytest.fixture(scope="session")
+def recorders():
+    """Every recorder of the run, by label, so the summary can report model latencies."""
+    return {}
+
+
+@pytest.fixture(scope="session")
+def gate_log(recorders, mode):
+    results = []
+    yield results
+    latencies = {label: recorder.latencies_ms for label, recorder in recorders.items()}
+    write_summary(ROOT / "reports" / "summary.md", results, latencies, mode)
+
+
+@pytest.fixture(scope="session")
+def bot(config, budgets, mode, started, recorders):
+    bot = build_bot(config, mode, started, time_budget_s=budgets["run_time_budget_minutes"] * 60)
+    recorders[f"{config['bot_model']} (bot)"] = bot.llm
+    return bot
+
+
+@pytest.fixture(scope="session")
+def answers(bot, golden):
+    return run_bot(bot, golden)

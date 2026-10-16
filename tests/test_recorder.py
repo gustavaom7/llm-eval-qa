@@ -95,3 +95,10 @@ def test_structured_request_is_recorded_under_its_schema(tmp_path):
     assert llm.calls == [("s", "u", {"type": "object"})]
     with pytest.raises(CassetteMissing):
         Recorder(FakeLLM(), tmp_path, mode="replay").complete("s", "u")
+
+
+def test_recorder_logs_latency_of_every_completion(tmp_path):
+    rec = Recorder(FakeLLM(), tmp_path, mode="record")
+    rec.complete("s", "u1")
+    rec.complete("s", "u1")
+    assert rec.latencies_ms == [7, 7]

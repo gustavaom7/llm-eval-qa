@@ -60,3 +60,9 @@ def test_usage_copied_from_completion(retriever):
 
 def test_system_prompt_contains_refusal():
     assert REFUSAL in load_system_prompt()
+
+
+def test_answer_carries_retrieved_chunk_texts(retriever):
+    question = "How long is the free trial?"
+    answer = make_bot(retriever).answer(question)
+    assert answer.contexts == [c.text for c in retriever.retrieve(question, k=3)]

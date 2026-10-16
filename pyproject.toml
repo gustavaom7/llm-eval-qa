@@ -30,3 +30,8 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "--strict-markers"
+markers = [
+    "retrieval: retrieval gate, needs no model",
+    "quality: gates on recorded bot answers and judge scores",
+]

@@ -42,6 +42,7 @@ class Recorder:
         self.time_budget_s = time_budget_s
         # A shared `started` (time.monotonic()) lets the bot and the judge recorders spend one budget.
         self._started = time.monotonic() if started is None else started
+        self.latencies_ms: list[int] = []  # one entry per completion returned, recorded or fresh
 
     @property
     def model(self) -> str:
@@ -52,6 +53,11 @@ class Recorder:
         return self.llm.options
 
     def complete(self, system: str, user: str, schema: dict | None = None) -> Completion:
+        completion = self._complete(system, user, schema)
+        self.latencies_ms.append(completion.latency_ms)
+        return completion
+
+    def _complete(self, system: str, user: str, schema: dict | None) -> Completion:
         path = self.cassette_dir / f"{cassette_key(self.model, system, user, self.options, schema)}.json"
         if self.mode == "replay":
             if not path.is_file():
