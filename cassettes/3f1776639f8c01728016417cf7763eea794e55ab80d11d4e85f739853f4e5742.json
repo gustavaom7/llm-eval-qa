@@ -1,7 +1,0 @@
-{
-  "input_tokens": 325,
-  "latency_ms": 15946,
-  "model": "qwen2.5:7b",
-  "output_tokens": 76,
-  "text": "{\n  \"reason\": \"The response correctly states that a failed payment is retried 3 times over 7 days, aligning with the expected output. However, it does not explicitly mention that the membership is put on hold if all retries fail, which is a key omission. The Sources line is also included, as required.\",\n  \"score\": 7\n}"
-}

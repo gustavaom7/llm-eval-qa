@@ -24,7 +24,7 @@ When the excerpts do not cover a question, the bot answers with one fixed senten
 
 ```bash
 pip install -e ".[dev]"
-ollama pull qwen2.5:3b          # once; models are set in config.yaml
+ollama pull qwen2.5:7b          # once; models are set in config.yaml
 
 support-bot ask "Can I get a refund 10 days after my first payment?" --mode live
 ```

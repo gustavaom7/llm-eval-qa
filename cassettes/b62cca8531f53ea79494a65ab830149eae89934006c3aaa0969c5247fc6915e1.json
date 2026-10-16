@@ -1,7 +1,0 @@
-{
-  "input_tokens": 306,
-  "latency_ms": 9643,
-  "model": "qwen2.5:7b",
-  "output_tokens": 52,
-  "text": "{\n  \"statements\": [\n    \"A downgrade takes effect at the next billing date.\",\n    \"Until then you keep the features of your current plan.\",\n    \"No refund or credit is given for the remaining days of the higher plan.\"\n  ]\n}"
-}

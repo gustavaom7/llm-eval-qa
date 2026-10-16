@@ -1,7 +1,0 @@
-{
-  "input_tokens": 468,
-  "latency_ms": 5679,
-  "model": "qwen2.5:3b",
-  "output_tokens": 35,
-  "text": "You can change your plan during the trial at no cost. After the trial, an upgrade is charged right away. Sources: free-trial.md, plan-changes.md"
-}

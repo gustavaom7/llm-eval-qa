@@ -1,7 +1,0 @@
-{
-  "input_tokens": 487,
-  "latency_ms": 15846,
-  "model": "qwen2.5:7b",
-  "output_tokens": 67,
-  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that 'Annual plans after the first 14 days are not refunded,' which directly contradicts the claim that support agents cannot make exceptions to the refund policy.\"\n}\n]\n}"
-}

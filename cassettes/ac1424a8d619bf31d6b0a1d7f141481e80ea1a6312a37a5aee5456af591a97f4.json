@@ -1,7 +1,0 @@
-{
-  "input_tokens": 433,
-  "latency_ms": 5159,
-  "model": "qwen2.5:3b",
-  "output_tokens": 37,
-  "text": "No, there is no cancellation fee. You can cancel your membership by selecting \"Cancel membership\" in Account > Membership and confirming. [cancellation.md] Sources: cancellation.md.md"
-}

@@ -1,7 +1,0 @@
-{
-  "input_tokens": 447,
-  "latency_ms": 5982,
-  "model": "qwen2.5:3b",
-  "output_tokens": 45,
-  "text": "You are not allowed to open an account as a 17-year-old. Premium is required for family sharing, which is not allowed for those under 18. Sources: profiles.md, plans-and-prices.md"
-}

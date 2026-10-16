@@ -1,7 +1,0 @@
-{
-  "input_tokens": 371,
-  "latency_ms": 23163,
-  "model": "qwen2.5:7b",
-  "output_tokens": 125,
-  "text": "{\n  \"truths\": [\n    \"Family sharing is available on Premium accounts only.\",\n    \"Basic and Standard accounts cannot share with people outside the account holder's profiles.\",\n    \"The account holder adds and removes members in Account > Family sharing.\",\n    \"Removed members lose access immediately.\",\n    \"Removed members' profiles and history are kept for 30 days.\",\n    \"You can share with up to 4 profiles in one household.\",\n    \"Everyone sharing must live at the same address as the account holder.\",\n    \"Lumen+ may ask a device to confirm it belongs to the household.\"\n  ]\n}"
-}

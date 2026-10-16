@@ -1,7 +1,0 @@
-{
-  "input_tokens": 428,
-  "latency_ms": 4682,
-  "model": "qwen2.5:3b",
-  "output_tokens": 29,
-  "text": "No, promo codes cannot be combined. Promo codes are not allowed to be used at the same time. Sources: promotions.md, devices.md"
-}

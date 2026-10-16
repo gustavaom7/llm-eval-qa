@@ -1,7 +1,0 @@
-{
-  "input_tokens": 423,
-  "latency_ms": 5262,
-  "model": "qwen2.5:3b",
-  "output_tokens": 41,
-  "text": "No, you cannot pause your annual plan. Pausing is available on monthly plans only. Annual plans and memberships in a free trial cannot be paused. Sources: pause.md, plans-and-prices.md"
-}

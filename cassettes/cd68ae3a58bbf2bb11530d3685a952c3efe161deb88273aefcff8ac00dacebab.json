@@ -1,7 +1,0 @@
-{
-  "input_tokens": 275,
-  "latency_ms": 3962,
-  "model": "qwen2.5:7b",
-  "output_tokens": 20,
-  "text": "{\n  \"statements\": [\n    \"The free trial is 7 days.\"\n  ]\n}"
-}

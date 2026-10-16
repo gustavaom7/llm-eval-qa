@@ -1,7 +1,0 @@
-{
-  "input_tokens": 413,
-  "latency_ms": 5134,
-  "model": "qwen2.5:3b",
-  "output_tokens": 42,
-  "text": "Gift cards have no expiry. Gift cards cannot be redeemed for cash and are not refunded. A gift card balance cannot be transferred to another account. [gift-cards.md]\n\nSources: gift-cards.md"
-}

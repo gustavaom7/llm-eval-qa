@@ -1,7 +1,0 @@
-{
-  "input_tokens": 431,
-  "latency_ms": 4403,
-  "model": "qwen2.5:3b",
-  "output_tokens": 26,
-  "text": "Not allowed. Family sharing is available only on Premium only. Standard and Basic accounts cannot use it. Sources: family-sharing.md"
-}

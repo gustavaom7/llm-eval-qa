@@ -1,7 +1,0 @@
-{
-  "input_tokens": 305,
-  "latency_ms": 10199,
-  "model": "qwen2.5:7b",
-  "output_tokens": 55,
-  "text": "{\n  \"statements\": [\n    \"Standard costs $12.99/month.\",\n    \"You can watch on 2 screens at a time.\",\n    \"You can watch in Full HD.\",\n    \"You can download titles on 2 devices.\"\n  ]\n}"
-}

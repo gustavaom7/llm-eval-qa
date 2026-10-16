@@ -1,7 +1,0 @@
-{
-  "input_tokens": 419,
-  "latency_ms": 4903,
-  "model": "qwen2.5:3b",
-  "output_tokens": 35,
-  "text": "There is no phone support. Lumen+ does not handle support requests by email; emails from Lumen+ are notifications only. Sources: contact.md, account-security.md"
-}

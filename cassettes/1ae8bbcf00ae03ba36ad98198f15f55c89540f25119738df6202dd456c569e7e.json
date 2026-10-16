@@ -1,7 +1,0 @@
-{
-  "input_tokens": 450,
-  "latency_ms": 6626,
-  "model": "qwen2.5:3b",
-  "output_tokens": 56,
-  "text": "No, you cannot get a refund of your first payment as you have already watched 3 hours, which exceeds the limit of 2 hours allowed within 14 days of your first payment. Request a refund through the in-app chat. Sources: refunds.md, downloads.md"
-}

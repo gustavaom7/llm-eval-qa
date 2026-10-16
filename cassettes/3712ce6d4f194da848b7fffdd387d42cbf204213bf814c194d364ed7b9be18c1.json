@@ -1,7 +1,0 @@
-{
-  "input_tokens": 330,
-  "latency_ms": 13759,
-  "model": "qwen2.5:7b",
-  "output_tokens": 58,
-  "text": "{\n  \"reason\": \"The response does not accurately state every fact in the expected output, as it provides information about screens and device types that were not asked about in the question. It also includes more devices than specified in the expected output.\",\n  \"score\": 2\n}"
-}

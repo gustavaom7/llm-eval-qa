@@ -1,7 +1,0 @@
-{
-  "input_tokens": 400,
-  "latency_ms": 28197,
-  "model": "qwen2.5:7b",
-  "output_tokens": 167,
-  "text": "{\n  \"verdicts\": [\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement is about a different time frame for refunds and does not address the 15-day period mentioned in the input.\"\n    },\n    {\n      \"verdict\": \"no\",\n      \"reason\": \"The statement is about a different condition for refunds and does not address the 15-day period mentioned in the input.\"\n    },\n    {\n      \"verdict\": \"yes\",\n      \"reason\": \"The statement indicates that the refund policy is applied once per account, which is relevant to the input.\"\n    },\n    {\n      \"verdict\": \"yes\",\n      \"reason\": \"The statement provides information on how to request a refund, which is relevant to the input.\"\n    }\n  ]\n}"
-}

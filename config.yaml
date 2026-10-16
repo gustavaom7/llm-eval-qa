@@ -1,5 +1,6 @@
-# Models run locally with Ollama: `ollama pull qwen2.5:3b` (bot) and `ollama pull qwen2.5:7b` (judge).
-bot_model: qwen2.5:3b
+# Models run locally with Ollama: `ollama pull qwen2.5:7b` (bot and judge).
+# The bot was qwen2.5:3b until the second recording: it refused answerable questions or invented answers.
+bot_model: qwen2.5:7b
 judge_model: qwen2.5:7b
 ollama_host: http://localhost:11434
 # num_ctx is explicit: Ollama's default context window silently truncates longer prompts.
