@@ -22,10 +22,13 @@ def config(tmp_path):
                 "corpus_dir": str(ROOT / "corpus"),
                 "cassette_dir": str(tmp_path / "cassettes"),
                 "k": 3,
-                "run_time_budget_minutes": 60,
+                "bot_options": {"temperature": 0, "seed": 42, "num_ctx": 4096},
+                "request_timeout_s": 600,
+                "budgets_file": "budgets.yaml",
             }
         )
     )
+    (tmp_path / "budgets.yaml").write_text(yaml.safe_dump({"run_time_budget_minutes": 60}))
     return path
 
 
@@ -53,7 +56,7 @@ def test_replay_without_cassette_exits_1(config, capsys):
 
 
 class DownLLM(FakeLLM):
-    def complete(self, system, user):
+    def complete(self, system, user, schema=None):
         raise LLMUnavailable(
             "Ollama is not reachable at http://localhost:11434. Start it with `ollama serve`."
         )
@@ -103,3 +106,25 @@ def test_retrieved_line_is_not_labelled_sources(config, capsys):
     out = capsys.readouterr().out
     assert sum(line.startswith("Sources:") for line in out.splitlines()) == 1
     assert any(line.startswith("Retrieved:") for line in out.splitlines())
+
+
+def test_cli_uses_bot_options_from_config(config, monkeypatch, capsys):
+    seen = {}
+
+    def fake_ollama(model, **kwargs):
+        seen.update(kwargs, model=model)
+        return FakeLLM()
+
+    monkeypatch.setattr("support_bot.cli.OllamaLLM", fake_ollama)
+    assert main(["ask", "refund", "--mode", "live", "--config", str(config)]) == 0
+    assert seen["model"] == "fake-model"
+    assert seen["options"] == {"temperature": 0, "seed": 42, "num_ctx": 4096}
+    assert seen["timeout"] == 600
+
+
+def test_load_config_resolves_budgets_file(config):
+    from support_bot.cli import load_budgets, load_config
+
+    loaded = load_config(config)
+    assert loaded["budgets_file"] == config.parent / "budgets.yaml"
+    assert load_budgets(loaded["budgets_file"])["run_time_budget_minutes"] == 60

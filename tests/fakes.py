@@ -17,10 +17,10 @@ class FakeLLM:
         self.default = default
         self.model = model
         self.options = options if options is not None else {"temperature": 0}
-        self.calls: list[tuple[str, str]] = []
+        self.calls: list[tuple[str, str, dict | None]] = []
 
-    def complete(self, system: str, user: str) -> Completion:
-        self.calls.append((system, user))
+    def complete(self, system: str, user: str, schema: dict | None = None) -> Completion:
+        self.calls.append((system, user, schema))
         return Completion(
             text=self.responses.get(user, self.default), input_tokens=10, output_tokens=5, latency_ms=7
         )

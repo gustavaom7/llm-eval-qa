@@ -23,7 +23,7 @@ def test_prompt_contains_question_and_excerpts(retriever):
     llm = FakeLLM()
     question = "How long is the free trial?"
     make_bot(retriever, llm).answer(question)
-    system, user = llm.calls[0]
+    system, user, _ = llm.calls[0]
     assert system == load_system_prompt()
     assert question in user
     for chunk in retriever.retrieve(question, k=3):

@@ -1,0 +1,8 @@
+# Every gate threshold and limit of the evaluation, in one place. The report prints them.
+retrieval_recall_at_3: 0.90
+required_facts_rate: 0.85
+citation_rate: 0.95
+max_input_tokens_per_answer: 2500
+judge_min_mean: {faithfulness: 0.70, answer_relevancy: 0.70, policy_correctness: 0.70}
+live_only: {p95_latency_ms: 20000}
+run_time_budget_minutes: 60
