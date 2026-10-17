@@ -8,6 +8,8 @@ import yaml
 
 from evals.gates import GateResult
 
+NEVER_ACCEPTED = ("Critical failures",)  # spec: 0 critical, no exceptions
+
 
 class BaselineError(ValueError):
     """The known-findings file breaks one of its rules."""
@@ -27,6 +29,8 @@ def check_against_baseline(result: GateResult, known: dict[str, dict[str, str]])
     """Pass when every failure is a known finding; fail on a new failure, or on a known finding that now
     passes (remove it from the baseline so it is guarded again)."""
     accepted = known.get(result.name, {})
+    if result.name in NEVER_ACCEPTED and accepted:
+        raise AssertionError(f"{result.name} cannot be accepted as known findings: the gate is always 0.")
     failing_ids = {failure.split(":", 1)[0] for failure in result.failures}
     new = [f for f in result.failures if f.split(":", 1)[0] not in accepted]
     fixed = sorted(set(accepted) - failing_ids)

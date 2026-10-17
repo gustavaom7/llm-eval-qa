@@ -39,4 +39,5 @@ addopts = "--strict-markers -p no:deepeval"
 markers = [
     "retrieval: retrieval gate, needs no model",
     "quality: gates on recorded bot answers and judge scores",
+    "redteam: zero critical failures over the recorded answers to the red-team set",
 ]

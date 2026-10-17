@@ -59,3 +59,11 @@ def test_build_bot_uses_ollama_with_config_options(tmp_path, monkeypatch):
         "options": {"temperature": 0},
         "timeout": 600,
     }
+
+
+def test_run_bot_accepts_attacks(tmp_path):
+    from evals.redteam import Attack
+
+    attack = Attack("a", "a", "robustness", "plain", "Can I get a refund?")
+    bot = build_bot(config(tmp_path), "record", started=None, llm=FakeLLM(default="No."))
+    assert run_bot(bot, [attack])["a"].text == "No."

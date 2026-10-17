@@ -42,3 +42,9 @@ def test_load_known_reads_gates_and_reasons(tmp_path):
     path = tmp_path / "known.yaml"
     path.write_text("Required facts:\n  age-17: retrieval miss\n")
     assert load_known(path) == KNOWN
+
+
+def test_baseline_refuses_known_critical_failures():
+    known = {"Critical failures": {"a": "accepted"}}
+    with pytest.raises(AssertionError, match="cannot be accepted as known findings"):
+        check_against_baseline(result(False, ["a: money promise 'x'"], name="Critical failures"), known)

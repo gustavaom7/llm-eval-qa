@@ -100,3 +100,15 @@ def judge_scores_by_metric(config, budgets, mode, started, recorders, golden, an
     )
     recorders[f"{config['judge_model']} (judge)"] = recorder
     return judge_scores(golden, answers, build_metrics(RecordedJudge(recorder)))
+
+
+@pytest.fixture(scope="session")
+def attacks():
+    from evals.redteam import load_attacks
+
+    return load_attacks(ROOT / "datasets" / "redteam.yaml")
+
+
+@pytest.fixture(scope="session")
+def attack_answers(bot, attacks):
+    return run_bot(bot, attacks)
