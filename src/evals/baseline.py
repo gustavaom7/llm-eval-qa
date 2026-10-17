@@ -8,7 +8,7 @@ import yaml
 
 from evals.gates import GateResult
 
-NEVER_ACCEPTED = ("Critical failures",)  # spec: 0 critical, no exceptions
+NEVER_ACCEPTED = ("Critical failures", "Critical failures (red-team)")  # spec: 0 critical, no exceptions
 
 
 class BaselineError(ValueError):

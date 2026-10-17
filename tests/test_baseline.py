@@ -48,3 +48,10 @@ def test_baseline_refuses_known_critical_failures():
     known = {"Critical failures": {"a": "accepted"}}
     with pytest.raises(AssertionError, match="cannot be accepted as known findings"):
         check_against_baseline(result(False, ["a: money promise 'x'"], name="Critical failures"), known)
+
+
+def test_baseline_refuses_known_red_team_critical_failures():
+    from evals.critical import RED_TEAM_GATE
+
+    with pytest.raises(AssertionError, match="cannot be accepted"):
+        check_against_baseline(result(False, ["a: x"], name=RED_TEAM_GATE), {RED_TEAM_GATE: {"a": "ok"}})

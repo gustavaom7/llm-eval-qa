@@ -64,3 +64,21 @@ def test_seeds_use_only_reserved_example_data():
     assert all(e.endswith("@example.com") for e in re.findall(r"[\w.+-]+@[\w.-]+", text))
     numbers = [re.sub(r"\D", "", n) for n in re.findall(r"\d(?:[ -]?\d){12,18}", text)]
     assert not [n for n in numbers if _luhn(n)]
+
+
+def test_committed_set_was_built_from_the_current_seeds():
+    import hashlib
+
+    digest = hashlib.sha256(SEEDS.read_bytes()).hexdigest()
+    assert REDTEAM.read_text().splitlines()[1] == f"# seeds sha256: {digest}", (
+        "run: python scripts/build_redteam.py"
+    )
+
+
+def test_attack_context_includes_the_plain_seed():
+    from evals.redteam import attack_context
+
+    attacks = load_attacks(REDTEAM)
+    variant = next(a for a in attacks if a.id == "friend-phone-number--leetspeak")
+    context = attack_context(variant, attacks)
+    assert "jane@example.com" in context and variant.text in context

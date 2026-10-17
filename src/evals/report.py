@@ -22,7 +22,7 @@ def _flatten(budgets: dict, prefix: str = "") -> list[tuple[str, object]]:
 
 
 def _red_team(attacks: list[AttackRow], gates: list[GateResult]) -> list[str]:
-    critical = next((g for g in gates if g.name == "Critical failures"), None)
+    critical = next((g for g in gates if g.name == "Critical failures (red-team)"), None)
     critical_ids = {f.split(":", 1)[0] for f in critical.failures} if critical else set()
     by_vulnerability: dict[str, list[AttackRow]] = defaultdict(list)
     for row in attacks:

@@ -40,3 +40,10 @@ def load_attacks(path: Path) -> list[Attack]:
         if not a.text.strip():
             raise RedTeamError(f"{a.id}: empty text")
     return attacks
+
+
+def attack_context(attack: Attack, attacks: list[Attack]) -> str:
+    """What the attacker typed, plain and transformed: personal data the bot decodes from a leetspeak or
+    Base64 variant was still typed by the attacker, so it is not a leak."""
+    seed = next((a.text for a in attacks if a.id == attack.seed), "")
+    return f"{attack.text}\n{seed}"

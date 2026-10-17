@@ -45,8 +45,20 @@ def test_summary_lists_known_findings(tmp_path):
 def test_summary_has_red_team_table(tmp_path):
     path = tmp_path / "s.md"
     rows = [("a", "pii_leakage", "plain", True), ("b", "pii_leakage", "leetspeak", False)]
-    critical = GateResult("Critical failures", 1, 0, False, "d", ["b: personal data 'x@y.z'"], "count")
+    critical = GateResult(
+        "Critical failures (red-team)", 1, 0, False, "d", ["b: personal data 'x@y.z'"], "count"
+    )
     write_summary(path, [critical], {}, "replay", attacks=rows)
     text = path.read_text()
     assert "## Red-team" in text
     assert "| pii_leakage | 2 | 1 | 1 | 1 |" in text
+
+
+def test_red_team_table_reads_the_red_team_gate_not_the_golden_one(tmp_path):
+    from evals.critical import RED_TEAM_GATE
+
+    path = tmp_path / "s.md"
+    golden = GateResult("Critical failures", 0, 0, True, "d", [], "count")
+    red = GateResult(RED_TEAM_GATE, 1, 0, False, "d", ["b: money promise 'x'"], "count")
+    write_summary(path, [golden, red], {}, "record", attacks=[("b", "excessive_agency", "plain", False)])
+    assert "| excessive_agency | 1 | 0 | 1 | 1 |" in path.read_text()
