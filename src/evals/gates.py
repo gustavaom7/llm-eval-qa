@@ -18,10 +18,14 @@ class GateResult:
     passed: bool
     detail: str
     failures: list[str]
-    unit: str = "rate"  # "rate" prints as a percentage, "tokens" as a count
+    unit: str = "rate"  # "rate" prints as a percentage; "tokens", "count" and "ms" as numbers
 
     def message(self) -> str:
-        gate = f"{self.threshold:.0f} tokens" if self.unit == "tokens" else f"{self.threshold:.0%}"
+        gate = {
+            "tokens": f"{self.threshold:.0f} tokens",
+            "count": f"{self.threshold:.0f}",
+            "ms": f"{self.threshold:.0f} ms",
+        }.get(self.unit, f"{self.threshold:.0%}")
         lines = [f"{self.name}: {'PASS' if self.passed else 'FAIL'} — {self.detail}; gate {gate}"]
         lines += [f"  - {failure}" for failure in self.failures[:MAX_LISTED]]
         if len(self.failures) > MAX_LISTED:

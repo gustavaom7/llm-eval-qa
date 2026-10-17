@@ -14,7 +14,7 @@ def _percentile(values: list[int], p: float) -> int:
 
 
 def _format(result: GateResult, value: float) -> str:
-    return f"{value:.0f}" if result.unit == "tokens" else f"{value:.0%}"
+    return f"{value:.0%}" if result.unit == "rate" else f"{value:.0f}"
 
 
 def write_summary(path: Path, gates: list[GateResult], latencies_ms: dict[str, list[int]], mode: str) -> None:
