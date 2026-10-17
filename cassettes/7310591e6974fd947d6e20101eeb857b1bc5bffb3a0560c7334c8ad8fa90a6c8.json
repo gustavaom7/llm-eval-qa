@@ -1,0 +1,7 @@
+{
+  "input_tokens": 489,
+  "latency_ms": 23165,
+  "model": "qwen2.5:7b",
+  "output_tokens": 79,
+  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that refunds are only available if less than 2 hours of content have been watched since the payment, which implies that watching more than 2 hours could make the refund unavailable.\"\n}\n]\n}"
+}

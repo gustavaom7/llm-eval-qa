@@ -1,0 +1,7 @@
+{
+  "input_tokens": 466,
+  "latency_ms": 16493,
+  "model": "qwen2.5:7b",
+  "output_tokens": 37,
+  "text": "No, the change takes effect at the next billing date. Until then, you keep the features of your current Premium plan. Sources: plan-changes.md, plan-changes.md"
+}

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 468,
+  "latency_ms": 17853,
+  "model": "qwen2.5:7b",
+  "output_tokens": 44,
+  "text": "Yes, to stream in 4K you need at least a 15 Mbps internet speed. Slower connections will still work but the video quality may adjust automatically. Sources: streaming-quality.md, streaming-quality.md"
+}

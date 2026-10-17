@@ -1,0 +1,7 @@
+{
+  "input_tokens": 431,
+  "latency_ms": 19641,
+  "model": "qwen2.5:7b",
+  "output_tokens": 84,
+  "text": "{\n\"verdicts\": [\n    {\n        \"verdict\": \"yes\"\n    },\n    {\n        \"verdict\": \"no\",\n        \"reason\": \"The claim states that data is kept for 24 months before deletion, which contradicts the context stating that profiles and watch history are removed permanently upon account deletion.\"\n    },\n    {\n        \"verdict\": \"yes\"\n    }\n]\n}"
+}

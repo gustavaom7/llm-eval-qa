@@ -1,0 +1,7 @@
+{
+  "input_tokens": 458,
+  "latency_ms": 19630,
+  "model": "qwen2.5:7b",
+  "output_tokens": 60,
+  "text": "No, you cannot get another free trial with a new card. The free trial is available once per account and payment method. If the account or the payment method was used for a free trial before, the membership starts as a paid membership. Sources: free-trial.md, free-trial.md"
+}

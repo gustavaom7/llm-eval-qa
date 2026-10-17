@@ -1,0 +1,7 @@
+{
+  "input_tokens": 368,
+  "latency_ms": 30965,
+  "model": "qwen2.5:7b",
+  "output_tokens": 146,
+  "text": "{\n  \"truths\": [\n    \"You can pause your membership once per 12 months.\",\n    \"The 12 months for pausing start from the start of your last pause.\",\n    \"You can pause your membership for up to 3 months instead of cancelling.\",\n    \"While your membership is paused, you are not charged and cannot stream.\",\n    \"Your profiles and watch history are kept while your membership is paused.\",\n    \"Your membership resumes automatically at the end of the pause period.\",\n    \"You are charged on the end day of the pause period, which becomes your new billing date.\",\n    \"You can also resume your membership early by doing so in your Account > Membership section.\"\n  ]\n}"
+}

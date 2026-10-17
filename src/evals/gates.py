@@ -34,7 +34,10 @@ def _rate(passed: int, total: int) -> float:
 
 
 def _normalise(text: str) -> str:
-    return text.lower().replace("–", "-").replace("—", "-")  # "5–10" and "5-10" are the same fact
+    """Lowercase, and treat hyphens and dashes as spaces: "7-day" matches "7 days", "5–10" matches "5-10"."""
+    for dash in "-–—":
+        text = text.replace(dash, " ")
+    return " ".join(text.lower().split())
 
 
 def _contains(text: str, phrase: str) -> bool:
@@ -67,7 +70,8 @@ def required_facts(items: list[GoldenItem], answers: dict[str, Answer], threshol
     failures = []
     complete = 0
     for item in scoped:
-        missing = [f for f in item.must_include if not _contains(answers[item.id].text, f)]
+        text = answers[item.id].text
+        missing = [phrasings[0] for phrasings in item.facts if not any(_contains(text, p) for p in phrasings)]
         if missing:
             failures.append(f"{item.id}: missing {', '.join(repr(f) for f in missing)}")
         else:

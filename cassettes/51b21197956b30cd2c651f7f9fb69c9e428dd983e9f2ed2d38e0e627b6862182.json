@@ -1,0 +1,7 @@
+{
+  "input_tokens": 369,
+  "latency_ms": 28711,
+  "model": "qwen2.5:7b",
+  "output_tokens": 132,
+  "text": "{\n  \"truths\": [\n    \"Refunds are only available within 14 days of the first payment.\",\n    \"Refunds are only granted if less than 2 hours have been watched on the account since the first payment.\",\n    \"Refunds are only applicable once per account.\",\n    \"Refunds for Lumen+ payments are generally not available.\",\n    \"Unused days after canceling are not refunded.\",\n    \"Partial months are not refunded.\",\n    \"Annual plans after the first 14 days are not refunded.\",\n    \"Gift card purchases are not refunded.\",\n    \"Support agents cannot make exceptions to the refund policy.\"\n  ]\n}"
+}

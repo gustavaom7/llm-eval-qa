@@ -102,3 +102,19 @@ def test_metrics_ignore_a_configured_eval_mode(tmp_path, monkeypatch):
     metrics = build_metrics(recorded(tmp_path, FakeLLM(responder=good_judge)))
     assert metrics["faithfulness"].eval_mode.value == "llm"
     assert metrics["answer_relevancy"].eval_mode.value == "llm"
+
+
+def test_policy_correctness_compares_with_the_reference_answer(tmp_path):
+    item = GoldenItem(
+        "judged",
+        "Can I get a refund?",
+        "fact",
+        ["refunds.md"],
+        ["14 days"],
+        [],
+        judge=True,
+        reference_answer="Yes, within 14 days of your first payment.",
+    )
+    llm = FakeLLM(responder=good_judge)
+    judge_scores([item], ANSWERS, {"p": build_metrics(recorded(tmp_path, llm))["policy_correctness"]})
+    assert any("Yes, within 14 days of your first payment." in user for _, user, _ in llm.calls)

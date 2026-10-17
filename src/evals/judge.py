@@ -85,7 +85,7 @@ def judge_scores(
             input=item.question,
             actual_output=answer.text,
             retrieval_context=answer.contexts,
-            expected_output="; ".join(item.must_include),
+            expected_output=item.reference_answer or "; ".join(item.canonical_facts),
         )
         for name, metric in metrics.items():
             try:

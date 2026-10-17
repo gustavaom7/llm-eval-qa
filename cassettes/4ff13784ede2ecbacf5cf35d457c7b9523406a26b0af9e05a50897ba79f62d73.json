@@ -1,0 +1,7 @@
+{
+  "input_tokens": 465,
+  "latency_ms": 16712,
+  "model": "qwen2.5:7b",
+  "output_tokens": 38,
+  "text": "No, you cannot use two promo codes on your membership at the same time. Promo codes cannot be combined: only one promotion applies to a membership at a time. Sources: promotions.md"
+}

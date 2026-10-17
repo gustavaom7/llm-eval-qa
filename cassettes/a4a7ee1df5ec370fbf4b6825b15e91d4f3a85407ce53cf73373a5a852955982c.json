@@ -1,0 +1,7 @@
+{
+  "input_tokens": 370,
+  "latency_ms": 15112,
+  "model": "qwen2.5:7b",
+  "output_tokens": 66,
+  "text": "{\n  \"claims\": [\n    \"Refunds are only available within 14 days of the first payment.\",\n    \"A refund is not available 15 days after the first payment.\",\n    \"Refunds are only available if under 2 hours have been watched on the account since the first payment.\"\n  ]\n}"
+}

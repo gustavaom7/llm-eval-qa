@@ -1,0 +1,7 @@
+{
+  "input_tokens": 459,
+  "latency_ms": 15914,
+  "model": "qwen2.5:7b",
+  "output_tokens": 36,
+  "text": "Yes, you can create up to 5 profiles per account. Each profile has its own watch history, recommendations, and My List. Sources: profiles.md, family-sharing.md"
+}

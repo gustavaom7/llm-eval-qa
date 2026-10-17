@@ -1,0 +1,7 @@
+{
+  "input_tokens": 456,
+  "latency_ms": 17235,
+  "model": "qwen2.5:7b",
+  "output_tokens": 44,
+  "text": "No, Lumen+ does not offer phone support. You can contact support through email, but they will verify your identity by sending a code to the account's email address. Sources: contact.md, account-security.md"
+}

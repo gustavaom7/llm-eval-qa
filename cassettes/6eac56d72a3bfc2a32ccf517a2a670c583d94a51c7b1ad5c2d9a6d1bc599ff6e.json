@@ -1,0 +1,7 @@
+{
+  "input_tokens": 327,
+  "latency_ms": 19135,
+  "model": "qwen2.5:7b",
+  "output_tokens": 67,
+  "text": "{\n  \"reason\": \"The response correctly states the cost and number of devices for the Standard plan, aligning with the expected output. However, it uses a different sentence structure, which slightly deviates from the expected wording. There are no contradictions, and the Sources line is included.\",\n  \"score\": 8\n}"
+}

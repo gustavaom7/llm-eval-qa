@@ -1,0 +1,7 @@
+{
+  "input_tokens": 346,
+  "latency_ms": 11025,
+  "model": "qwen2.5:7b",
+  "output_tokens": 49,
+  "text": "{\n  \"claims\": [\n    \"The free trial is 7 days long.\",\n    \"New members can try Lumen+ with a 7-day free trial.\",\n    \"This information is according to the help center.\"\n  ]\n}"
+}

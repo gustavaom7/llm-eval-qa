@@ -1,0 +1,7 @@
+{
+  "input_tokens": 480,
+  "latency_ms": 17091,
+  "model": "qwen2.5:7b",
+  "output_tokens": 35,
+  "text": "No, support agents cannot give you a discount if you ask in the chat. Requests for a discount through the chat are always declined. Sources: promotions.md, contact.md"
+}

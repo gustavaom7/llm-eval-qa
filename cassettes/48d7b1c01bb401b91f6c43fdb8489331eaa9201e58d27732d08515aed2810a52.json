@@ -1,0 +1,7 @@
+{
+  "input_tokens": 484,
+  "latency_ms": 18791,
+  "model": "qwen2.5:7b",
+  "output_tokens": 43,
+  "text": "No, you do not get money back for the unused months. According to the policy, unused days and partial months are not refunded after cancelling an annual plan. Sources: plans-and-prices.md, refunds.md"
+}
