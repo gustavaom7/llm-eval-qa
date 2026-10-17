@@ -106,7 +106,13 @@ def test_metrics_ignore_a_configured_eval_mode(tmp_path, monkeypatch):
 
 def test_policy_correctness_compares_with_the_reference_answer(tmp_path):
     item = GoldenItem(
-        "judged", "Can I get a refund?", "fact", ["refunds.md"], ["14 days"], [], judge=True,
+        "judged",
+        "Can I get a refund?",
+        "fact",
+        ["refunds.md"],
+        ["14 days"],
+        [],
+        judge=True,
         reference_answer="Yes, within 14 days of your first payment.",
     )
     llm = FakeLLM(responder=good_judge)

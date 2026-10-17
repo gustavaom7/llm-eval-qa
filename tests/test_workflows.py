@@ -44,5 +44,7 @@ def test_record_workflow_saves_cassettes_before_failing_on_gates():
     assert names.index("Push cassettes") < names.index("Fail if a gate failed")
 
 
-def test_ci_skips_quality_until_first_recording():
-    assert '-m "not quality"' in (WORKFLOWS / "ci.yml").read_text()
+def test_ci_runs_every_gate_on_recorded_answers():
+    text = (WORKFLOWS / "ci.yml").read_text()
+    assert "run: pytest -v\n" in text
+    assert "not quality" not in text

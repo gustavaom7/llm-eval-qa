@@ -1,7 +1,0 @@
-{
-  "input_tokens": 317,
-  "latency_ms": 20275,
-  "model": "qwen2.5:7b",
-  "output_tokens": 84,
-  "text": "{\n  \"reason\": \"The response correctly states the minimum required internet speed (15 Mbps) for 4K streaming, aligning with the expected output. However, it includes additional information about slower connections, which is not present in the expected output and could be seen as extraneous. The Sources line is also included, which is not required by the evaluation steps.\",\n  \"score\": 8\n}"
-}
