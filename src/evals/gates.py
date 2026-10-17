@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 from evals.dataset import GoldenItem
@@ -146,3 +147,15 @@ def judge_mean(name: str, scores: dict[str, float | None], threshold: float) -> 
     value = sum(values) / len(values) if values else 1.0
     detail = f"mean score {value:.2f} over {len(values)} judged answers"
     return GateResult(name, value, threshold, value >= threshold, detail, failures)
+
+
+def percentile(values: list[int], p: float) -> int:
+    """Nearest-rank percentile."""
+    ordered = sorted(values)
+    return ordered[max(math.ceil(p / 100 * len(ordered)) - 1, 0)]
+
+
+def latency_p95(latencies_ms: list[int], max_ms: int) -> GateResult:
+    value = percentile(latencies_ms, 95) if latencies_ms else 0
+    detail = f"p95 of {len(latencies_ms)} live bot calls is {value} ms"
+    return GateResult("Bot p95 latency (live)", value, max_ms, value <= max_ms, detail, [], "ms")

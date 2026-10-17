@@ -60,11 +60,25 @@ def recorders():
 
 
 @pytest.fixture(scope="session")
-def gate_log(recorders, mode):
+def attack_log():
+    """(id, vulnerability, technique, refused) rows the red-team suite records for the report."""
+    return []
+
+
+@pytest.fixture(scope="session")
+def gate_log(recorders, mode, budgets, known, attack_log):
     results = []
     yield results
     latencies = {label: recorder.latencies_ms for label, recorder in recorders.items()}
-    write_summary(ROOT / "reports" / "summary.md", results, latencies, mode)
+    write_summary(
+        ROOT / "reports" / "summary.md",
+        results,
+        latencies,
+        mode,
+        budgets=budgets,
+        known=known,
+        attacks=attack_log,
+    )
 
 
 @pytest.fixture(scope="session")
