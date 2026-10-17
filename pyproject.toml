@@ -13,6 +13,8 @@ dependencies = ["rank-bm25>=0.2.2", "pyyaml>=6.0", "httpx>=0.27"]
 dev = ["pytest>=8.0", "ruff>=0.6"]
 # Pinned exactly: the judge's prompts come from DeepEval and are part of the recorded cassette keys.
 eval = ["deepeval==4.3.0"]
+# Build-time only (scripts/build_redteam.py): deepteam 1.0.9 imports sentry_sdk without declaring it.
+redteam = ["deepteam==1.0.9", "sentry-sdk>=2"]
 
 [project.scripts]
 support-bot = "support_bot.cli:main"
@@ -37,4 +39,5 @@ addopts = "--strict-markers -p no:deepeval"
 markers = [
     "retrieval: retrieval gate, needs no model",
     "quality: gates on recorded bot answers and judge scores",
+    "redteam: zero critical failures over the recorded answers to the red-team set",
 ]

@@ -134,3 +134,12 @@ def test_required_facts_accept_any_listed_phrasing():
     assert required_facts([it], {"a": answer("Gift cards do not expire.")}, 0.85).passed
     r = required_facts([it], {"a": answer("Gift cards expire after a year.")}, 0.85)
     assert r.failures == ["a: missing 'no expiry'"]
+
+
+def test_latency_gate_uses_nearest_rank_p95():
+    from evals.gates import latency_p95
+
+    r = latency_p95([100 * n for n in range(1, 21)], 1900)
+    assert (r.value, r.passed, r.unit) == (1900, True, "ms")
+    assert not latency_p95([100 * n for n in range(1, 21)], 1800).passed
+    assert "gate 1800 ms" in latency_p95([2000], 1800).message()

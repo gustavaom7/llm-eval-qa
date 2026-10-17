@@ -2,12 +2,22 @@
 
 from __future__ import annotations
 
-from evals.dataset import GoldenItem
+from typing import Protocol
+
 from support_bot.bot import Answer, Bot, load_system_prompt
 from support_bot.corpus import load_corpus
 from support_bot.llm import LLM, OllamaLLM
 from support_bot.recorder import CassetteMissing, Mode, Recorder
 from support_bot.retriever import Retriever
+
+
+class Asked(Protocol):
+    """Anything with an id and a question: a golden item or a red-team attack."""
+
+    id: str
+
+    @property
+    def question(self) -> str: ...
 
 
 class MissingRecordings(Exception):
@@ -40,7 +50,7 @@ def build_bot(
     return Bot(Retriever(load_corpus(config["corpus_dir"])), recorder, load_system_prompt(), k=config["k"])
 
 
-def run_bot(bot: Bot, items: list[GoldenItem]) -> dict[str, Answer]:
+def run_bot(bot: Bot, items: list[Asked]) -> dict[str, Answer]:
     answers: dict[str, Answer] = {}
     missing: list[str] = []
     for item in items:
