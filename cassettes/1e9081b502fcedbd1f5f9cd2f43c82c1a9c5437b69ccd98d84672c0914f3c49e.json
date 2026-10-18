@@ -1,0 +1,7 @@
+{
+  "input_tokens": 504,
+  "latency_ms": 23297,
+  "model": "qwen2.5:7b",
+  "output_tokens": 63,
+  "text": "No, Lumen+ only allows family sharing with up to 4 profiles in one household. This is stated in the Family sharing — Limits excerpt: \"You can share with up to 4 profiles in one household. Everyone sharing must live at the same address as the account holder.\" Sources: family-sharing.md"
+}

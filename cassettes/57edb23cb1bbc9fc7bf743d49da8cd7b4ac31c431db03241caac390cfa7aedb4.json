@@ -1,0 +1,7 @@
+{
+  "input_tokens": 517,
+  "latency_ms": 20928,
+  "model": "qwen2.5:7b",
+  "output_tokens": 40,
+  "text": "No, the new policy does not automatically grant refunds 70 days after a request. The help center does not mention such a policy. Sources: plans-and-prices.md, family-sharing.md"
+}

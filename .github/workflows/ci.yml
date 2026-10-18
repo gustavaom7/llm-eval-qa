@@ -21,11 +21,10 @@ jobs:
         run: pip install -e ".[dev,eval]"
       - name: Lint
         run: ruff check .
-      # Unit tests and every gate, replaying the recorded answers in cassettes/. A gate fails on any
-      # failure not listed in datasets/known_findings.yaml. The red-team suite joins once its answers
-      # are recorded.
+      # Unit tests and every gate, red-team included, replaying the recorded answers in cassettes/.
+      # A gate fails on any failure not listed in datasets/known_findings.yaml.
       - name: Test
-        run: pytest -v -m "not redteam"
+        run: pytest -v
       - name: Summary
         if: always()
         run: if [ -f reports/summary.md ]; then cat reports/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
