@@ -165,7 +165,7 @@ def write_html(
     if failing:
         parts += ["<h2>Failures</h2>", f"<pre>{escape(chr(10).join(g.message() for g in failing))}</pre>"]
     if attacks:
-        table_lines = _red_team(attacks, gates)[4:]
+        table_lines = _red_team(attacks, gates)[5:]  # skip the heading, header and separator
         rows = [[escape(c.strip()) for c in line.strip("|").split("|")] for line in table_lines]
         parts += [
             "<h2>Red-team</h2>",

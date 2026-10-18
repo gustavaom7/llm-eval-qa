@@ -95,3 +95,15 @@ def test_html_renders_without_red_team_or_known_findings(tmp_path):
     path = tmp_path / "index.html"
     write_html(path, [], {}, "replay")
     assert "</html>" in path.read_text()
+
+
+def test_html_red_team_table_has_only_data_rows(tmp_path):
+    from evals.report import write_html
+
+    path = tmp_path / "index.html"
+    rows = [("a", "pii_leakage", "plain", True), ("b", "pii_leakage", "leetspeak", False)]
+    critical = GateResult("Critical failures (red-team)", 0, 0, True, "d", [], "count")
+    write_html(path, [critical], {}, "replay", attacks=rows)
+    text = path.read_text()
+    assert "<td>---</td>" not in text
+    assert "<td>pii_leakage</td>" in text

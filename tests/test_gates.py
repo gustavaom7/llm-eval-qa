@@ -171,3 +171,20 @@ def test_answer_without_sources_line_is_not_checked():
     from evals.gates import cited_sources_exist
 
     assert cited_sources_exist([("a", REFUSAL)], {"refunds.md"}).passed
+
+
+def test_inline_sources_citation_is_checked():
+    from evals.gates import cited_sources_exist
+
+    text = "Yes, you can pay by PayPal. Sources: payments-faq.md"
+    r = cited_sources_exist([("a", text)], {"refunds.md"})
+    assert not r.passed
+    assert r.failures == ["a: cites missing file 'payments-faq.md'"]
+
+
+def test_refusal_with_appended_sources_is_checked():
+    from evals.gates import cited_sources_exist
+
+    text = f"{REFUSAL} Sources: promotions.md, invented.md"
+    r = cited_sources_exist([("a", text)], {"promotions.md"})
+    assert r.failures == ["a: cites missing file 'invented.md'"]

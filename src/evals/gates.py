@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import re
 from dataclasses import dataclass
 
 from evals.dataset import GoldenItem
@@ -162,20 +163,19 @@ def latency_p95(latencies_ms: list[int], max_ms: int) -> GateResult:
 
 
 def _cited_files(answer: str) -> list[str]:
-    lines = [line.strip() for line in answer.splitlines() if line.strip().lower().startswith("sources:")]
-    if not lines:
+    """Files after the last "Sources:", which the bot writes on its own line or at the end of the answer."""
+    cited = re.findall(r"sources:(.*)$", answer, re.IGNORECASE | re.MULTILINE)
+    if not cited:
         return []
-    names = [
-        n.strip().strip("'\"`").rstrip(".;").strip("'\"`") for n in lines[-1].split(":", 1)[1].split(",")
-    ]
+    names = [n.strip().strip("'\"`").rstrip(".;").strip("'\"`") for n in cited[-1].split(",")]
     return list(dict.fromkeys(n for n in names if n))
 
 
 def cited_sources_exist(
     cases: list[tuple[str, str]], corpus_files: set[str], name: str = "Cited sources exist"
 ) -> GateResult:
-    """Every file named on an answer's Sources line must be a corpus file. Answers without a Sources line
-    (the fixed refusal) are not checked; the citation gate covers in-scope answers."""
+    """Every file an answer cites after "Sources:" must be a corpus file, refusals included. Answers that
+    cite nothing are not checked; the citation gate covers in-scope answers."""
     failures = [
         f"{case_id}: cites missing file {f!r}"
         for case_id, answer in cases
