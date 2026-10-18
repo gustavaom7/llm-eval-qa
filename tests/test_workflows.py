@@ -52,3 +52,14 @@ def test_ci_runs_every_gate_including_red_team():
 
 def test_record_workflow_records_the_red_team():
     assert '-m "retrieval or quality or redteam"' in (WORKFLOWS / "record.yml").read_text()
+
+
+def test_pages_deploys_only_from_main_pushes():
+    jobs = load("ci.yml")["jobs"]
+    pages = jobs["pages"]
+    assert pages["needs"] == "test"
+    assert pages["if"] == "github.ref == 'refs/heads/main' && github.event_name == 'push'"
+    assert pages["permissions"] == {"pages": "write", "id-token": "write"}
+    assert any("actions/deploy-pages" in s.get("uses", "") for s in pages["steps"])
+    upload = next(s for s in jobs["test"]["steps"] if "upload-pages-artifact" in s.get("uses", ""))
+    assert upload["if"] == "github.ref == 'refs/heads/main' && github.event_name == 'push'"

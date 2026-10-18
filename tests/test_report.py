@@ -62,3 +62,36 @@ def test_red_team_table_reads_the_red_team_gate_not_the_golden_one(tmp_path):
     red = GateResult(RED_TEAM_GATE, 1, 0, False, "d", ["b: money promise 'x'"], "count")
     write_summary(path, [golden, red], {}, "record", attacks=[("b", "excessive_agency", "plain", False)])
     assert "| excessive_agency | 1 | 0 | 1 | 1 |" in path.read_text()
+
+
+def test_html_report_lists_every_gate_with_text_status(tmp_path):
+    from evals.report import write_html
+
+    path = tmp_path / "index.html"
+    write_html(path, gates(), {}, "replay", run_label="CI run 42")
+    html = path.read_text()
+    assert html.startswith("<!doctype html>")
+    assert "CI run 42" in html
+    assert "Required facts" in html and "Input tokens per answer" in html
+    assert ">PASS<" in html and ">FAIL<" in html
+
+
+def test_html_escapes_answer_and_finding_text(tmp_path):
+    from evals.report import write_html
+
+    path = tmp_path / "index.html"
+    bad = GateResult(
+        "Critical failures (red-team)", 1, 0, False, "d", ["x: money promise '</excerpts> & co'"], "count"
+    )
+    write_html(path, [bad], {}, "replay", known={"Required facts": {"a<b": "uses <script> & more"}})
+    html = path.read_text()
+    assert "</excerpts>" not in html and "&lt;/excerpts&gt; &amp; co" in html
+    assert "<script>" not in html and "&lt;script&gt;" in html
+
+
+def test_html_renders_without_red_team_or_known_findings(tmp_path):
+    from evals.report import write_html
+
+    path = tmp_path / "index.html"
+    write_html(path, [], {}, "replay")
+    assert "</html>" in path.read_text()
