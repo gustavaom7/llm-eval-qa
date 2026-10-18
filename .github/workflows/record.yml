@@ -22,6 +22,7 @@ permissions:
 env:
   MODE: ${{ github.event.inputs.mode || 'live' }}
   DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
+  DEEPTEAM_TELEMETRY_OPT_OUT: "YES"
 
 jobs:
   evaluate:
@@ -51,7 +52,7 @@ jobs:
       - name: Evaluate
         id: evals
         continue-on-error: true
-        run: pytest tests/evals -m "retrieval or quality" --mode "$MODE" -v
+        run: pytest tests/evals -m "retrieval or quality or redteam" --mode "$MODE" -v
       - name: Summary
         if: always()
         run: |

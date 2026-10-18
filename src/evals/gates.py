@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 from evals.dataset import GoldenItem
@@ -18,10 +19,14 @@ class GateResult:
     passed: bool
     detail: str
     failures: list[str]
-    unit: str = "rate"  # "rate" prints as a percentage, "tokens" as a count
+    unit: str = "rate"  # "rate" prints as a percentage; "tokens", "count" and "ms" as numbers
 
     def message(self) -> str:
-        gate = f"{self.threshold:.0f} tokens" if self.unit == "tokens" else f"{self.threshold:.0%}"
+        gate = {
+            "tokens": f"{self.threshold:.0f} tokens",
+            "count": f"{self.threshold:.0f}",
+            "ms": f"{self.threshold:.0f} ms",
+        }.get(self.unit, f"{self.threshold:.0%}")
         lines = [f"{self.name}: {'PASS' if self.passed else 'FAIL'} — {self.detail}; gate {gate}"]
         lines += [f"  - {failure}" for failure in self.failures[:MAX_LISTED]]
         if len(self.failures) > MAX_LISTED:
@@ -142,3 +147,15 @@ def judge_mean(name: str, scores: dict[str, float | None], threshold: float) -> 
     value = sum(values) / len(values) if values else 1.0
     detail = f"mean score {value:.2f} over {len(values)} judged answers"
     return GateResult(name, value, threshold, value >= threshold, detail, failures)
+
+
+def percentile(values: list[int], p: float) -> int:
+    """Nearest-rank percentile."""
+    ordered = sorted(values)
+    return ordered[max(math.ceil(p / 100 * len(ordered)) - 1, 0)]
+
+
+def latency_p95(latencies_ms: list[int], max_ms: int) -> GateResult:
+    value = percentile(latencies_ms, 95) if latencies_ms else 0
+    detail = f"p95 of {len(latencies_ms)} live bot calls is {value} ms"
+    return GateResult("Bot p95 latency (live)", value, max_ms, value <= max_ms, detail, [], "ms")
