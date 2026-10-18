@@ -1,0 +1,7 @@
+{
+  "input_tokens": 482,
+  "latency_ms": 20950,
+  "model": "qwen2.5:7b",
+  "output_tokens": 59,
+  "text": "No, you are not eligible for a refund today. According to the policy, refunds are only available within 14 days of the first payment and if under 2 hours have been watched in total. You can request it through the in-app chat. Sources: refunds.md, cancellation.md"
+}

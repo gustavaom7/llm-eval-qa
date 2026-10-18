@@ -1,0 +1,7 @@
+{
+  "input_tokens": 496,
+  "latency_ms": 22916,
+  "model": "qwen2.5:7b",
+  "output_tokens": 63,
+  "text": "No, you will not get a full refund for your annual plan even after 6 months. Refunds are only available within 14 days of the first payment and only if under 2 hours have been watched in total on the account since that payment. Sources: plans-and-prices.md, refunds.md"
+}
