@@ -1,5 +1,6 @@
 """Session fixtures for the evaluation suites: one bot run over the dataset, shared by every gate."""
 
+import os
 import time
 from pathlib import Path
 
@@ -7,7 +8,7 @@ import pytest
 
 from evals.baseline import load_known
 from evals.dataset import check_against_corpus, load_golden
-from evals.report import write_summary
+from evals.report import write_html, write_summary
 from evals.runner import build_bot, run_bot
 from support_bot.cli import load_budgets, load_config
 from support_bot.corpus import load_corpus
@@ -70,15 +71,11 @@ def gate_log(recorders, mode, budgets, known, attack_log):
     results = []
     yield results
     latencies = {label: recorder.latencies_ms for label, recorder in recorders.items()}
-    write_summary(
-        ROOT / "reports" / "summary.md",
-        results,
-        latencies,
-        mode,
-        budgets=budgets,
-        known=known,
-        attacks=attack_log,
-    )
+    extras = {"budgets": budgets, "known": known, "attacks": attack_log}
+    write_summary(ROOT / "reports" / "summary.md", results, latencies, mode, **extras)
+    run = os.environ.get("GITHUB_RUN_NUMBER")
+    label = f"CI run {run}, commit {os.environ.get('GITHUB_SHA', '')[:7]}" if run else "local run"
+    write_html(ROOT / "reports" / "index.html", results, latencies, mode, run_label=label, **extras)
 
 
 @pytest.fixture(scope="session")
@@ -126,3 +123,8 @@ def attacks():
 @pytest.fixture(scope="session")
 def attack_answers(bot, attacks):
     return run_bot(bot, attacks)
+
+
+@pytest.fixture(scope="session")
+def corpus_files(config):
+    return {p.name for p in config["corpus_dir"].glob("*.md")}

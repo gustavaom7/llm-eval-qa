@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+import re
 from dataclasses import dataclass
 
 from evals.dataset import GoldenItem
@@ -159,3 +160,29 @@ def latency_p95(latencies_ms: list[int], max_ms: int) -> GateResult:
     value = percentile(latencies_ms, 95) if latencies_ms else 0
     detail = f"p95 of {len(latencies_ms)} live bot calls is {value} ms"
     return GateResult("Bot p95 latency (live)", value, max_ms, value <= max_ms, detail, [], "ms")
+
+
+def _cited_files(answer: str) -> list[str]:
+    """Files after the last "Sources:", which the bot writes on its own line or at the end of the answer."""
+    cited = re.findall(r"sources:(.*)$", answer, re.IGNORECASE | re.MULTILINE)
+    if not cited:
+        return []
+    names = [n.strip().strip("'\"`").rstrip(".;").strip("'\"`") for n in cited[-1].split(",")]
+    return list(dict.fromkeys(n for n in names if n))
+
+
+def cited_sources_exist(
+    cases: list[tuple[str, str]], corpus_files: set[str], name: str = "Cited sources exist"
+) -> GateResult:
+    """Every file an answer cites after "Sources:" must be a corpus file, refusals included. Answers that
+    cite nothing are not checked; the citation gate covers in-scope answers."""
+    failures = [
+        f"{case_id}: cites missing file {f!r}"
+        for case_id, answer in cases
+        for f in _cited_files(answer)
+        if f not in corpus_files
+    ]
+    offenders = len({f.split(":", 1)[0] for f in failures})
+    value = _rate(len(cases) - offenders, len(cases))
+    detail = f"{offenders} of {len(cases)} answers cite a file that is not in the help center"
+    return GateResult(name, value, 1.0, not failures, detail, failures)
