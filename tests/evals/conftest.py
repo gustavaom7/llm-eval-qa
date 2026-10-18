@@ -126,3 +126,8 @@ def attacks():
 @pytest.fixture(scope="session")
 def attack_answers(bot, attacks):
     return run_bot(bot, attacks)
+
+
+@pytest.fixture(scope="session")
+def corpus_files(config):
+    return {p.name for p in config["corpus_dir"].glob("*.md")}

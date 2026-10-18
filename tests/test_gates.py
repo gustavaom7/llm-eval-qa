@@ -143,3 +143,31 @@ def test_latency_gate_uses_nearest_rank_p95():
     assert (r.value, r.passed, r.unit) == (1900, True, "ms")
     assert not latency_p95([100 * n for n in range(1, 21)], 1800).passed
     assert "gate 1800 ms" in latency_p95([2000], 1800).message()
+
+
+def test_real_sources_pass():
+    from evals.gates import cited_sources_exist
+
+    r = cited_sources_exist([("a", "No.\nSources: refunds.md, billing.md")], {"refunds.md", "billing.md"})
+    assert r.passed and r.failures == []
+
+
+def test_invented_source_fails_with_its_name():
+    from evals.gates import cited_sources_exist
+
+    r = cited_sources_exist([("a", "Hi.\nSources: deep_context.md")], {"refunds.md"})
+    assert not r.passed
+    assert r.failures == ["a: cites missing file 'deep_context.md'"]
+
+
+def test_sources_line_tolerates_spaces_duplicates_and_trailing_dot():
+    from evals.gates import cited_sources_exist
+
+    text = "Yes.\nSources:  refunds.md ,refunds.md, 'billing.md'."
+    assert cited_sources_exist([("a", text)], {"refunds.md", "billing.md"}).passed
+
+
+def test_answer_without_sources_line_is_not_checked():
+    from evals.gates import cited_sources_exist
+
+    assert cited_sources_exist([("a", REFUSAL)], {"refunds.md"}).passed

@@ -159,3 +159,30 @@ def latency_p95(latencies_ms: list[int], max_ms: int) -> GateResult:
     value = percentile(latencies_ms, 95) if latencies_ms else 0
     detail = f"p95 of {len(latencies_ms)} live bot calls is {value} ms"
     return GateResult("Bot p95 latency (live)", value, max_ms, value <= max_ms, detail, [], "ms")
+
+
+def _cited_files(answer: str) -> list[str]:
+    lines = [line.strip() for line in answer.splitlines() if line.strip().lower().startswith("sources:")]
+    if not lines:
+        return []
+    names = [
+        n.strip().strip("'\"`").rstrip(".;").strip("'\"`") for n in lines[-1].split(":", 1)[1].split(",")
+    ]
+    return list(dict.fromkeys(n for n in names if n))
+
+
+def cited_sources_exist(
+    cases: list[tuple[str, str]], corpus_files: set[str], name: str = "Cited sources exist"
+) -> GateResult:
+    """Every file named on an answer's Sources line must be a corpus file. Answers without a Sources line
+    (the fixed refusal) are not checked; the citation gate covers in-scope answers."""
+    failures = [
+        f"{case_id}: cites missing file {f!r}"
+        for case_id, answer in cases
+        for f in _cited_files(answer)
+        if f not in corpus_files
+    ]
+    offenders = len({f.split(":", 1)[0] for f in failures})
+    value = _rate(len(cases) - offenders, len(cases))
+    detail = f"{offenders} of {len(cases)} answers cite a file that is not in the help center"
+    return GateResult(name, value, 1.0, not failures, detail, failures)
