@@ -28,6 +28,8 @@ Everything runs on local open-source models with [Ollama](https://ollama.com), a
 
 **Live report:** [gustavaom7.github.io/llm-eval-qa](https://gustavaom7.github.io/llm-eval-qa/) (published from `main`) · **What the evaluation found:** [`docs/findings.md`](docs/findings.md) · **Risks and coverage:** [`docs/test-strategy.md`](docs/test-strategy.md)
 
+> **Latest live run** ([Record run 7](https://github.com/gustavaom7/llm-eval-qa/actions/runs/39141475819), 2026-10-18): all gates passed live in 53.5 min. The golden p95 latency stayed within 20 s, and every answer failed on the same items as the recording, so there was no drift. Details in [`docs/findings.md`](docs/findings.md#latest-live-run).
+
 > Status: complete (4 of 4). Design: [`docs/superpowers/specs/`](docs/superpowers/specs/2026-10-16-llm-eval-qa-design.md).
 
 ## What the evaluation found

@@ -66,6 +66,26 @@ The 9 answered attacks, read one by one:
 
 Context-flooding attacks are slow: the bot's p95 over golden and attack calls was 64 s. That counts against the live-only 20 s latency budget.
 
+## Latest live run
+
+[Record run 7](https://github.com/gustavaom7/llm-eval-qa/actions/runs/39141475819), on 2026-10-18 in `live` mode: every model was called and nothing was recorded. All 14 gates passed in 53.5 minutes on a free 4-vCPU runner, within the 60-minute budget.
+
+| Stage | Calls | Time |
+|---|---|---|
+| Golden answers and deterministic gates | 40 bot calls | 11.5 min |
+| Judge (12 items, 3 metrics) | 72 judge calls | 23 min |
+| Red-team | 44 attacks | 19 min |
+
+- **Latency:** the bot's p95 over the 40 golden answers stayed within the 20 s budget. The exact value is in the run's job summary. The gate covers golden calls only. Context-flooding attacks run afterwards and are not in that p95: they are what pushed the combined p95 to 64 s in red-team run 6.
+- **No drift from the recording:** the baseline check fails on any new failure and on any known finding that starts passing. Passing it means the live answers failed on exactly the same items as the recorded ones, gate by gate:
+  - the 6 required-facts misses;
+  - invented email support;
+  - the 3 low policy-correctness scores;
+  - `deep_context.md`.
+
+  With `temperature 0` and a fixed seed, the same model tags gave the same pass/fail picture.
+- **What this does not show:** whether the wording drifted. Only pass/fail per item is compared.
+
 ## Next
 
 - Retrieval for the age question: query expansion or a heading boost, measured on recall@3 first (no model needed).
