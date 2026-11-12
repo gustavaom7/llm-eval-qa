@@ -9,10 +9,13 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: record new answers, or run live without recording
+        description: record answers, run live, or calibrate the judge
         type: choice
-        options: [record, live]
+        options: [record, live, calibrate]
         default: record
+      case_ids:
+        description: Optional comma-separated case IDs for record mode
+        type: string
   schedule:
     - cron: "17 6 1 * *"
 
@@ -65,7 +68,20 @@ jobs:
       - name: Evaluate
         id: evals
         continue-on-error: true
-        run: pytest tests/evals -m "retrieval or quality or redteam" --mode "$MODE" -v
+        env:
+          CASE_IDS: ${{ inputs.case_ids }}
+        run: |
+          if [ -n "$CASE_IDS" ] && [ "$MODE" != record ]; then
+            echo "case_ids is only valid in record mode" >&2
+            exit 2
+          elif [ "$MODE" = calibrate ]; then
+            llm-eval calibrate | tee -a "$GITHUB_STEP_SUMMARY"
+          elif [ -n "$CASE_IDS" ]; then
+            llm-eval record --ids "$CASE_IDS" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            pytest tests/evals -m "retrieval or quality or redteam" --mode "$MODE" -v
+          fi
+        shell: bash
       - name: Summary
         if: always()
         run: |

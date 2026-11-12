@@ -11,8 +11,8 @@ from pydantic import BaseModel, ValidationError
 from evals.dataset import GoldenItem
 from evals.runner import MissingRecordings
 from support_bot.bot import Answer
-from support_bot.llm import LLMUnavailable
-from support_bot.recorder import CassetteMissing, Recorder, RunTimeExceeded
+from support_bot.llm import LLMUnavailable, OllamaLLM
+from support_bot.recorder import CassetteMissing, Mode, Recorder, RunTimeExceeded
 
 POLICY_STEPS = [
     "Check the answer states every fact in the expected output.",
@@ -48,27 +48,42 @@ class RecordedJudge(DeepEvalBaseLLM):
         return self.generate(prompt, schema)
 
 
+def build_judge(config: dict, mode: Mode, started: float, time_budget_s: float) -> RecordedJudge:
+    llm = OllamaLLM(
+        config["judge_model"],
+        host=config["ollama_host"],
+        options=config["judge_options"],
+        timeout=config["request_timeout_s"],
+    )
+    return RecordedJudge(
+        Recorder(llm, config["cassette_dir"], mode=mode, time_budget_s=time_budget_s, started=started)
+    )
+
+
+def policy_metric(judge: RecordedJudge, steps: list[str]) -> GEval:
+    return GEval(
+        name="Policy correctness",
+        evaluation_steps=steps,
+        evaluation_params=[
+            SingleTurnParams.INPUT,
+            SingleTurnParams.ACTUAL_OUTPUT,
+            SingleTurnParams.EXPECTED_OUTPUT,
+        ],
+        model=judge,
+        async_mode=False,
+    )
+
+
 def build_metrics(judge: RecordedJudge) -> dict[str, BaseMetric]:
     return {
-        # eval_mode pinned: DeepEval reads DEEPEVAL_EVAL_MODE from the environment and .env files, and its
-        # other modes call a decision model outside the recorder.
+        # Pin eval_mode so DeepEval cannot call a model outside the recorder.
         "faithfulness": FaithfulnessMetric(
             model=judge, include_reason=False, async_mode=False, eval_mode="llm"
         ),
         "answer_relevancy": AnswerRelevancyMetric(
             model=judge, include_reason=False, async_mode=False, eval_mode="llm"
         ),
-        "policy_correctness": GEval(
-            name="Policy correctness",
-            evaluation_steps=POLICY_STEPS,
-            evaluation_params=[
-                SingleTurnParams.INPUT,
-                SingleTurnParams.ACTUAL_OUTPUT,
-                SingleTurnParams.EXPECTED_OUTPUT,
-            ],
-            model=judge,
-            async_mode=False,
-        ),
+        "policy_correctness": policy_metric(judge, POLICY_STEPS),
     }
 
 

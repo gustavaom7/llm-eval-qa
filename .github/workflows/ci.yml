@@ -32,12 +32,22 @@ jobs:
       - name: Summary
         if: always()
         run: if [ -f reports/summary.md ]; then cat reports/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
+      - name: Upload case report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-cases
+          path: reports/cases.json
+          if-no-files-found: ignore
+      - name: Prepare Pages report
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: install -D reports/index.html pages-report/index.html
       # The HTML report goes to GitHub Pages from main only (Settings > Pages > Source: GitHub Actions).
       - name: Upload report for Pages
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: reports/
+          path: pages-report/
 
   pages:
     needs: test

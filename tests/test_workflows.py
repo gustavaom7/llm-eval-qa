@@ -12,7 +12,7 @@ def load(name):
 def test_record_workflow_has_manual_and_monthly_triggers():
     triggers = load("record.yml")[True]  # YAML 1.1 reads the key `on` as True
     mode = triggers["workflow_dispatch"]["inputs"]["mode"]
-    assert mode["options"] == ["record", "live"] and mode["default"] == "record"
+    assert mode["options"] == ["record", "live", "calibrate"] and mode["default"] == "record"
     assert triggers["schedule"] == [{"cron": "17 6 1 * *"}]
 
 

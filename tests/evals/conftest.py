@@ -1,6 +1,5 @@
 """Session fixtures for the evaluation suites: one bot run over the dataset, shared by every gate."""
 
-import json
 import os
 import time
 from pathlib import Path
@@ -11,6 +10,7 @@ from evals.baseline import check_against_baseline, load_known
 from evals.dataset import check_against_corpus, load_golden
 from evals.report import write_html, write_summary
 from evals.runner import build_bot, run_bot
+from evals.snapshots import model_metadata, write_snapshot
 from support_bot.cli import load_budgets, load_config
 from support_bot.corpus import load_corpus
 from support_bot.retriever import Retriever
@@ -74,17 +74,17 @@ def attack_log():
 
 
 @pytest.fixture(scope="session")
-def gate_log(recorders, mode, budgets, known, attack_log):
+def gate_log(recorders, mode, budgets, known, attack_log, case_log):
     results = []
     yield results
     latencies = {label: recorder.latencies_ms for label, recorder in recorders.items()}
-    metadata_path = os.environ.get("OLLAMA_REPORT_METADATA")
-    model_metadata = json.loads(Path(metadata_path).read_text(encoding="utf-8")) if metadata_path else None
-    extras = {"budgets": budgets, "known": known, "attacks": attack_log, "model_metadata": model_metadata}
+    metadata = model_metadata()
+    extras = {"budgets": budgets, "known": known, "attacks": attack_log, "model_metadata": metadata}
     write_summary(ROOT / "reports" / "summary.md", results, latencies, mode, **extras)
     run = os.environ.get("GITHUB_RUN_NUMBER")
     label = f"CI run {run}, commit {os.environ.get('GITHUB_SHA', '')[:7]}" if run else "local run"
     write_html(ROOT / "reports" / "index.html", results, latencies, mode, run_label=label, **extras)
+    write_snapshot(ROOT / "reports" / "cases.json", mode, *case_log, model_metadata=metadata)
 
 
 @pytest.fixture
@@ -104,31 +104,27 @@ def bot(config, mode, started, recorders, time_budget_s):
 
 
 @pytest.fixture(scope="session")
-def answers(bot, golden):
-    return run_bot(bot, golden)
+def case_log():
+    return {}, {}, {}
 
 
 @pytest.fixture(scope="session")
-def judge_scores_by_metric(config, mode, started, recorders, golden, answers, time_budget_s):
-    from evals.judge import RecordedJudge, build_metrics, judge_scores
-    from support_bot.llm import OllamaLLM
-    from support_bot.recorder import Recorder
+def answers(bot, golden, case_log):
+    answers = run_bot(bot, golden)
+    case_log[0].update(answers)
+    case_log[1].update((item.id, item.question) for item in golden)
+    return answers
 
-    llm = OllamaLLM(
-        config["judge_model"],
-        host=config["ollama_host"],
-        options=config["judge_options"],
-        timeout=config["request_timeout_s"],
-    )
-    recorder = Recorder(
-        llm,
-        config["cassette_dir"],
-        mode=mode,
-        time_budget_s=time_budget_s,
-        started=started,
-    )
-    recorders[f"{config['judge_model']} (judge)"] = recorder
-    return judge_scores(golden, answers, build_metrics(RecordedJudge(recorder)))
+
+@pytest.fixture(scope="session")
+def judge_scores_by_metric(config, mode, started, recorders, golden, answers, time_budget_s, case_log):
+    from evals.judge import build_judge, build_metrics, judge_scores
+
+    judge = build_judge(config, mode, started, time_budget_s)
+    recorders[f"{config['judge_model']} (judge)"] = judge.recorder
+    scores = judge_scores(golden, answers, build_metrics(judge))
+    case_log[2].update(scores)
+    return scores
 
 
 @pytest.fixture(scope="session")
@@ -148,8 +144,11 @@ def attacks(attack_pairs):
 
 
 @pytest.fixture(scope="session")
-def attack_answers(bot, attacks):
-    return run_bot(bot, attacks)
+def attack_answers(bot, attacks, case_log):
+    answers = run_bot(bot, attacks)
+    case_log[0].update(answers)
+    case_log[1].update((item.id, item.question) for item in attacks)
+    return answers
 
 
 @pytest.fixture(scope="session")
