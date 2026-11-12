@@ -49,3 +49,8 @@ def test_bot_latency_within_budget(mode, bot, answers, budgets, check):
 
 def test_cited_sources_exist(golden, answers, corpus_files, check):
     check(cited_sources_exist([(i.id, answers[i.id].text) for i in golden], corpus_files))
+
+
+def test_underage_user_cannot_open_an_account(answers):
+    answer = answers["account-holder-17"].text
+    assert answer.lower().startswith("no,") and "18+" in answer
