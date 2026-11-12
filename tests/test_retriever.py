@@ -51,3 +51,14 @@ def test_k_below_one_raises(retriever):
 )
 def test_account_age_queries_find_the_age_policy(retriever, question):
     assert retriever.retrieve(question)[0].text.startswith("Kids and minors — Account holder age")
+
+
+def test_support_channel_query_retrieves_chat_and_phone_policy(retriever):
+    sections = {chunk.heading for chunk in retriever.retrieve("Can I contact customer support by email?")}
+    assert {"Phone and email", "In-app chat"} <= sections
+
+
+def test_comparing_deletion_and_cancellation_retrieves_both_retention_rules(retriever):
+    question = "How long is my data kept if I cancel the subscription instead of deleting my account?"
+    sections = {chunk.heading for chunk in retriever.retrieve(question)}
+    assert {"What happens to your data", "Coming back"} <= sections

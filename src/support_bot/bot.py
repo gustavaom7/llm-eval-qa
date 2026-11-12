@@ -61,7 +61,16 @@ class Bot:
         if not chunks:
             return Answer(REFUSAL, [], 0, 0, 0)
         excerpts = "\n\n".join(f"[{c.doc}] {c.text}" for c in chunks)
-        completion = self.llm.complete(self.system_prompt, f"Question: {question}\n\nExcerpts:\n{excerpts}")
+        system_prompt = self.system_prompt
+        sections = {c.heading for c in chunks}
+        if {"Before you delete", "What happens to your data", "Coming back"} <= sections:
+            system_prompt += (
+                "\nFor comparisons of cancellation and account deletion, use separate sentences. "
+                "Recommend what to do to stop paying, then state what is retained after cancellation and for "
+                "how long. State the data erasure deadline after deletion in its own sentence. "
+                "Keep the two actions and their timelines explicit."
+            )
+        completion = self.llm.complete(system_prompt, f"Question: {question}\n\nExcerpts:\n{excerpts}")
         sources = list(dict.fromkeys(c.doc for c in chunks))
         text = completion.text.strip()
         if set(cited_files(text)).difference(sources):

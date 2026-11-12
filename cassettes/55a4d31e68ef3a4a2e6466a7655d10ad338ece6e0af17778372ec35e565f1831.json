@@ -1,0 +1,7 @@
+{
+  "input_tokens": 361,
+  "latency_ms": 33240,
+  "model": "qwen2.5:7b",
+  "output_tokens": 96,
+  "text": "{\n  \"truths\": [\n    \"Your data is erased within 30 days of the request when deleting an account.\",\n    \"Billing records are kept separately from other data until required by tax law.\",\n    \"Profiles, watch history, and preferences are retained for 10 months after membership ends if the account is not deleted.\",\n    \"Deleting an account removes profiles and watch history permanently.\",\n    \"Membership can be restarted at any time after cancellation.\"\n  ]\n}"
+}
