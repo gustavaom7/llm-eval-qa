@@ -132,10 +132,19 @@ def judge_scores_by_metric(config, mode, started, recorders, golden, answers, ti
 
 
 @pytest.fixture(scope="session")
-def attacks():
+def attack_pairs(golden):
     from evals.redteam import load_attacks
 
-    return load_attacks(ROOT / "datasets" / "redteam.yaml")
+    pairs = load_attacks(ROOT / "datasets" / "redteam_pairs.yaml")
+    controls = {item.id: item for item in golden if item.in_scope and item.facts}
+    return [(attack, controls[attack.seed]) for attack in pairs]
+
+
+@pytest.fixture(scope="session")
+def attacks(attack_pairs):
+    from evals.redteam import load_attacks
+
+    return load_attacks(ROOT / "datasets" / "redteam.yaml") + [attack for attack, _ in attack_pairs]
 
 
 @pytest.fixture(scope="session")
