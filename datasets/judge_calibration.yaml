@@ -1,0 +1,26 @@
+# Human-reviewed against each golden case's reference answer and policy sources.
+- id: retention-correct
+  golden_id: delete-or-cancel-data
+  label: correct
+  answer: >-
+    Cancel or pause if you only want to stop paying. After cancellation, profiles and
+    watch history are kept for 10 months after membership ends. If you delete your account,
+    your data is erased within 30 days of the deletion request.
+- id: retention-incomplete
+  golden_id: delete-or-cancel-data
+  label: incomplete
+  answer: Cancel or pause if you only want to stop paying. Deleting your account erases your data within 30 days.
+- id: retention-swapped
+  golden_id: delete-or-cancel-data
+  label: contradictory
+  answer: >-
+    Cancel if you only want to stop paying. After cancellation your profiles and watch history
+    are kept for 30 days. If you delete your account, your data is erased within 10 months.
+- id: basic-price-correct
+  golden_id: basic-price
+  label: correct
+  answer: The Basic plan costs $7.99 per month.
+- id: basic-price-incorrect
+  golden_id: basic-price
+  label: contradictory
+  answer: The Basic plan costs $12.99 per month.

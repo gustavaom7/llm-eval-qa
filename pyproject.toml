@@ -20,6 +20,7 @@ demo = ["pillow>=10"]
 
 [project.scripts]
 support-bot = "support_bot.cli:main"
+llm-eval = "evals.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
