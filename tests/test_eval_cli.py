@@ -51,3 +51,28 @@ def test_comparison_reports_changes_by_case(tmp_path, capsys):
     assert "answer: 'Old' -> 'New'" in output
     assert "scores: {} -> {'policy': 1.0}" in output
     assert "latency_ms: 10 -> 20" in output
+
+
+def test_calibration_reports_false_acceptance_and_rejection_separately(tmp_path, monkeypatch):
+    from evals import calibration
+    from evals.dataset import load_golden
+
+    def scores(items, answers, metrics):
+        return {
+            "current": dict(zip(answers, [0.5, 0.8, 0.2, 1.0, 0.1], strict=True)),
+            "candidate": dict(zip(answers, [1.0, 0.6, 0.2, 1.0, None], strict=True)),
+        }
+
+    monkeypatch.setattr(calibration, "policy_metric", lambda judge, steps: object())
+    monkeypatch.setattr(calibration, "judge_scores", scores)
+    report = calibration.calibrate(
+        ROOT / "datasets" / "judge_calibration.yaml",
+        load_golden(ROOT / "datasets" / "golden.yaml"),
+        None,
+        0.7,
+    )["rubrics"]
+    assert report["current"]["false_rejections"] == 1
+    assert report["current"]["false_acceptances"] == 1
+    assert report["candidate"]["false_rejections"] == 0
+    assert report["candidate"]["false_acceptances"] == 0
+    assert report["candidate"]["unreadable"] == 1
