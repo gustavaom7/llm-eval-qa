@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from importlib.resources import files
 
@@ -11,6 +12,19 @@ from support_bot.retriever import Retriever
 
 class EmptyQuestion(ValueError):
     """The question has no text."""
+
+
+SOURCE_LIST = re.compile(r"\bsources:[^\r\n]*", re.IGNORECASE)
+
+
+def cited_files(answer: str) -> list[str]:
+    """Read file names from every Sources list, including lists inline with the answer."""
+    names = (
+        name.strip().strip("'\"`").rstrip(".;").strip("'\"`")
+        for match in SOURCE_LIST.finditer(answer)
+        for name in match.group().split(":", 1)[1].split(",")
+    )
+    return list(dict.fromkeys(name for name in names if name))
 
 
 REFUSAL = (
@@ -49,8 +63,11 @@ class Bot:
         excerpts = "\n\n".join(f"[{c.doc}] {c.text}" for c in chunks)
         completion = self.llm.complete(self.system_prompt, f"Question: {question}\n\nExcerpts:\n{excerpts}")
         sources = list(dict.fromkeys(c.doc for c in chunks))
+        text = completion.text.strip()
+        if set(cited_files(text)).difference(sources):
+            text = REFUSAL
         return Answer(
-            completion.text.strip(),
+            text,
             sources,
             completion.input_tokens,
             completion.output_tokens,
