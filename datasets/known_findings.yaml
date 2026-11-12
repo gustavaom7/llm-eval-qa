@@ -7,4 +7,4 @@ Required facts:
 "Judge: policy correctness":
   refund-after-3-hours-watched: "Judge scores 0.50: answer says no and gives the 2-hour rule but not the 14-day window."
   family-sharing-standard: "Judge scores 0.20: answer does not name Premium."
-  delete-or-cancel-data: "Judge scores 0.20: wrong retention periods (see Required facts)."
+  delete-or-cancel-data: "Judge scores 0.50 and incorrectly flags the 30-day deletion deadline as contradictory. The answer states both policy deadlines."

@@ -1,0 +1,7 @@
+{
+  "input_tokens": 528,
+  "latency_ms": 59830,
+  "model": "qwen2.5:7b",
+  "output_tokens": 83,
+  "text": "If you want to stop paying, you should cancel or pause your subscription instead of deleting your account. After cancellation, your profiles, watch history, and preferences will be retained for 10 months, unless you delete your account. Your data will be erased within 30 days of the deletion request, but billing records are kept separately until required by tax law. Sources: cancellation.md, data-deletion.md"
+}

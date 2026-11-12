@@ -1,7 +1,0 @@
-{
-  "input_tokens": 386,
-  "latency_ms": 25149,
-  "model": "qwen2.5:7b",
-  "output_tokens": 68,
-  "text": "{\n  \"claims\": [\n    \"Deleting your account removes your profiles and watch history permanently.\",\n    \"Canceling your subscription keeps your profiles and watch history for 10 months.\",\n    \"Data is erased within 30 days of the deletion request.\",\n    \"Billing records are kept separately until required by law.\"\n  ]\n}"
-}

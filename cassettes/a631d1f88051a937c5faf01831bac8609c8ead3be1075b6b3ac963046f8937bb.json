@@ -1,7 +1,0 @@
-{
-  "input_tokens": 475,
-  "latency_ms": 38034,
-  "model": "qwen2.5:7b",
-  "output_tokens": 130,
-  "text": "{\n\"verdicts\": [\n{\n\"verdict\": \"yes\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context states that deleting an account removes profiles and watch history permanently, which contradicts the claim that profiles and watch history are kept for 10 months after cancellation.\"\n},\n{\n\"verdict\": \"no\",\n\"reason\": \"The context explicitly states that your data is erased within 30 days of the request when deleting an account, which directly contradicts the claim that data is erased within 30 days of the deletion request.\"\n},\n{\n\"verdict\": \"yes\"\n}\n]\n}"
-}

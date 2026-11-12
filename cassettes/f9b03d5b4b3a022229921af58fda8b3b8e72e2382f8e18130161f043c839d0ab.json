@@ -1,7 +1,0 @@
-{
-  "input_tokens": 339,
-  "latency_ms": 26472,
-  "model": "qwen2.5:7b",
-  "output_tokens": 89,
-  "text": "{\n  \"statements\": [\n    \"You should cancel or pause your subscription instead of deleting your account if you only want to stop paying.\",\n    \"Deleting your account removes your profiles and watch history permanently.\",\n    \"Canceling keeps your profiles and watch history for 10 months.\",\n    \"Your data is erased within 30 days of the deletion request.\",\n    \"Billing records are kept separately until required by law.\"\n  ]\n}"
-}

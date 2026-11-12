@@ -1,7 +1,0 @@
-{
-  "input_tokens": 474,
-  "latency_ms": 17980,
-  "model": "qwen2.5:7b",
-  "output_tokens": 79,
-  "text": "No, you should cancel or pause your subscription instead of deleting your account if you only want to stop paying. Deleting your account removes your profiles and watch history permanently, while canceling keeps them for 10 months. Your data is erased within 30 days of the deletion request, but billing records are kept separately until required by law. Sources: data-deletion.md, cancellation.md"
-}
