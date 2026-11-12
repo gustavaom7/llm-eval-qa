@@ -48,5 +48,12 @@ def calibrate(
             verdict = None if score is None else score >= threshold
             agrees = verdict is not None and verdict == expected_pass
             examples.append({**row, "score": score, "agrees": agrees})
-        result["rubrics"][rubric] = {"agreed": sum(row["agrees"] for row in examples), "examples": examples}
+        scored = [row for row in examples if row["score"] is not None]
+        result["rubrics"][rubric] = {
+            "agreed": sum(row["agrees"] for row in examples),
+            "false_rejections": sum(row["label"] == "correct" and not row["agrees"] for row in scored),
+            "false_acceptances": sum(row["label"] != "correct" and not row["agrees"] for row in scored),
+            "unreadable": len(examples) - len(scored),
+            "examples": examples,
+        }
     return result

@@ -101,8 +101,12 @@ def main(argv: list[str] | None = None) -> int:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
             for rubric, result in report["rubrics"].items():
-                print(f"{rubric}: {result['agreed']}/{len(result['examples'])} matched the reviewed labels")
-            return 0
+                print(
+                    f"{rubric}: {result['agreed']}/{len(result['examples'])} matched the reviewed labels "
+                    f"({result['false_rejections']} false rejections, {result['false_acceptances']} false "
+                    f"acceptances, {result['unreadable']} unreadable)"
+                )
+            return int(any(result["unreadable"] for result in report["rubrics"].values()))
         return _cases(args, config, golden, budgets, judge, started)
     except (OSError, ValueError, KeyError, MissingRecordings, LLMUnavailable, RunTimeExceeded) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

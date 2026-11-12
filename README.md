@@ -143,6 +143,27 @@ support-bot ask "Can I get a refund 10 days after my first payment?" --mode live
 make record                            # record answers that are missing
 ```
 
+### Evaluate individual cases
+
+```bash
+llm-eval missing
+llm-eval record --ids phone-support,delete-or-cancel-data
+llm-eval compare before/cases.json after/cases.json
+llm-eval calibrate
+```
+
+- `missing` checks bot and judge cassettes through replay and prints the affected IDs and stages as JSON.
+- `record --ids` calls Ollama for missing requests in the selected cases and writes a partial case report.
+  Pass the same IDs as `case_ids` when dispatching the Record workflow in `record` mode. Run the full
+  replay afterward to validate all gates.
+- `compare` reads versioned case reports from `make report` or the GitHub Actions artifacts. It shows
+  changes in retrieved sources, answer text, judge scores, and latency. Use two `live` reports
+  to compare fresh inference latency.
+- `calibrate` runs the current and candidate policy rubrics against five human-reviewed examples
+  in [the calibration dataset](datasets/judge_calibration.yaml). It reports whether each rubric puts
+  complete answers above the configured threshold and incomplete or contradictory answers below it.
+  Run locally with Ollama or dispatch Record in `calibrate` mode to get `reports/calibration.json`.
+
 Other targets:
 
 - `make gif` (needs `.[demo]`) renders `docs/demo.gif` from recorded answers.
