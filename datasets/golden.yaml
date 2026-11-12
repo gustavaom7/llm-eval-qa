@@ -13,7 +13,7 @@
   category: fact
   expected_sources: [plans-and-prices.md]
   must_include: ["$7.99"]
-  must_not_include: ["Basic costs $12.99"]
+  must_not_include: ["Basic costs $12.99", "Basic plan costs $12.99"]
   judge: true
   reference_answer: "Basic costs $7.99/month."
 
@@ -29,7 +29,7 @@
   category: fact
   expected_sources: [free-trial.md]
   must_include: ["7-day"]
-  must_not_include: ["30-day free trial"]
+  must_not_include: ["30-day free trial", "free trial lasts 30 days"]
   judge: true
   reference_answer: "New members get a 7-day free trial."
 
@@ -67,8 +67,10 @@
   question: Can I call Lumen+ support by phone?
   category: fact
   expected_sources: [contact.md]
-  must_include: ["no phone support"]
-  must_not_include: ["call us at", "support through email"]
+  must_include:
+    - ["no phone support", "cannot call", "can't call", "does not offer phone support"]
+    - ["in-app chat", "in app chat", "chat in the app"]
+  must_not_include: ["call us at", "support through email", "you can contact support by email", "you can email us"]
 
 - id: speed-for-4k
   question: What internet speed do I need to stream in 4K?

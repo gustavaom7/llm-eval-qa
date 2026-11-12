@@ -1,0 +1,7 @@
+{
+  "input_tokens": 498,
+  "latency_ms": 11934,
+  "model": "qwen2.5:7b",
+  "output_tokens": 28,
+  "text": "No, the Basic plan costs $7.99/month according to the Plans and prices excerpt. Sources: plans-and-prices.md"
+}

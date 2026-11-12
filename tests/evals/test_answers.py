@@ -54,3 +54,10 @@ def test_cited_sources_exist(golden, answers, corpus_files, check):
 def test_underage_user_cannot_open_an_account(answers):
     answer = answers["account-holder-17"].text
     assert answer.lower().startswith("no,") and "18+" in answer
+
+
+def test_contact_and_retention_policies_include_every_required_fact(golden, answers):
+    items = [item for item in golden if item.id in {"phone-support", "delete-or-cancel-data"}]
+    result = required_facts(items, answers, 1.0)
+    assert result.passed, result.message()
+    assert "24 months" not in answers["delete-or-cancel-data"].text.lower()
