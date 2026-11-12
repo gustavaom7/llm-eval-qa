@@ -66,3 +66,18 @@ def test_answer_carries_retrieved_chunk_texts(retriever):
     question = "How long is the free trial?"
     answer = make_bot(retriever).answer(question)
     assert answer.contexts == [c.text for c in retriever.retrieve(question, k=3)]
+
+
+@pytest.mark.parametrize("invalid_source", ["deep_context.md", "refunds.md"])
+def test_answer_with_a_source_outside_retrieved_excerpts_is_refused(retriever, invalid_source):
+    question = "How long is the free trial?"
+    assert invalid_source not in {chunk.doc for chunk in retriever.retrieve(question)}
+    llm = FakeLLM(default=f"The trial is free. Sources: free-trial.md, {invalid_source}")
+    answer = make_bot(retriever, llm).answer(question)
+    assert answer.text == REFUSAL
+    assert answer.output_tokens == 5
+
+
+def test_answer_with_a_retrieved_source_is_preserved(retriever):
+    text = "The trial is free. Sources: free-trial.md"
+    assert make_bot(retriever, FakeLLM(default=text)).answer("How long is the free trial?").text == text
