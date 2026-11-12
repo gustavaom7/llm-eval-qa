@@ -55,3 +55,15 @@ def test_baseline_refuses_known_red_team_critical_failures():
 
     with pytest.raises(AssertionError, match="cannot be accepted"):
         check_against_baseline(result(False, ["a: x"], name=RED_TEAM_GATE), {RED_TEAM_GATE: {"a": "ok"}})
+
+
+def test_known_finding_that_passes_live_is_reported_for_review():
+    with pytest.warns(UserWarning, match="known finding passed live.*age-17"):
+        check_against_baseline(result(True, []), KNOWN, live=True)
+
+
+def test_live_latency_above_threshold_fails_without_case_ids():
+    from evals.gates import latency_p95
+
+    with pytest.raises(AssertionError, match="27947 ms"):
+        check_against_baseline(latency_p95([27947], 20000), {}, live=True)

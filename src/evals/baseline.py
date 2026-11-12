@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
 
 import yaml
@@ -25,9 +26,10 @@ def load_known(path: Path) -> dict[str, dict[str, str]]:
     return {gate: dict(items or {}) for gate, items in known.items()}
 
 
-def check_against_baseline(result: GateResult, known: dict[str, dict[str, str]]) -> None:
-    """Pass when every failure is a known finding; fail on a new failure, or on a known finding that now
-    passes (remove it from the baseline so it is guarded again)."""
+def check_against_baseline(
+    result: GateResult, known: dict[str, dict[str, str]], *, live: bool = False
+) -> None:
+    """Enforce failed gates and flag known findings that pass for review."""
     accepted = known.get(result.name, {})
     if result.name in NEVER_ACCEPTED and accepted:
         raise AssertionError(f"{result.name} cannot be accepted as known findings: the gate is always 0.")
@@ -39,8 +41,16 @@ def check_against_baseline(result: GateResult, known: dict[str, dict[str, str]])
         problems.append(
             "New failure, not in datasets/known_findings.yaml:\n" + "\n".join(f"  - {f}" for f in new)
         )
+    if not result.passed and not result.failures:
+        problems.append("Gate did not meet its threshold.")
     if fixed:
-        problems.append(
-            "Known finding now passes; remove it from datasets/known_findings.yaml: " + ", ".join(fixed)
-        )
+        if live:
+            warnings.warn(
+                f"{result.name}: known finding passed live; review against the recording: {', '.join(fixed)}",
+                stacklevel=2,
+            )
+        else:
+            problems.append(
+                "Known finding now passes; remove it from datasets/known_findings.yaml: " + ", ".join(fixed)
+            )
     assert not problems, result.message() + "\n" + "\n".join(problems)

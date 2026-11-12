@@ -2,7 +2,6 @@
 
 import pytest
 
-from evals.baseline import check_against_baseline
 from evals.critical import critical_gate
 from evals.gates import (
     citation,
@@ -16,15 +15,6 @@ from evals.gates import (
 from support_bot.bot import load_system_prompt
 
 pytestmark = pytest.mark.quality
-
-
-@pytest.fixture
-def check(gate_log, known):
-    def _check(result):
-        gate_log.append(result)
-        check_against_baseline(result, known)
-
-    return _check
 
 
 def test_required_facts(golden, answers, budgets, check):

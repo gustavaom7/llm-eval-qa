@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from evals.baseline import load_known
+from evals.baseline import check_against_baseline, load_known
 from evals.dataset import check_against_corpus, load_golden
 from evals.report import write_html, write_summary
 from evals.runner import build_bot, run_bot
@@ -30,6 +30,12 @@ def config():
 @pytest.fixture(scope="session")
 def budgets(config):
     return load_budgets(config["budgets_file"])
+
+
+@pytest.fixture(scope="session")
+def time_budget_s(budgets, mode):
+    active = budgets["live_only"] if mode == "live" else budgets
+    return active["run_time_budget_minutes"] * 60
 
 
 @pytest.fixture(scope="session")
@@ -78,9 +84,18 @@ def gate_log(recorders, mode, budgets, known, attack_log):
     write_html(ROOT / "reports" / "index.html", results, latencies, mode, run_label=label, **extras)
 
 
+@pytest.fixture
+def check(gate_log, known, mode):
+    def check_gate(result):
+        gate_log.append(result)
+        check_against_baseline(result, known, live=mode == "live")
+
+    return check_gate
+
+
 @pytest.fixture(scope="session")
-def bot(config, budgets, mode, started, recorders):
-    bot = build_bot(config, mode, started, time_budget_s=budgets["run_time_budget_minutes"] * 60)
+def bot(config, mode, started, recorders, time_budget_s):
+    bot = build_bot(config, mode, started, time_budget_s=time_budget_s)
     recorders[f"{config['bot_model']} (bot)"] = bot.llm
     return bot
 
@@ -91,7 +106,7 @@ def answers(bot, golden):
 
 
 @pytest.fixture(scope="session")
-def judge_scores_by_metric(config, budgets, mode, started, recorders, golden, answers):
+def judge_scores_by_metric(config, mode, started, recorders, golden, answers, time_budget_s):
     from evals.judge import RecordedJudge, build_metrics, judge_scores
     from support_bot.llm import OllamaLLM
     from support_bot.recorder import Recorder
@@ -106,7 +121,7 @@ def judge_scores_by_metric(config, budgets, mode, started, recorders, golden, an
         llm,
         config["cassette_dir"],
         mode=mode,
-        time_budget_s=budgets["run_time_budget_minutes"] * 60,
+        time_budget_s=time_budget_s,
         started=started,
     )
     recorders[f"{config['judge_model']} (judge)"] = recorder
