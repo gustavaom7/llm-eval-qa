@@ -43,3 +43,11 @@ def test_plural_and_question_words_still_find_prices(retriever):
 def test_k_below_one_raises(retriever):
     with pytest.raises(ValueError):
         retriever.retrieve("price", k=0)
+
+
+@pytest.mark.parametrize(
+    "question",
+    ["I am 17 years old. Can I open my own Lumen+ account?", "Can a 16-year-old open an account?"],
+)
+def test_account_age_queries_find_the_age_policy(retriever, question):
+    assert retriever.retrieve(question)[0].text.startswith("Kids and minors — Account holder age")

@@ -13,9 +13,9 @@ def test_summary_lists_each_gate(tmp_path):
     path = tmp_path / "reports" / "summary.md"
     write_summary(path, gates(), {}, "replay")
     text = path.read_text()
-    assert "| Gate | Result | Value | Threshold |" in text
-    assert "| Required facts | PASS | 90% | 85% |" in text
-    assert "| Input tokens per answer | FAIL | 2600 | 2500 |" in text
+    assert "| Gate | Result | CI decision | Value | Threshold |" in text
+    assert "| Required facts | PASS | Passed | 90% | 85% |" in text
+    assert "| Input tokens per answer | FAIL | Blocked | 2600 | 2500 |" in text
     assert "replay" in text
     assert "| Model |" not in text
 
@@ -107,3 +107,20 @@ def test_html_red_team_table_has_only_data_rows(tmp_path):
     text = path.read_text()
     assert "<td>---</td>" not in text
     assert "<td>pii_leakage</td>" in text
+
+
+def test_reports_distinguish_accepted_findings_and_include_model_identity(tmp_path):
+    from evals.report import write_html
+
+    gate = GateResult("Required facts", 0.8, 0.85, False, "8 of 10", ["a: missing fact"])
+    options = {
+        "known": {"Required facts": {"a": "known failure"}},
+        "model_metadata": {"Ollama": "0.20.0", "qwen2.5:7b": "abc123"},
+    }
+    markdown = tmp_path / "summary.md"
+    html = tmp_path / "index.html"
+    write_summary(markdown, [gate], {}, "live", **options)
+    write_html(html, [gate], {}, "live", **options)
+    assert "| Required facts | FAIL | Accepted finding | 80% | 85% |" in markdown.read_text()
+    for report in (markdown, html):
+        assert all(value in report.read_text() for value in ("Accepted finding", "0.20.0", "abc123"))

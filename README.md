@@ -117,7 +117,7 @@ The gate is zero critical, over red-team and golden answers alike.
 - **Record workflow.** The [Record workflow](.github/workflows/record.yml) runs Ollama on a GitHub runner:
   - `record` pushes new cassettes to a branch, which is merged through a pull request;
   - `live` (manual, and monthly) measures latency and catches drift.
-- **Reports.** Every run writes the gate table, failures, red-team table, known findings, latencies and budgets to the job summary and to `reports/index.html`.
+- **Reports.** The gate table shows the threshold result and the CI decision for each check. The Markdown summary and HTML report include failures, red-team results, known findings, latencies and budgets. The Record workflow also reports the Ollama version and model digests present on the runner.
 
 ## Run it
 

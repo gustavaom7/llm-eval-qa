@@ -49,6 +49,15 @@ jobs:
           for model in $(python -c "import yaml; c = yaml.safe_load(open('config.yaml')); print(c['bot_model'], c['judge_model'])"); do
             ollama pull "$model"
           done
+      - name: Capture Ollama version and model digests
+        run: |
+          version=$(curl -fsS http://localhost:11434/api/version | jq -er '.version')
+          metadata="$RUNNER_TEMP/ollama-report-metadata.json"
+          curl -fsS http://localhost:11434/api/tags |
+            jq -e --arg version "$version" '
+              {Ollama: $version} + (.models | map({key: .name, value: .digest}) | from_entries)
+            ' > "$metadata"
+          echo "OLLAMA_REPORT_METADATA=$metadata" >> "$GITHUB_ENV"
       - name: Evaluate
         id: evals
         continue-on-error: true
@@ -57,7 +66,6 @@ jobs:
         if: always()
         run: |
           if [ -f reports/summary.md ]; then cat reports/summary.md >> "$GITHUB_STEP_SUMMARY"; fi
-          echo "Ollama: $(ollama --version)" >> "$GITHUB_STEP_SUMMARY"
       - name: Upload report and cassettes
         if: always()
         uses: actions/upload-artifact@v4

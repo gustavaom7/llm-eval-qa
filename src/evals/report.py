@@ -6,6 +6,7 @@ from collections import defaultdict
 from html import escape
 from pathlib import Path
 
+from evals.baseline import baseline_decision
 from evals.gates import GateResult, percentile
 
 # (attack id, vulnerability, technique, refused with the fixed sentence)
@@ -48,6 +49,10 @@ def _format(result: GateResult, value: float) -> str:
     return f"{value:.0%}" if result.unit == "rate" else f"{value:.0f}"
 
 
+def _gate_results(gates: list[GateResult], known: dict, mode: str) -> list[tuple[GateResult, str]]:
+    return [(g, baseline_decision(g, known, live=mode == "live")[0]) for g in gates]
+
+
 def write_summary(
     path: Path,
     gates: list[GateResult],
@@ -56,16 +61,19 @@ def write_summary(
     budgets: dict | None = None,
     known: dict[str, dict[str, str]] | None = None,
     attacks: list[AttackRow] | None = None,
+    model_metadata: dict[str, str] | None = None,
 ) -> None:
     lines = [
         f"# Evaluation summary ({mode})",
         "",
-        "| Gate | Result | Value | Threshold |",
-        "|---|---|---|---|",
+        "| Gate | Result | CI decision | Value | Threshold |",
+        "|---|---|---|---|---|",
     ]
-    for g in gates:
+    for g, decision in _gate_results(gates, known or {}, mode):
         result = "PASS" if g.passed else "FAIL"
-        lines.append(f"| {g.name} | {result} | {_format(g, g.value)} | {_format(g, g.threshold)} |")
+        lines.append(
+            f"| {g.name} | {result} | {decision} | {_format(g, g.value)} | {_format(g, g.threshold)} |"
+        )
     failing = [g for g in gates if not g.passed]
     if failing:
         lines += ["", "## Failures", "", "```", *(g.message() for g in failing), "```"]
@@ -85,6 +93,9 @@ def write_summary(
         lines += [
             f"| {gate} | {item} | {why} |" for gate, items in known.items() for item, why in items.items()
         ]
+    if model_metadata:
+        lines += ["", "## Model runtime", "", "| Component | Version or digest |", "|---|---|"]
+        lines += [f"| {name} | {value} |" for name, value in model_metadata.items()]
     if budgets:
         lines += ["", "## Budgets in force", "", "| Budget | Value |", "|---|---|"]
         lines += [f"| {key} | {value} |" for key, value in _flatten(budgets)]
@@ -134,6 +145,7 @@ def write_html(
     known: dict[str, dict[str, str]] | None = None,
     attacks: list[AttackRow] | None = None,
     run_label: str = "",
+    model_metadata: dict[str, str] | None = None,
 ) -> None:
     """The same report as write_summary, as one static HTML page (no scripts, no external assets)."""
     parts = [
@@ -146,21 +158,20 @@ def write_html(
         f'<p class="meta">Mode: {escape(mode)}{" · " + escape(run_label) if run_label else ""} · '
         '<a href="https://github.com/gustavaom7/llm-eval-qa">source</a></p>',
         "<h2>Gates</h2>",
-        '<p class="meta">A FAIL whose failures are all listed under Known findings is a reviewed, documented '
-        "finding: CI accepts it and fails on anything new. Critical gates accept nothing.</p>",
     ]
     gate_rows = []
-    for g in gates:
+    for g, decision in _gate_results(gates, known or {}, mode):
         status = "PASS" if g.passed else "FAIL"
         gate_rows.append(
             [
                 escape(g.name),
                 f'<span class="status {status}">{status}</span>',
+                escape(decision),
                 escape(_format(g, g.value)),
                 escape(_format(g, g.threshold)),
             ]
         )
-    parts.append(_table(["Gate", "Result", "Value", "Threshold"], gate_rows, {2, 3}))
+    parts.append(_table(["Gate", "Result", "CI decision", "Value", "Threshold"], gate_rows, {3, 4}))
     failing = [g for g in gates if not g.passed]
     if failing:
         parts += ["<h2>Failures</h2>", f"<pre>{escape(chr(10).join(g.message() for g in failing))}</pre>"]
@@ -184,6 +195,9 @@ def write_html(
             "<h2>Model latency</h2>",
             _table(["Model", "Calls", "p50 ms", "p95 ms", "Total min"], rows, {1, 2, 3, 4}),
         ]
+    if model_metadata:
+        rows = [[escape(name), escape(value)] for name, value in model_metadata.items()]
+        parts += ["<h2>Model runtime</h2>", _table(["Component", "Version or digest"], rows)]
     if budgets:
         rows = [[escape(k), escape(str(v))] for k, v in _flatten(budgets)]
         parts += ["<h2>Budgets in force</h2>", _table(["Budget", "Value"], rows)]

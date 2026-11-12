@@ -1,5 +1,6 @@
 """Session fixtures for the evaluation suites: one bot run over the dataset, shared by every gate."""
 
+import json
 import os
 import time
 from pathlib import Path
@@ -77,7 +78,9 @@ def gate_log(recorders, mode, budgets, known, attack_log):
     results = []
     yield results
     latencies = {label: recorder.latencies_ms for label, recorder in recorders.items()}
-    extras = {"budgets": budgets, "known": known, "attacks": attack_log}
+    metadata_path = os.environ.get("OLLAMA_REPORT_METADATA")
+    model_metadata = json.loads(Path(metadata_path).read_text(encoding="utf-8")) if metadata_path else None
+    extras = {"budgets": budgets, "known": known, "attacks": attack_log, "model_metadata": model_metadata}
     write_summary(ROOT / "reports" / "summary.md", results, latencies, mode, **extras)
     run = os.environ.get("GITHUB_RUN_NUMBER")
     label = f"CI run {run}, commit {os.environ.get('GITHUB_SHA', '')[:7]}" if run else "local run"

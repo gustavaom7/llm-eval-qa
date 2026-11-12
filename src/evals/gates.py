@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 import math
-import re
 from dataclasses import dataclass
 
 from evals.dataset import GoldenItem
-from support_bot.bot import REFUSAL, Answer
+from support_bot.bot import REFUSAL, Answer, cited_files
 
 MAX_LISTED = 10
 
@@ -162,15 +161,6 @@ def latency_p95(latencies_ms: list[int], max_ms: int) -> GateResult:
     return GateResult("Bot p95 latency (live)", value, max_ms, value <= max_ms, detail, [], "ms")
 
 
-def _cited_files(answer: str) -> list[str]:
-    """Files after the last "Sources:", which the bot writes on its own line or at the end of the answer."""
-    cited = re.findall(r"sources:(.*)$", answer, re.IGNORECASE | re.MULTILINE)
-    if not cited:
-        return []
-    names = [n.strip().strip("'\"`").rstrip(".;").strip("'\"`") for n in cited[-1].split(",")]
-    return list(dict.fromkeys(n for n in names if n))
-
-
 def cited_sources_exist(
     cases: list[tuple[str, str]], corpus_files: set[str], name: str = "Cited sources exist"
 ) -> GateResult:
@@ -179,7 +169,7 @@ def cited_sources_exist(
     failures = [
         f"{case_id}: cites missing file {f!r}"
         for case_id, answer in cases
-        for f in _cited_files(answer)
+        for f in cited_files(answer)
         if f not in corpus_files
     ]
     offenders = len({f.split(":", 1)[0] for f in failures})

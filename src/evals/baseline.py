@@ -26,13 +26,13 @@ def load_known(path: Path) -> dict[str, dict[str, str]]:
     return {gate: dict(items or {}) for gate, items in known.items()}
 
 
-def check_against_baseline(
+def baseline_decision(
     result: GateResult, known: dict[str, dict[str, str]], *, live: bool = False
-) -> None:
-    """Enforce failed gates and flag known findings that pass for review."""
+) -> tuple[str, list[str]]:
+    """Return the CI decision and any details needed to review it."""
     accepted = known.get(result.name, {})
     if result.name in NEVER_ACCEPTED and accepted:
-        raise AssertionError(f"{result.name} cannot be accepted as known findings: the gate is always 0.")
+        return "Blocked", [f"{result.name} cannot be accepted as known findings: the gate is always 0."]
     failing_ids = {failure.split(":", 1)[0] for failure in result.failures}
     new = [f for f in result.failures if f.split(":", 1)[0] not in accepted]
     fixed = sorted(set(accepted) - failing_ids)
@@ -43,14 +43,23 @@ def check_against_baseline(
         )
     if not result.passed and not result.failures:
         problems.append("Gate did not meet its threshold.")
+    if fixed and not live:
+        problems.append(
+            "Known finding now passes; remove it from datasets/known_findings.yaml: " + ", ".join(fixed)
+        )
+    if problems:
+        return "Blocked", problems
     if fixed:
-        if live:
-            warnings.warn(
-                f"{result.name}: known finding passed live; review against the recording: {', '.join(fixed)}",
-                stacklevel=2,
-            )
-        else:
-            problems.append(
-                "Known finding now passes; remove it from datasets/known_findings.yaml: " + ", ".join(fixed)
-            )
-    assert not problems, result.message() + "\n" + "\n".join(problems)
+        return "Review improvement", [
+            f"{result.name}: known finding passed live; review against the recording: {', '.join(fixed)}"
+        ]
+    return ("Passed" if result.passed else "Accepted finding"), []
+
+
+def check_against_baseline(
+    result: GateResult, known: dict[str, dict[str, str]], *, live: bool = False
+) -> None:
+    status, details = baseline_decision(result, known, live=live)
+    if status == "Review improvement":
+        warnings.warn(details[0], stacklevel=2)
+    assert status != "Blocked", result.message() + "\n" + "\n".join(details)
